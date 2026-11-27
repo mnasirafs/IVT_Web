@@ -1,0 +1,71 @@
+@{
+    ViewBag.Title = "Admin Controls";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    .adm h2 { margin: 0 0 4px; }
+    .adm .adm-sub { color: #4b5563; margin-bottom: 18px; }
+    .adm .adm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+    .adm .adm-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 8px; }
+    .adm .adm-card h3 { font-size: 17px; margin: 0; }
+    .adm .adm-card p { color: #4b5563; margin: 0; flex: 1; }
+    .adm .adm-card.soon { opacity: .55; }
+</style>
+<div class="adm">
+    <h2>Admin Controls</h2>
+    <p class="adm-sub">Operational tasks for IVT administrators.</p>
+    @if (!string.IsNullOrEmpty(ViewBag.Notice as string))
+    {
+        <div class="alert @(ViewBag.NoticeIsError == true ? "alert-danger" : "alert-success")">@ViewBag.Notice</div>
+    }
+    @{
+        var sw = ViewBag.AssistantSwitch as AFSDataGateway.Services.Chat.AssistantSwitch.State;
+        var configured = ViewBag.AssistantConfigured == true;
+    }
+    <div class="adm-grid">
+        <div class="adm-card">
+            <h3>Vera (AI Assistant)</h3>
+            @if (sw == null)
+            {
+                <p>The switch could not be read from the database.</p>
+            }
+            else
+            {
+                <p>
+                    Status: <strong>@(sw.On ? "Enabled" : "Disabled")</strong>
+                    @if (sw.UpdatedBy != null) { <br /><small>Last changed by @sw.UpdatedBy@(sw.UpdatedAtUtc.HasValue ? " on " + sw.UpdatedAtUtc.Value.ToLocalTime().ToString("dd MMM yyyy HH:mm") : "")</small> }
+                    @if (sw.TableMissing) { <br /><small class="text-danger">Run migration V013 to allow switching Vera off.</small> }
+                    @if (!configured) { <br /><small class="text-danger">Azure OpenAI is not configured on this server, so Vera stays hidden regardless of this switch.</small> }
+                </p>
+                using (Html.BeginForm("SetAssistantEnabled", "AdminControls", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="enabled" value="@(sw.On ? "false" : "true")" />
+                    <button type="submit" class="btn @(sw.On ? "btn-danger" : "btn-success")" @(sw.TableMissing ? "disabled" : "")
+                            onclick="return confirm('@(sw.On ? "Disable Vera for all users?" : "Enable Vera for all users?")');">
+                        @(sw.On ? "Disable Vera" : "Enable Vera")
+                    </button>
+                }
+            }
+        </div>
+        <div class="adm-card">
+            <h3>Weekly ML scoring</h3>
+            <p>Run the anomaly-detection model on an invoice week (shadow mode). Results appear on ML Findings for account managers to assess.</p>
+            @Html.ActionLink("Open", "MLScoring", "AdminControls", null, new { @class = "btn btn-primary" })
+        </div>
+        <div class="adm-card">
+            <h3>ML Findings</h3>
+            <p>Review the latest ML findings across all account managers and the assessment progress that feeds model retraining.</p>
+            @Html.ActionLink("Open", "Index", "MLReview", null, new { @class = "btn btn-primary" })
+        </div>
+        <div class="adm-card">
+            <h3>Assistant knowledge</h3>
+            <p>Review account managers' feedback on IVT AI Assistant answers and manage the glossary (synonyms, carrier/customer names, guidance) the assistant uses.</p>
+            @Html.ActionLink("Open", "AssistantKnowledge", "AdminControls", null, new { @class = "btn btn-primary" })
+        </div>
+        <div class="adm-card soon">
+            <h3>More controls</h3>
+            <p>Further admin options (retraining, model approval, configuration) will be added here.</p>
+        </div>
+    </div>
+</div>

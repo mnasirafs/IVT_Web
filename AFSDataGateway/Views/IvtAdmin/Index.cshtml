@@ -1,0 +1,61 @@
+@using AFSDataGateway.Services.IvtAdmin
+@model IvtAdminSettings
+@{
+    ViewBag.Title = "IVT Administration";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var op = (IvtOperator)ViewBag.IvtOperator;
+}
+@Html.Partial("~/Views/IvtAdmin/_Assets.cshtml")
+<div class="ivt-adm" data-ivt-page="overview" data-health-url="@Url.Action("Health")">
+    <h2>IVT Administration</h2>
+    <p class="sub">Run the IVT engine, maintain its reference settings, manage held and released connotes, load administrative files and report on activity.
+        Signed in as <b>@op.Login</b> (@(op.IsAdmin ? "IVT administrator" : "read-only reports")).</p>
+
+    <div class="sections">
+        <div class="card-box"><h3><i class="fas fa-play-circle"></i> Engine</h3>
+            <p>@Html.ActionLink("Production run control", "RunControl", new { env = "production" }) &middot; @Html.ActionLink("Test / UAT run", "RunControl", new { env = "test" })</p>
+            <small class="muted">Jobs: @Model.Jobs.ProductionEngine, @Model.Jobs.SilentEngine, @Model.Jobs.TestEngine.
+                Production run also prepares IVT_Test: <b>@(Model.ProductionRunPreparesTest ? "yes" : "no")</b>.
+                Azure mirroring: <b>@(Model.ProductionRunMirrorsToAzure ? "on" : "off")</b>; Azure path @(Model.Azure.Enabled ? "enabled" : "disabled").</small>
+        </div>
+        <div class="card-box"><h3><i class="fas fa-cogs"></i> Reference settings</h3>
+            <ul class="mb-0">
+                @foreach (var e in ReferenceCatalog.All.Where(e => e.Key != "customer-carrier" && e.Key != "fuel" && e.Key != "consolidation"))
+                {
+                    <li>@Html.ActionLink(e.Title, "Entity", "IvtSettings", new { key = e.Key, env = "production" }, null)</li>
+                }
+                <li>@Html.ActionLink("Shared email contacts", "Contacts", "IvtSettings", new { env = "production" }, null)</li>
+            </ul>
+        </div>
+        <div class="card-box"><h3><i class="fas fa-search-dollar"></i> Connotes &amp; reports</h3>
+            <ul class="mb-0">
+                <li>@Html.ActionLink("Comments", "Comments", "IvtConnotes")</li>
+                @foreach (var r in QueryReportService.Reports.Where(r => r.Key != "review" && r.Key != "accepted" && r.Key != "released"))
+                {
+                    <li>@Html.ActionLink(r.Title, "Report", "IvtConnotes", new { key = r.Key }, null)</li>
+                }
+            </ul>
+        </div>
+        <div class="card-box"><h3><i class="fas fa-file-upload"></i> Files &amp; notifications</h3>
+            <ul class="mb-0">
+                <li>@Html.ActionLink("File-based bulk hold / release, BMS and reference data", "Files")</li>
+                <li>@Html.ActionLink("Report and notification actions", "Notifications")</li>
+                <li>@Html.ActionLink("Audit log", "Audit")</li>
+                @if (!string.IsNullOrWhiteSpace(Model.Portal.Production))
+                {
+                    <li><a href="@Model.Portal.Production" target="_blank" rel="noopener">Production portal</a> &middot; <a href="@Model.Portal.Test" target="_blank" rel="noopener">Test portal</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    @if (op.IsAdmin)
+    {
+        <div class="card-box">
+            <h3>Configuration and database contract health</h3>
+            <p class="muted">Read-only check of database operations (production and test), scheduled jobs, landing folders, audit storage and settings. Nothing is changed.</p>
+            <button type="button" id="ivt-health-run" class="btn btn-outline-primary">Run health check</button>
+            <div id="ivt-health" class="mt-2"></div>
+        </div>
+    }
+</div>

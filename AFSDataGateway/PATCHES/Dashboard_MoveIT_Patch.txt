@@ -1,0 +1,41 @@
+Patch: Replace the MoveIT Connotes rate block in Views/IVT/Dashboard.cshtml
+
+This patch fixes a Razor compilation error where curM/ppM were referenced but not defined.
+
+Steps:
+1. Open AFSDataGateway\Views\IVT\Dashboard.cshtml in your editor.
+2. Find the MoveIT Connotes card block. Locate the area that contains the title "MoveIT Connotes" and the right-side rate section. It will include lines like:
+   <div class="title">MoveIT Connotes</div>
+   <div class="value">@(tm != null ? String.Format("{0:N0}", tm.MoveitMatchedCount) : "N/A")</div>
+   ... rate block ...
+
+3. Replace the entire rate block (the Razor @{ ... } code and following <div class="rate"> ... ) with the snippet below.
+
+Replacement Snippet (use verbatim):
+
+@{
+	// Get current week matched count and total
+	var curMatched = tm != null ? (tm.MoveitMatchedCount ?? 0) : 0;
+	var curTotal = tm != null ? (tm.TotalAllConnotes ?? 0) : 0;
+	var curMatchRate = curTotal > 0 ? (curMatched * 100.0m / curTotal) : 0m;
+
+	// Get last week matched count and total
+	var prevMatched = tm != null ? (tm.LW_MoveitMatchedCount ?? 0) : 0;
+	var prevTotal = tm != null ? (tm.LW_TotalAllConnotes ?? 0) : 0;
+	var prevMatchRate = prevTotal > 0 ? (prevMatched * 100.0m / prevTotal) : 0m;
+
+	// Variance in percentage points
+	var ppMatched = curMatchRate - prevMatchRate;
+}
+<div class="rate">@String.Format("{0:N2}%", curMatchRate)</div>
+<div class="@(ppMatched >= 0 ? "delta positive" : "delta negative")">@(ppMatched >= 0 ? "+" : "")@String.Format("{0:N2} pp", ppMatched)</div>
+<div class="small-muted">vs Last Week (@String.Format("{0:N2}%", prevMatchRate))</div>
+
+4. Save the file and deploy.
+5. Recycle the app pool or touch web.config to force a recompile.
+
+Notes:
+- This code uses tm (the first TotalMeasuresData object) and expects LW_* properties to exist.
+- If your Dashboard.cshtml differs significantly, paste the surrounding 10 lines here and I will provide an exact replacement block.
+
+If you prefer, use the full updated Dashboard view I prepared earlier: AFSDataGateway\Views\IVT\Dashboard_Updated.cshtml (copy it over Dashboard.cshtml before deploying). If you want that file copied into Dashboard.cshtml here, tell me and I will perform the replacement in the repo files.

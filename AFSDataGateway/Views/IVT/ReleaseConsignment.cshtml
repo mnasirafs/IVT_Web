@@ -1,0 +1,81 @@
+﻿@model AFSDataGateway.Models.vConsignmentForReview
+
+@{
+    ViewBag.Title = "Release Connote";
+    if ((string)TempData["LoginName"] == "ADMIN")
+    {
+
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+@section css {
+    <link href="@Url.Content("~/Content/consignment-detail.css")" rel="stylesheet" />
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="cd-page">
+        <a class="cd-back" href="javascript:void(0);" onclick="history.go(-1);"><i class="fas fa-arrow-left"></i> Back to List</a>
+
+        <div class="cd-header">
+            <h2 class="cd-title">
+                Release Connote @Model.Connote
+                <small>Consignment dated @Html.DisplayFor(model => model.cons_date)</small>
+            </h2>
+            <span class="cd-badge cd-badge-held"><i class="fas fa-lock"></i> Currently Held</span>
+        </div>
+
+        @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+        <div class="cd-card">
+            <div class="cd-card-head"><i class="fas fa-box"></i>Consignment Details</div>
+            <div class="cd-card-body">
+                <div class="cd-grid">
+                    <div class="cd-field cd-field-wide">
+                        <label>Hold Reason</label>
+                        <div class="cd-note">@Html.DisplayFor(model => model.Comment)</div>
+                    </div>
+                    <div class="cd-field"><label>Connote Date</label><div>@Html.DisplayFor(model => model.cons_date)</div></div>
+                    <div class="cd-field"><label>Job No</label><div>@Html.DisplayFor(model => model.jno)</div></div>
+                    <div class="cd-field"><label>Current Week</label><div>@Html.DisplayFor(model => model.CurrentWeek)</div></div>
+                    <div class="cd-field"><label>Customer</label><div>@Html.DisplayFor(model => model.Customer)</div></div>
+                    <div class="cd-field"><label>Carrier</label><div>@Html.DisplayFor(model => model.Carrier)</div></div>
+                    <div class="cd-field"><label>Error Code</label><div>@Html.DisplayFor(model => model.ErrCode)</div></div>
+                    <div class="cd-field"><label>Priority</label><div>@Html.DisplayFor(model => model.ErrPriority)</div></div>
+                    <div class="cd-field cd-field-wide">
+                        <label>Exception</label>
+                        <div class="cd-reason">
+                            <strong>@Html.DisplayFor(model => model.Reason)</strong>
+                            <div class="cd-sub">@Html.DisplayFor(model => model.Sub_Reason)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cd-card">
+            <div class="cd-card-head"><i class="fas fa-unlock"></i>Release Reason</div>
+            <div class="cd-card-body">
+                @Html.TextArea("Justification", htmlAttributes: new { @class = "cd-textarea", placeholder = "Explain why this connote should be released...", title = "Why connote should be released?" })
+                <div class="cd-hint">This justification will be recorded in the consignment activity log.</div>
+            </div>
+            <div class="cd-actions">
+                <a class="btn btn-light" href="javascript:void(0);" onclick="history.go(-1);">Cancel</a>
+                <button type="submit" class="btn btn-success"><i class="fas fa-unlock"></i> Release</button>
+            </div>
+        </div>
+    </div>
+}

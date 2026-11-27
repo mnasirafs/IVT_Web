@@ -1,0 +1,437 @@
+﻿@model AFSDataGateway.Models.vConsignmentForReview
+
+@{
+    ViewBag.Title = "View Connote";
+    if (TempData["Utype"] == null)
+    {
+        TempData["Utype"] = 0;
+    }
+    if (Session["Utype"] == null)
+    {
+        Session["Utype"] = 0;
+    }
+    if ((int)TempData["Utype"] == 1 || (int)Session["Utype"] == 1 || (int)TempData["Utype"] == 2 || (int)Session["Utype"] == 2)
+    {
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+
+}
+@section css {
+    <style>
+        .dl-horizontal dt,
+        .dl-horizontal dd {
+            font-size: 16px; /* You can adjust the font size to your preference */
+            /* Additional styling, if needed */
+        }
+    </style>
+
+    <style>
+        .dl-horizontal dt,
+        .dl-horizontal dd {
+            font-size: 16px;
+        }
+
+        .log-container {
+            margin-top: 20px;
+        }
+
+        .log-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .log-table th, .log-table td {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+
+            .log-table th {
+                background-color: #f2f2f2;
+                text-align: left;
+            }
+    </style>
+}
+<div style="font-family: TitilliumWeb">
+    <h2>View Consignment</h2>
+</div>
+<div>
+
+    <hr />
+    <br />
+    <br />
+    <!-- Display Log History -->
+    <div class="log-container">
+        <h4>Consignment Activity Log</h4>
+        <table class="log-table">
+            <thead>
+                <tr>
+                    <th>Log Type</th>
+                    <th>Comment</th>
+                    <th>Created By</th>
+                    <th>Action Time</th>
+                </tr>
+            </thead>
+            <tbody id="logTableBody">
+                @if (ViewBag.ConsignmentLogs != null)
+                {
+                    foreach (var log in ViewBag.ConsignmentLogs)
+                    {
+                        <tr>
+                            <td>@log.LogType</td>
+                            <td>@log.LogText</td>
+                            <td>@log.CreatedBy</td>
+                            <td>@log.ActionTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add New Comment -->
+    <div class="log-container">
+        <h4>Add a Comment</h4>
+        @using (Html.BeginForm("AddLogComment", "Home", FormMethod.Post, new { id = "logForm" }))
+        {
+            @Html.Hidden("JobNumber", Model.jno)
+            @Html.Hidden("LogType", "Hold") <!-- This ensures "Hold" is sent when submitting -->
+
+            <div>
+                <label for="LogText">Comment:</label>
+                <textarea name="LogText" id="LogText" class="form-control" placeholder="Enter your comment..." required></textarea>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-primary">Submit Comment</button>
+        }
+    </div>
+
+
+    <br />
+
+    <div style="font-family: TitilliumWeb">
+        <h4>Details for the Connote: @Model.Connote</h4>
+    </div>
+    <hr />
+    <div style="font-size:16px; font-family: TitilliumWeb">
+
+        <a href="javascript:void(0);" onclick="history.go(-1);">Back to List</a>
+    </div>
+
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Held Reason")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comment)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Connote Date")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cons_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("jno")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.jno)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("CurrentWeek")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CurrentWeek)
+        </dd>
+        <dt>
+            @Html.DisplayName("Customer")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer)
+        </dd>
+        <dt>
+            @Html.DisplayName("Carrier")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Carrier)
+        </dd>
+        <dt>
+            @Html.DisplayName("ErrCode")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ErrCode)
+        </dd>
+        <dt>
+            @Html.DisplayName("ErrPriority")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ErrPriority)
+        </dd>
+        <dt>
+            @Html.DisplayName("Reason")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Reason)
+        </dd>
+        <dt>
+            @Html.DisplayName("Sub Reason")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sub_Reason)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("from_loc")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.from)
+        </dd>
+        <dt>
+            @Html.DisplayName("colsubzone")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.colsubzone)
+        </dd>
+        <dt>
+            @Html.DisplayName("To")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.to)
+        </dd>
+        <dt>
+            @Html.DisplayName("delsubzone")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.delsubzone)
+        </dd>
+        <dt>
+            @Html.DisplayName("option_code")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.option_code)
+        </dd>
+        <dt>
+            @Html.DisplayName("work_code")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.work_code)
+        </dd>
+        <dt>
+            @Html.DisplayName("freight_charges")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.freight_charges)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("other_charges")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.other_charges)
+        </dd>
+        <dt>
+            @Html.DisplayName("fuel_surch")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fuel_surch)
+        </dd>
+        <dt>
+            @Html.DisplayName("total_nett")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.total_nett)
+        </dd>
+        <dt>
+            @Html.DisplayName("GST")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.gst)
+        </dd>
+        <dt>
+            @Html.DisplayName("gross")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.gross)
+        </dd>
+        <dt>
+            @Html.DisplayName("items")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.items)
+        </dd>
+        <dt>
+            @Html.DisplayName("quantity")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.quantity)
+        </dd>
+        <dt>
+            @Html.DisplayName("weight")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.weight)
+        </dd>
+        <dt>
+            @Html.DisplayName("pallet")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pallet)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("cubic")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cubic)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("del_com")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.del_com)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("cus_ref")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cus_ref)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("col_post")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.col_post)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("del_post")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.del_post)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("chg_kg")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.chg_kg)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("unit")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.unit)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("del_ref")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.del_ref)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("supplier_ref")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.supplier_ref)
+        </dd>
+        <dt>
+            @Html.DisplayName("ActionedBy")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActionedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("ActionTime")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActionTime)
+        </dd>
+
+
+    </dl>
+</div>
+
+<div style="font-size:16px; font-family: TitilliumWeb">
+
+    <a href="javascript:void(0);" onclick="history.go(-1);">Back to List</a>
+</div>
+
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $("#logForm").submit(function (event) {
+                event.preventDefault();
+                var formData = $(this).serialize();
+
+                $.post("@Url.Action("AddLogComment", "Home")", formData, function (data) {
+                    if (data.success) {
+                        $("#logTableBody").prepend(`
+                            <tr>
+                                <td>${data.logType}</td>
+                                <td>${data.logText}</td>
+                                <td>${data.createdBy}</td>
+                                <td>${data.actionTime}</td>
+                            </tr>
+                        `);
+                        $("#LogText").val(""); // Clear the input
+                    } else {
+                        alert("Failed to add comment.");
+                    }
+                });
+            });
+        });
+    </script>
+}

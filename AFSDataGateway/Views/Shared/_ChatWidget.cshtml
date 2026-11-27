@@ -1,0 +1,97 @@
+@{
+    // Hidden on the Admin area (/Home/...) for now; Account Manager pages (/IVT/...) keep it. Set to true to re-enable for Admin pages.
+    const bool showOnAdminPages = false;
+    var onAdminPages = string.Equals(ViewContext.RouteData.Values["controller"] as string, "Home", StringComparison.OrdinalIgnoreCase);
+}
+@{
+    // Cache-busting: the file timestamp changes on every publish, so browsers always load the current script/styles.
+    Func<string, string> assetVersion = path => System.IO.File.GetLastWriteTimeUtc(Server.MapPath(path)).Ticks.ToString();
+}
+@if (Request.IsAuthenticated && AFSDataGateway.Services.Chat.AzureOpenAiChatClient.Enabled && (showOnAdminPages || !onAdminPages))
+{
+    <link rel="stylesheet" href="@Url.Content("~/Content/ivt-chat.css")?v=@assetVersion("~/Content/ivt-chat.css")" />
+    <div id="ivt-chat" data-context-url="@Url.Action("Context", "Chat")" data-ask-url="@Url.Action("Ask", "Chat")" data-reset-url="@Url.Action("Reset", "Chat")" data-confirm-url="@Url.Action("ConfirmAction", "Chat")" data-cancel-url="@Url.Action("CancelAction", "Chat")" data-email-url="@Url.Action("EmailAnswer", "Chat")" data-feedback-url="@Url.Action("Feedback", "Chat")" data-terms-url="@Url.Action("Terms", "Chat")" data-add-term-url="@Url.Action("AddTerm", "Chat")" data-delete-term-url="@Url.Action("DeleteTerm", "Chat")">
+        <button type="button" class="ivt-chat-launch" aria-controls="ivt-chat-panel" aria-expanded="false">Ask Vera</button>
+        <section id="ivt-chat-panel" class="ivt-chat-panel" aria-label="Vera, your Invoice Vetting Assistant" hidden>
+            <div class="ivt-chat-grip" title="Drag to resize" aria-hidden="true"></div>
+            <header class="ivt-chat-header">
+                <div><strong>Vera</strong><span class="ivt-chat-scope">Loading your access&hellip;</span></div>
+                <div class="ivt-chat-header-buttons">
+                    <button type="button" class="ivt-chat-hbtn ivt-chat-terms-toggle" aria-controls="ivt-chat-terms" aria-expanded="false" title="Teach the assistant your terms (synonyms, names, codes)"><i class="fas fa-book"></i></button>
+                    <button type="button" class="ivt-chat-help-toggle" aria-controls="ivt-chat-help" aria-expanded="false" aria-label="What can I ask?" title="What can I ask?">i</button>
+                    <button type="button" class="ivt-chat-hbtn ivt-chat-max-toggle" aria-pressed="false" title="Maximise"><i class="fas fa-expand-alt"></i></button>
+                    <button type="button" class="ivt-chat-close" aria-label="Close chat">&#215;</button>
+                </div>
+            </header>
+            <div id="ivt-chat-terms" class="ivt-chat-terms" hidden>
+                <strong>Teach the assistant</strong>
+                <p class="muted">Add a word your team uses and what it means, e.g. <em>trading value</em> = <em>revenue (sell total nett)</em>, or <em>BlueStar</em> = <em>carrier code BSTARGL</em>. It applies to your chats straight away; an IVT admin reviews it for everyone.</p>
+                <input class="ivt-chat-term" maxlength="100" placeholder="Term, e.g. trading value" aria-label="Term" />
+                <input class="ivt-chat-meaning" maxlength="500" placeholder="Meaning, e.g. revenue = sum of sell total nett" aria-label="Meaning" />
+                <select class="ivt-chat-kind" aria-label="Kind">
+                    <option value="SYNONYM">Synonym</option>
+                    <option value="CODE">Name / code mapping</option>
+                    <option value="DEFINITION">Definition</option>
+                    <option value="GUIDANCE">How to answer</option>
+                </select>
+                <button type="button" class="ivt-chat-email ivt-chat-term-save">Save term</button>
+                <ul class="ivt-chat-term-list"></ul>
+            </div>
+            <div id="ivt-chat-help" class="ivt-chat-help" hidden>
+                <strong>What Vera covers</strong>
+                <p class="ivt-chat-help-note">Answers use only the data you are permitted to see. Click an example to use it.</p>
+                <dl>
+                    <dt>Exceptions &amp; rules</dt>
+                    <dd><button type="button" data-example="What are my top 5 exceptions this week?">What are my top 5 exceptions this week?</button>
+                        <button type="button" data-example="What changed from last week in my exceptions?">What changed from last week?</button>
+                        <button type="button" data-example="What does rule 12 mean?">What does rule 12 mean?</button></dd>
+                    <dt>Held / released connotes</dt>
+                    <dd><button type="button" data-example="How many connotes am I holding for CH2 with STE?">How many connotes am I holding for CH2 with STE?</button>
+                        <button type="button" data-example="Which connotes did I release this month and why?">Which connotes did I release this month?</button></dd>
+                    <dt>Trading, ancillaries &amp; MoveIT</dt>
+                    <dd><button type="button" data-example="How many connotes did PENTAIR trade this week via TGE_IPEC?">Connotes traded by a customer and carrier</button>
+                        <button type="button" data-example="Which customers have the biggest increase in trading volume?">Biggest trading volume increase</button>
+                        <button type="button" data-example="Show my MoveIT weight mismatches over 50%">MoveIT weight mismatches</button>
+                        <button type="button" data-example="Which sender and receiver postcodes have the most consignments this week?">Top sender / receiver postcodes</button>
+                        <button type="button" data-example="What is my revenue and margin by carrier group this week?">Revenue and margin by carrier group</button></dd>
+                    <dt>Customer analytics &amp; savings opportunities</dt>
+                    <dd><button type="button" data-example="Help me find savings opportunities for a customer. Ask me which customer and period, then compare the carrier mix, buy costs, revenue, margin and ancillary charges in charts and tables.">Explore customer savings opportunities</button>
+                        <button type="button" data-example="Compare my carrier mix and buy costs this week in a chart and table, and suggest follow-up questions.">Compare carrier mix and costs</button>
+                        <button type="button" data-example="What information do you need to compare alternative carrier services and estimate savings for my customer?">Compare alternative services: what do we need?</button></dd>
+                    <dt>ML findings (AI anomaly detection)</dt>
+                    <dd><button type="button" data-example="What did the ML model flag for me this week?">What did the ML model flag for me this week?</button>
+                        <button type="button" data-example="Which ML findings with high buy cost have not been assessed yet?">Unassessed high buy cost findings</button></dd>
+                    <dt>Actions (you confirm before anything changes)</dt>
+                    <dd><button type="button" data-example="Hold connote ... because ...">Hold a connote (give the reason)</button>
+                        <button type="button" data-example="Release connote ... because ...">Release a connote (give the justification)</button>
+                        <button type="button" data-example="My vetting is complete">Mark vetting completed</button></dd>
+                    <dt>Email reports (to your own mailbox)</dt>
+                    <dd><button type="button" data-example="Email me this week's exceptions for CH2 with negative gross margin">Email me CH2 negative gross margin exceptions</button>
+                        or press <em>Email this answer</em> under any answer.</dd>
+                </dl>
+                <p class="ivt-chat-help-note">Alternative carrier prices and service suitability need confirmed quotes, rates and delivery requirements. Historical averages highlight investigation opportunities; they do not establish achievable savings. Vera cannot change charges or rates. The ML unusualness percentile is not a probability.</p>
+            </div>
+            <div class="ivt-chat-intro"><b>Hi, I&#8217;m Vera, your Invoice Vetting Assistant. How can I help?</b><br />Ask about your exceptions, held or released connotes, trading, ancillaries, MoveIT mismatches or ML findings. Answers use your permitted data.</div>
+            <div class="ivt-chat-messages" role="log" aria-live="polite" aria-relevant="additions" tabindex="0"></div>
+            <div class="ivt-chat-suggestions" aria-label="Suggested questions">
+                <button type="button">What are my 3 top exceptions</button>
+                <button type="button">What changed from last week (Exceptions) ?</button>
+                <button type="button">Which customers have the biggest increase (Trading Volume)?</button>
+                <button type="button">Help me explore customer savings and carrier mix</button>
+            </div>
+            <p class="ivt-chat-status" role="status"></p>
+            <form class="ivt-chat-form">
+                @Html.AntiForgeryToken()
+                <label for="ivt-chat-question">Your question</label>
+                <textarea id="ivt-chat-question" maxlength="2000" rows="2" placeholder="Ask about your IVT data&hellip;" required></textarea>
+                <div class="ivt-chat-actions">
+                    <button type="button" class="ivt-chat-reset">New conversation</button>
+                    <button type="submit" class="ivt-chat-send">Send</button>
+                </div>
+            </form>
+            <p class="ivt-chat-note">AI explanations can be imperfect. Check the source figures and rate answers (&#128077; / &#128078;) to help improve them.</p>
+        </section>
+    </div>
+    <script src="@Url.Content("~/Scripts/ivt-chat-analytics.js")?v=@assetVersion("~/Scripts/ivt-chat-analytics.js")" defer></script>
+    <script src="@Url.Content("~/Scripts/ivt-chat.js")?v=@assetVersion("~/Scripts/ivt-chat.js")" defer></script>
+}

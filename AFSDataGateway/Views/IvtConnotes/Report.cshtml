@@ -1,0 +1,53 @@
+@using AFSDataGateway.Services.IvtAdmin
+@model IvtReportDef
+@{
+    ViewBag.Title = Model.Title;
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@Html.Partial("~/Views/IvtAdmin/_Assets.cshtml")
+<div class="ivt-adm" data-ivt-page="report" data-key="@Model.Key" data-data-url="@Url.Action("ReportData")" data-export-url="@Url.Action("Export")" data-lists-url="@Url.Action("Lists")">
+    <h2>@Model.Title</h2>
+    <p class="sub">@Model.Description</p>
+    @Html.Partial("~/Views/IvtAdmin/_Env.cshtml", IvtEnvironment.Production, new ViewDataDictionary { { "TestAllowed", false } })
+    <div id="ivt-msg"></div>
+    <div class="card-box">
+        <form id="ivt-report-form" class="toolbar">
+            @foreach (var input in Model.Inputs)
+            {
+                switch (input)
+                {
+                    case IvtReportInput.Search:
+                        <div><label for="p-search">Search (blank = ALL)</label><input id="p-search" data-param="search" class="form-control" maxlength="500" /></div>
+                        break;
+                    case IvtReportInput.InvoiceWeek:
+                        <div><label for="p-week">Invoice week</label><input id="p-week" type="date" data-param="invoiceWeek" class="form-control" value="@ViewBag.DefaultWeek" required /></div>
+                        break;
+                    case IvtReportInput.FromDate:
+                        <div><label for="p-from">From</label><input id="p-from" type="date" data-param="from" class="form-control" value="@ViewBag.DefaultFrom" required /></div>
+                        break;
+                    case IvtReportInput.ToDate:
+                        <div><label for="p-to">To</label><input id="p-to" type="date" data-param="to" class="form-control" value="@ViewBag.DefaultTo" required /></div>
+                        break;
+                    case IvtReportInput.Activity:
+                        <div><label for="p-activity">Activity</label><select id="p-activity" data-param="activity" class="form-control"><option value="">ALL</option></select></div>
+                        break;
+                    case IvtReportInput.AccountManager:
+                        <div><label for="p-am">Account manager</label><select id="p-am" data-param="am" class="form-control"><option value="">ALL</option></select></div>
+                        break;
+                }
+            }
+            <button type="submit" class="btn btn-primary">@(Model.Inputs.Length == 0 ? "Refresh" : "Search / refresh")</button>
+            <a id="ivt-export" class="btn btn-outline-secondary disabled" href="#" download>Export CSV</a>
+        </form>
+        @if (Model.Inputs.Length == 0)
+        {
+            <p class="muted">This report has no parameters: invoice week and date filters do not apply to it.</p>
+        }
+        else if (Model.Key == "am-activity")
+        {
+            <p class="muted">Default activity is ALL (the desktop picked the first activity in the list). The account manager filter uses the login name.</p>
+        }
+        <p id="ivt-count" class="muted"></p>
+        <div id="ivt-grid"></div>
+    </div>
+</div>

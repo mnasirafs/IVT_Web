@@ -1,0 +1,1621 @@
+@model AFSDataGateway.Models.DashboardViewModel
+
+@using System
+@using System.Linq
+@using System.Collections.Generic
+@using System.Web.Helpers
+
+@{
+    ViewBag.Title = "IVT Dashboard";
+
+    var totals = Model != null && Model.TotalMeasuresData != null
+        ? Model.TotalMeasuresData.FirstOrDefault()
+        : null;
+
+    var tradingRows = Model != null && Model.Customer_Count_list != null
+        ? Model.Customer_Count_list
+            .OrderByDescending(x => x.TotalCurrentWeekTradingCount)
+            .ToList()
+        : new List<AFSDataGateway.Models.CustomerCountResult>();
+
+    Func<object, decimal> decimalValue = value =>
+    {
+        if (value == null || value == DBNull.Value)
+        {
+            return 0m;
+        }
+
+        decimal result;
+
+        return Decimal.TryParse(
+            Convert.ToString(value),
+            out result
+        )
+            ? result
+            : 0m;
+    };
+
+    decimal totalRecords = totals != null
+        ? decimalValue(totals.TotalAllConnotes)
+        : 0m;
+
+    decimal lastWeekRecords = totals != null
+        ? decimalValue(totals.LW_TotalAllConnotes)
+        : 0m;
+
+    decimal totalExceptions = totals != null
+        ? decimalValue(totals.TotalExceptions)
+        : 0m;
+
+    decimal lastWeekExceptions = totals != null
+        ? decimalValue(totals.LW_TotalExceptions)
+        : 0m;
+
+    decimal totalAncillaries = totals != null
+        ? decimalValue(totals.TotalAncillaries)
+        : 0m;
+
+    decimal lastWeekAncillaries = totals != null
+        ? decimalValue(totals.LW_TotalAncillaries)
+        : 0m;
+
+    decimal moveitConnotes = totals != null
+        ? decimalValue(totals.MoveitMatchedCount)
+        : 0m;
+
+    decimal totalNotInMoveit = totals != null
+        ? decimalValue(totals.TotalNotInMoveit)
+        : 0m;
+
+    decimal lastWeekMoveitConnotes =
+        lastWeekRecords > 0m
+            ? Math.Max(0m, lastWeekRecords - totalNotInMoveit)
+            : 0m;
+
+    decimal exceptionRate =
+        totalRecords > 0m
+            ? totalExceptions * 100m / totalRecords
+            : 0m;
+
+    decimal lastWeekExceptionRate =
+        lastWeekRecords > 0m
+            ? lastWeekExceptions * 100m / lastWeekRecords
+            : 0m;
+
+    decimal ancillaryRate =
+        totalRecords > 0m
+            ? totalAncillaries * 100m / totalRecords
+            : 0m;
+
+    decimal lastWeekAncillaryRate =
+        lastWeekRecords > 0m
+            ? lastWeekAncillaries * 100m / lastWeekRecords
+            : 0m;
+
+    decimal moveitRate =
+        totalRecords > 0m
+            ? moveitConnotes * 100m / totalRecords
+            : 0m;
+
+    decimal lastWeekMoveitRate =
+        lastWeekRecords > 0m
+            ? lastWeekMoveitConnotes * 100m / lastWeekRecords
+            : 0m;
+
+    Func<decimal, decimal, decimal> percentageChange =
+        (current, previous) =>
+            previous != 0m
+                ? (current - previous) * 100m / previous
+                : 0m;
+
+    decimal totalRecordsChange =
+        percentageChange(totalRecords, lastWeekRecords);
+
+    decimal totalExceptionsChange =
+        percentageChange(totalExceptions, lastWeekExceptions);
+
+    decimal totalAncillariesChange =
+        percentageChange(totalAncillaries, lastWeekAncillaries);
+
+    decimal moveitConnotesChange =
+        percentageChange(moveitConnotes, lastWeekMoveitConnotes);
+
+    decimal exceptionRateChange =
+        exceptionRate - lastWeekExceptionRate;
+
+    decimal ancillaryRateChange =
+        ancillaryRate - lastWeekAncillaryRate;
+
+    decimal moveitRateChange =
+        moveitRate - lastWeekMoveitRate;
+
+    Func<decimal, string> positiveNegativeClass =
+        value => value >= 0m ? "positive" : "negative";
+
+    Func<decimal, string> positiveNegativeIcon =
+        // Keep the Razor source ASCII-only so deployment-time file encoding
+        // detection cannot turn the UTF-8 triangle bytes into mojibake.
+        value => value >= 0m ? "\u25B2" : "\u25BC";
+
+    Func<decimal, string> signText =
+        value => value >= 0m ? "+" : String.Empty;
+
+    string currentWeek =
+        Model != null && !String.IsNullOrWhiteSpace(Model.CurrentWeek)
+            ? Model.CurrentWeek
+            : "Current Week";
+}
+
+<style>
+    :root {
+        --ivt-blue: #1570ef;
+        --ivt-blue-soft: #eff6ff;
+        --ivt-green: #16a34a;
+        --ivt-green-soft: #effaf3;
+        --ivt-red: #ef4444;
+        --ivt-red-soft: #fff1f2;
+        --ivt-orange: #fb923c;
+        --ivt-orange-soft: #fff7ed;
+        --ivt-purple: #a855f7;
+        --ivt-purple-soft: #faf5ff;
+        --ivt-teal: #14b8a6;
+        --ivt-teal-soft: #f0fdfa;
+        --ivt-border: #e4eaf2;
+        --ivt-heading: #172554;
+        --ivt-text: #334155;
+        --ivt-muted: #64748b;
+        --ivt-background: #f8fafc;
+    }
+
+    body {
+        background: var(--ivt-background);
+    }
+
+    .ivt-dashboard {
+        padding: 18px;
+        font-family: "Segoe UI", Arial, sans-serif;
+        color: var(--ivt-text);
+    }
+
+    .dashboard-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 18px;
+    }
+
+    .dashboard-heading h1 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--ivt-heading);
+    }
+
+    .dashboard-week {
+        padding: 8px 13px;
+        background: #ffffff;
+        border: 1px solid var(--ivt-border);
+        border-radius: 8px;
+        color: var(--ivt-muted);
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns:
+            minmax(190px, 0.85fr)
+            minmax(260px, 1.35fr)
+            minmax(260px, 1.35fr)
+            minmax(260px, 1.35fr);
+        gap: 14px;
+        margin-bottom: 20px;
+    }
+
+    .summary-card {
+        position: relative;
+        min-height: 125px;
+        padding: 17px;
+        background: #ffffff;
+        border: 1px solid var(--ivt-border);
+        border-radius: 9px;
+        box-shadow: 0 2px 7px rgba(15, 23, 42, 0.05);
+    }
+
+    .summary-card.has-rate {
+        display: grid;
+        grid-template-columns: minmax(120px, 1fr) minmax(105px, 0.8fr);
+        column-gap: 16px;
+    }
+
+    .summary-card.has-rate .rate-section {
+        border-left: 1px solid #dbe2ea;
+        padding-left: 17px;
+        align-self: center;
+    }
+
+    .summary-card-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 11px;
+    }
+
+    .metric-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 0 0 38px;
+    }
+
+    .metric-icon svg {
+        width: 21px;
+        height: 21px;
+    }
+
+    .metric-icon.blue {
+        background: var(--ivt-blue-soft);
+        color: var(--ivt-blue);
+    }
+
+    .metric-icon.orange {
+        background: var(--ivt-orange-soft);
+        color: var(--ivt-orange);
+    }
+
+    .metric-icon.purple {
+        background: var(--ivt-purple-soft);
+        color: var(--ivt-purple);
+    }
+
+    .metric-icon.teal {
+        background: var(--ivt-teal-soft);
+        color: var(--ivt-teal);
+    }
+
+    .metric-label {
+        font-size: 12px;
+        color: #25324b;
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 5px;
+    }
+
+    .metric-number {
+        font-size: 21px;
+        font-weight: 700;
+        color: #172554;
+        line-height: 1.15;
+    }
+
+    .metric-comparison {
+        margin-top: 22px;
+    }
+
+    .comparison-label {
+        display: block;
+        margin-bottom: 6px;
+        color: #7c8aa1;
+        font-size: 10px;
+        font-weight: 600;
+    }
+
+    .comparison-value {
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .comparison-value.positive {
+        color: var(--ivt-green);
+    }
+
+    .comparison-value.negative {
+        color: var(--ivt-red);
+    }
+
+    .rate-label {
+        display: block;
+        color: #34425c;
+        font-size: 10px;
+        font-weight: 700;
+        margin-bottom: 3px;
+    }
+
+    .rate-value {
+        font-size: 20px;
+        font-weight: 700;
+        color: #25324b;
+        line-height: 1.2;
+    }
+
+    .rate-comparison {
+        margin-top: 13px;
+    }
+
+    .info-icon {
+        position: absolute;
+        right: 12px;
+        top: 12px;
+        width: 14px;
+        height: 14px;
+        border: 1.5px solid #94a3b8;
+        color: #94a3b8;
+        border-radius: 50%;
+        text-align: center;
+        font-size: 9px;
+        line-height: 12px;
+        font-weight: 700;
+    }
+
+    .analysis-panel {
+        background: #ffffff;
+        border: 1px solid var(--ivt-border);
+        border-radius: 9px;
+        box-shadow: 0 2px 7px rgba(15, 23, 42, 0.05);
+        overflow: hidden;
+    }
+
+    .analysis-header {
+        min-height: 42px;
+        padding: 8px 13px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--ivt-border);
+    }
+
+    .analysis-title {
+        margin: 0;
+        color: #172554;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .analysis-actions {
+        display: flex;
+        gap: 9px;
+    }
+
+    .analysis-button {
+        min-width: 84px;
+        height: 29px;
+        padding: 0 11px;
+        background: #ffffff;
+        border: 1px solid #d8e0ea;
+        border-radius: 5px;
+        color: #34425c;
+        font-size: 11px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .analysis-button:hover {
+        background: #f8fafc;
+        border-color: #c6d0dc;
+    }
+
+    .analysis-button svg {
+        width: 13px;
+        height: 13px;
+        margin-right: 5px;
+        vertical-align: -2px;
+    }
+
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .analysis-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        font-size: 11px;
+    }
+
+    .analysis-table th {
+        padding: 12px 13px;
+        background: #fbfcfe;
+        color: #34425c;
+        border-bottom: 1px solid var(--ivt-border);
+        text-align: left;
+        font-size: 10px;
+        line-height: 1.25;
+        font-weight: 700;
+        vertical-align: middle;
+    }
+
+    .analysis-table td {
+        height: 58px;
+        padding: 9px 13px;
+        border-bottom: 1px solid #e9edf3;
+        color: #334155;
+        vertical-align: middle;
+    }
+
+    .analysis-table tbody tr:hover {
+        background: #fbfdff;
+    }
+
+    .analysis-table th:nth-child(1) {
+        width: 15%;
+    }
+
+    .analysis-table th:nth-child(2) {
+        width: 15%;
+    }
+
+    .analysis-table th:nth-child(3) {
+        width: 16%;
+    }
+
+    .analysis-table th:nth-child(4) {
+        width: 16%;
+    }
+
+    .analysis-table th:nth-child(5) {
+        width: 11%;
+    }
+
+    .analysis-table th:nth-child(6) {
+        width: 11%;
+    }
+
+    .analysis-table th:nth-child(7) {
+        width: 16%;
+    }
+
+    .primary-code {
+        color: #1e3a5f;
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 1.25;
+    }
+
+    .secondary-code {
+        margin-top: 3px;
+        color: #52647e;
+        font-size: 10px;
+    }
+
+    .numeric-value {
+        color: #25324b;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .variance-value.positive,
+    .variance-percent.positive {
+        color: var(--ivt-green);
+    }
+
+    .variance-value.negative,
+    .variance-percent.negative {
+        color: var(--ivt-red);
+    }
+
+    .trend-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .sparkline {
+        width: 70px;
+        height: 25px;
+        overflow: visible;
+    }
+
+    .sparkline-line {
+        fill: none;
+        stroke-width: 1.6;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .sparkline-line.positive {
+        stroke: var(--ivt-green);
+    }
+
+    .sparkline-line.negative {
+        stroke: var(--ivt-red);
+    }
+
+    .trend-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 57px;
+        padding: 4px 7px;
+        border-radius: 4px;
+        font-size: 10px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .trend-badge.positive {
+        color: var(--ivt-green);
+        background: var(--ivt-green-soft);
+        border: 1px solid #d1f0dc;
+    }
+
+    .trend-badge.negative {
+        color: var(--ivt-red);
+        background: var(--ivt-red-soft);
+        border: 1px solid #ffd6dc;
+    }
+
+    .analysis-footer {
+        min-height: 50px;
+        padding: 9px 13px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #ffffff;
+    }
+
+    .record-summary {
+        color: #7b879a;
+        font-size: 10px;
+    }
+
+    .pagination-area {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+    }
+
+    .page-size-selector {
+        height: 28px;
+        padding: 0 28px 0 10px;
+        border: 1px solid #dce3ec;
+        border-radius: 5px;
+        background: #ffffff;
+        color: #64748b;
+        font-size: 10px;
+    }
+
+    .pagination-buttons {
+        display: flex;
+        gap: 4px;
+    }
+
+    .page-button {
+        min-width: 26px;
+        height: 27px;
+        padding: 0 7px;
+        border: 1px solid #dce3ec;
+        border-radius: 4px;
+        background: #ffffff;
+        color: #64748b;
+        font-size: 10px;
+        cursor: pointer;
+    }
+
+    .page-button:hover:not(:disabled) {
+        border-color: var(--ivt-blue);
+        color: var(--ivt-blue);
+    }
+
+    .page-button.active {
+        background: var(--ivt-blue);
+        border-color: var(--ivt-blue);
+        color: #ffffff;
+    }
+
+    .page-button:disabled {
+        opacity: 0.45;
+        cursor: default;
+    }
+
+    .column-menu {
+        position: absolute;
+        right: 17px;
+        margin-top: 5px;
+        width: 220px;
+        padding: 10px;
+        background: #ffffff;
+        border: 1px solid var(--ivt-border);
+        border-radius: 7px;
+        box-shadow: 0 10px 28px rgba(15, 23, 42, 0.15);
+        z-index: 100;
+        display: none;
+    }
+
+    .column-menu.open {
+        display: block;
+    }
+
+    .column-option {
+        display: block;
+        padding: 5px 3px;
+        color: #475569;
+        font-size: 11px;
+    }
+
+    .column-option input {
+        margin-right: 7px;
+    }
+
+    .empty-table-message {
+        padding: 35px;
+        color: #64748b;
+        text-align: center;
+    }
+
+    @@media (max-width: 1200px) {
+        .summary-grid {
+            grid-template-columns: repeat(2, minmax(260px, 1fr));
+        }
+    }
+
+    @@media (max-width: 650px) {
+        .summary-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .dashboard-heading {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .analysis-header {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+</style>
+
+<div class="ivt-dashboard">
+
+    <div class="dashboard-heading">
+        <h1>IVT Dashboard</h1>
+
+        <div class="dashboard-week">
+            Invoice Week: @currentWeek
+        </div>
+    </div>
+
+    <div class="summary-grid">
+
+        <!-- Total Records -->
+        <div class="summary-card">
+            <span class="info-icon" title="Total current-week trading records">i</span>
+
+            <div class="summary-card-header">
+                <div class="metric-icon blue">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M7 3H14L19 8V21H7V3Z"
+                              stroke="currentColor"
+                              stroke-width="1.8" />
+
+                        <path d="M14 3V8H19"
+                              stroke="currentColor"
+                              stroke-width="1.8" />
+
+                        <path d="M4 7V18H7"
+                              stroke="currentColor"
+                              stroke-width="1.8" />
+                    </svg>
+                </div>
+
+                <div>
+                    <div class="metric-label">Total Records</div>
+
+                    <div class="metric-number">
+                        @String.Format("{0:N0}", totalRecords)
+                    </div>
+                </div>
+            </div>
+
+            <div class="metric-comparison">
+                <span class="comparison-label">vs Last Week</span>
+
+                <span class="comparison-value @positiveNegativeClass(totalRecordsChange)">
+                    @positiveNegativeIcon(totalRecordsChange)
+                    @Math.Abs(totalRecordsChange).ToString("N1")%
+                </span>
+            </div>
+        </div>
+
+        <!-- Exceptions -->
+        <div class="summary-card has-rate">
+            <span class="info-icon" title="Total exceptions and exception rate">i</span>
+
+            <div>
+                <div class="summary-card-header">
+                    <div class="metric-icon orange">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M12 3L22 20H2L12 3Z"
+                                  stroke="currentColor"
+                                  stroke-width="1.8" />
+
+                            <path d="M12 9V14"
+                                  stroke="currentColor"
+                                  stroke-width="1.8" />
+
+                            <circle cx="12"
+                                    cy="17"
+                                    r="1"
+                                    fill="currentColor" />
+                        </svg>
+                    </div>
+
+                    <div>
+                        <div class="metric-label">Exceptions</div>
+
+                        <div class="metric-number">
+                            @String.Format("{0:N0}", totalExceptions)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-comparison">
+                    <span class="comparison-label">vs Last Week</span>
+
+                    <span class="comparison-value @positiveNegativeClass(totalExceptionsChange)">
+                        @positiveNegativeIcon(totalExceptionsChange)
+                        @Math.Abs(totalExceptionsChange).ToString("N1")%
+                    </span>
+                </div>
+            </div>
+
+            <div class="rate-section">
+                <span class="rate-label">Exception Rate</span>
+
+                <div class="rate-value">
+                    @String.Format("{0:N2}%", exceptionRate)
+                </div>
+
+                <div class="rate-comparison">
+                    <span class="comparison-label">vs Last Week</span>
+
+                    <span class="comparison-value @positiveNegativeClass(exceptionRateChange)">
+                        @positiveNegativeIcon(exceptionRateChange)
+                        @Math.Abs(exceptionRateChange).ToString("N2") pp
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ancillaries -->
+        <div class="summary-card has-rate">
+            <span class="info-icon" title="Total ancillaries and ancillary rate">i</span>
+
+            <div>
+                <div class="summary-card-header">
+                    <div class="metric-icon purple">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M4 5L10 3L20 13L13 20L3 10L4 5Z"
+                                  stroke="currentColor"
+                                  stroke-width="1.8" />
+
+                            <circle cx="8"
+                                    cy="8"
+                                    r="1.6"
+                                    stroke="currentColor"
+                                    stroke-width="1.5" />
+                        </svg>
+                    </div>
+
+                    <div>
+                        <div class="metric-label">Ancillaries</div>
+
+                        <div class="metric-number">
+                            @String.Format("{0:N0}", totalAncillaries)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-comparison">
+                    <span class="comparison-label">vs Last Week</span>
+
+                    <span class="comparison-value @positiveNegativeClass(totalAncillariesChange)">
+                        @positiveNegativeIcon(totalAncillariesChange)
+                        @Math.Abs(totalAncillariesChange).ToString("N1")%
+                    </span>
+                </div>
+            </div>
+
+            <div class="rate-section">
+                <span class="rate-label">Ancillary Rate</span>
+
+                <div class="rate-value">
+                    @String.Format("{0:N2}%", ancillaryRate)
+                </div>
+
+                <div class="rate-comparison">
+                    <span class="comparison-label">vs Last Week</span>
+
+                    <span class="comparison-value @positiveNegativeClass(ancillaryRateChange)">
+                        @positiveNegativeIcon(ancillaryRateChange)
+                        @Math.Abs(ancillaryRateChange).ToString("N2") pp
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Moveit Connotes -->
+        <div class="summary-card has-rate">
+            <span class="info-icon" title="Connotes matched with Moveit">i</span>
+
+            <div>
+                <div class="summary-card-header">
+                    <div class="metric-icon teal">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M7 3H15L19 7V21H7V3Z"
+                                  stroke="currentColor"
+                                  stroke-width="1.8" />
+
+                            <path d="M15 3V7H19"
+                                  stroke="currentColor"
+                                  stroke-width="1.8" />
+                        </svg>
+                    </div>
+
+                    <div>
+                        <div class="metric-label">MoveIT Connotes</div>
+
+                        <div class="metric-number">
+                            @String.Format("{0:N0}", moveitConnotes)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-comparison">
+                    <span class="comparison-label">vs Last Week</span>
+
+                    <span class="comparison-value @positiveNegativeClass(moveitConnotesChange)">
+                        @positiveNegativeIcon(moveitConnotesChange)
+                        @Math.Abs(moveitConnotesChange).ToString("N1")%
+                    </span>
+                </div>
+            </div>
+
+            <div class="rate-section">
+                <span class="rate-label">Connote Rate</span>
+
+                <div class="rate-value">
+                    @String.Format("{0:N2}%", moveitRate)
+                </div>
+
+                <div class="rate-comparison">
+                    <span class="comparison-label">vs Last Week</span>
+
+                    <span class="comparison-value @positiveNegativeClass(moveitRateChange)">
+                        @positiveNegativeIcon(moveitRateChange)
+                        @Math.Abs(moveitRateChange).ToString("N2") pp
+                    </span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="analysis-panel">
+
+        <div class="analysis-header">
+            <h2 class="analysis-title">
+                Trading Volume Analysis (Current Week)
+            </h2>
+
+            <div class="analysis-actions">
+                <button type="button"
+                        class="analysis-button"
+                        id="exportDashboardButton">
+
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M12 3V15"
+                              stroke="currentColor"
+                              stroke-width="1.8" />
+
+                        <path d="M8 11L12 15L16 11"
+                              stroke="currentColor"
+                              stroke-width="1.8" />
+
+                        <path d="M5 17V21H19V17"
+                              stroke="currentColor"
+                              stroke-width="1.8" />
+                    </svg>
+
+                    Export
+                </button>
+
+                <button type="button"
+                        class="analysis-button"
+                        id="columnButton">
+
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M4 5H20V9H4V5Z"
+                              stroke="currentColor"
+                              stroke-width="1.7" />
+
+                        <path d="M4 12H20V16H4V12Z"
+                              stroke="currentColor"
+                              stroke-width="1.7" />
+
+                        <path d="M4 19H20"
+                              stroke="currentColor"
+                              stroke-width="1.7" />
+                    </svg>
+
+                    Columns
+                </button>
+
+                <div class="column-menu" id="columnMenu">
+                    <label class="column-option">
+                        <input type="checkbox"
+                               checked
+                               data-column="0" />
+                        Customer
+                    </label>
+
+                    <label class="column-option">
+                        <input type="checkbox"
+                               checked
+                               data-column="1" />
+                        Carrier
+                    </label>
+
+                    <label class="column-option">
+                        <input type="checkbox"
+                               checked
+                               data-column="2" />
+                        Current Week
+                    </label>
+
+                    <label class="column-option">
+                        <input type="checkbox"
+                               checked
+                               data-column="3" />
+                        13 Weeks Average
+                    </label>
+
+                    <label class="column-option">
+                        <input type="checkbox"
+                               checked
+                               data-column="4" />
+                        Variance Volume
+                    </label>
+
+                    <label class="column-option">
+                        <input type="checkbox"
+                               checked
+                               data-column="5" />
+                        Variance %
+                    </label>
+
+                    <label class="column-option">
+                        <input type="checkbox"
+                               checked
+                               data-column="6" />
+                        Trend
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="analysis-table" id="tradingAnalysisTable">
+                <thead>
+                    <tr>
+                        <th>
+                            Customer Code
+                        </th>
+
+                        <th>
+                            Carrier Code
+                        </th>
+
+                        <th>
+                            Current Week<br />
+                            Trading Volume
+                        </th>
+
+                        <th>
+                            13 Weeks Average<br />
+                            Trading Volume
+                        </th>
+
+                        <th>
+                            Variance<br />
+                            (Volume)
+                        </th>
+
+                        <th>
+                            Variance<br />
+                            (%)
+                        </th>
+
+                        <th>
+                            Trend (vs 13 Weeks Avg)
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (tradingRows.Any())
+                    {
+                        foreach (var row in tradingRows)
+                        {
+                            decimal currentTrading =
+                                decimalValue(row.TotalCurrentWeekTradingCount);
+
+                            decimal averageTrading =
+                                decimalValue(row.AverageLast13WeeksTrading);
+
+                            decimal variance =
+                                currentTrading - averageTrading;
+
+                            decimal variancePercent =
+                                averageTrading != 0m
+                                    ? variance * 100m / averageTrading
+                                    : 0m;
+
+                            string trendClass =
+                                positiveNegativeClass(variance);
+
+                            decimal midpoint1 =
+                                averageTrading +
+                                ((currentTrading - averageTrading) * 0.25m);
+
+                            decimal midpoint2 =
+                                averageTrading +
+                                ((currentTrading - averageTrading) * 0.48m);
+
+                            decimal midpoint3 =
+                                averageTrading +
+                                ((currentTrading - averageTrading) * 0.68m);
+
+                            decimal midpoint4 =
+                                averageTrading +
+                                ((currentTrading - averageTrading) * 0.83m);
+
+                            decimal maxTrendValue =
+                                Math.Max(
+                                    Math.Max(currentTrading, averageTrading),
+                                    1m
+                                );
+
+                            Func<decimal, decimal> sparkY =
+                                value =>
+                                    22m - ((value / maxTrendValue) * 18m);
+
+                            <tr class="dashboard-data-row">
+                                <td>
+                                    <div class="primary-code">
+                                        @row.FinanceGroup
+                                    </div>
+
+                                    <div class="secondary-code">
+                                        Customer Group
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="primary-code">
+                                        @row.Carrier
+                                    </div>
+
+                                    <div class="secondary-code">
+                                        Carrier Group
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <span class="numeric-value">
+                                        @String.Format(
+                                            "{0:N0}",
+                                            currentTrading
+                                        )
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="numeric-value">
+                                        @String.Format(
+                                            "{0:N0}",
+                                            averageTrading
+                                        )
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="numeric-value variance-value @trendClass">
+                                        @signText(variance)@String.Format(
+                                            "{0:N0}",
+                                            variance
+                                        )
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="numeric-value variance-percent @trendClass">
+                                        @signText(variancePercent)@String.Format(
+                                            "{0:N2}%",
+                                            variancePercent
+                                        )
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="trend-container">
+                                        <svg class="sparkline"
+                                             viewBox="0 0 70 25"
+                                             preserveAspectRatio="none">
+
+                                            <polyline
+                                                class="sparkline-line @trendClass"
+                                                points="
+                                                    2,@sparkY(averageTrading).ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)
+                                                    16,@sparkY(midpoint1).ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)
+                                                    30,@sparkY(midpoint2).ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)
+                                                    43,@sparkY(midpoint3).ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)
+                                                    56,@sparkY(midpoint4).ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)
+                                                    68,@sparkY(currentTrading).ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)" />
+                                        </svg>
+
+                                        <span class="trend-badge @trendClass">
+                                            @positiveNegativeIcon(variancePercent)
+                                            @Math.Abs(variancePercent).ToString("N2")%
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7"
+                                class="empty-table-message">
+                                No trading volume data is available.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="analysis-footer">
+            <div class="record-summary" id="recordSummary">
+                Showing 0 entries
+            </div>
+
+            <div class="pagination-area">
+
+                <select class="page-size-selector"
+                        id="pageSizeSelector">
+                    <option value="5">5 rows</option>
+                    <option value="10">10 rows</option>
+                    <option value="25">25 rows</option>
+                    <option value="50">50 rows</option>
+                </select>
+
+                <div class="pagination-buttons">
+                    <button type="button"
+                            class="page-button"
+                            id="firstPageButton">
+                        |&lt;
+                    </button>
+
+                    <button type="button"
+                            class="page-button"
+                            id="previousPageButton">
+                        &lt;
+                    </button>
+
+                    <div id="pageNumberButtons"
+                         style="display:flex;gap:4px;"></div>
+
+                    <button type="button"
+                            class="page-button"
+                            id="nextPageButton">
+                        &gt;
+                    </button>
+
+                    <button type="button"
+                            class="page-button"
+                            id="lastPageButton">
+                        &gt;|
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    (function () {
+        "use strict";
+
+        var table = document.getElementById("tradingAnalysisTable");
+
+        if (!table) {
+            return;
+        }
+
+        var rows = Array.prototype.slice.call(
+            table.querySelectorAll("tbody tr.dashboard-data-row")
+        );
+
+        var pageSizeSelector =
+            document.getElementById("pageSizeSelector");
+
+        var recordSummary =
+            document.getElementById("recordSummary");
+
+        var pageNumberButtons =
+            document.getElementById("pageNumberButtons");
+
+        var firstPageButton =
+            document.getElementById("firstPageButton");
+
+        var previousPageButton =
+            document.getElementById("previousPageButton");
+
+        var nextPageButton =
+            document.getElementById("nextPageButton");
+
+        var lastPageButton =
+            document.getElementById("lastPageButton");
+
+        var currentPage = 1;
+        var pageSize = 5;
+
+        function getPageCount() {
+            return Math.max(
+                1,
+                Math.ceil(rows.length / pageSize)
+            );
+        }
+
+        function showPage(pageNumber) {
+            var pageCount = getPageCount();
+
+            currentPage = Math.max(
+                1,
+                Math.min(pageNumber, pageCount)
+            );
+
+            var startIndex =
+                (currentPage - 1) * pageSize;
+
+            var endIndex =
+                Math.min(startIndex + pageSize, rows.length);
+
+            rows.forEach(function (row, index) {
+                row.style.display =
+                    index >= startIndex && index < endIndex
+                        ? ""
+                        : "none";
+            });
+
+            if (recordSummary) {
+                if (rows.length === 0) {
+                    recordSummary.textContent =
+                        "Showing 0 entries";
+                } else {
+                    recordSummary.textContent =
+                        "Showing " +
+                        (startIndex + 1) +
+                        " to " +
+                        endIndex +
+                        " of " +
+                        rows.length +
+                        " entries";
+                }
+            }
+
+            firstPageButton.disabled =
+                currentPage === 1;
+
+            previousPageButton.disabled =
+                currentPage === 1;
+
+            nextPageButton.disabled =
+                currentPage === pageCount;
+
+            lastPageButton.disabled =
+                currentPage === pageCount;
+
+            renderPageButtons();
+        }
+
+        function renderPageButtons() {
+            var pageCount = getPageCount();
+
+            pageNumberButtons.innerHTML = "";
+
+            var startPage =
+                Math.max(1, currentPage - 2);
+
+            var endPage =
+                Math.min(pageCount, startPage + 4);
+
+            if (endPage - startPage < 4) {
+                startPage =
+                    Math.max(1, endPage - 4);
+            }
+
+            for (
+                var page = startPage;
+                page <= endPage;
+                page++
+            ) {
+                (function (pageNumber) {
+                    var button =
+                        document.createElement("button");
+
+                    button.type = "button";
+                    button.className =
+                        "page-button" +
+                        (
+                            pageNumber === currentPage
+                                ? " active"
+                                : ""
+                        );
+
+                    button.textContent = pageNumber;
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+                            showPage(pageNumber);
+                        }
+                    );
+
+                    pageNumberButtons.appendChild(button);
+                })(page);
+            }
+        }
+
+        pageSizeSelector.addEventListener(
+            "change",
+            function () {
+                pageSize =
+                    parseInt(
+                        pageSizeSelector.value,
+                        10
+                    ) || 5;
+
+                showPage(1);
+            }
+        );
+
+        firstPageButton.addEventListener(
+            "click",
+            function () {
+                showPage(1);
+            }
+        );
+
+        previousPageButton.addEventListener(
+            "click",
+            function () {
+                showPage(currentPage - 1);
+            }
+        );
+
+        nextPageButton.addEventListener(
+            "click",
+            function () {
+                showPage(currentPage + 1);
+            }
+        );
+
+        lastPageButton.addEventListener(
+            "click",
+            function () {
+                showPage(getPageCount());
+            }
+        );
+
+        var columnButton =
+            document.getElementById("columnButton");
+
+        var columnMenu =
+            document.getElementById("columnMenu");
+
+        if (columnButton && columnMenu) {
+            columnButton.addEventListener(
+                "click",
+                function (event) {
+                    event.stopPropagation();
+
+                    columnMenu.classList.toggle("open");
+                }
+            );
+
+            columnMenu.addEventListener(
+                "click",
+                function (event) {
+                    event.stopPropagation();
+                }
+            );
+
+            document.addEventListener(
+                "click",
+                function () {
+                    columnMenu.classList.remove("open");
+                }
+            );
+
+            var columnCheckboxes =
+                columnMenu.querySelectorAll(
+                    "input[data-column]"
+                );
+
+            Array.prototype.forEach.call(
+                columnCheckboxes,
+                function (checkbox) {
+                    checkbox.addEventListener(
+                        "change",
+                        function () {
+                            var columnIndex =
+                                parseInt(
+                                    checkbox.getAttribute(
+                                        "data-column"
+                                    ),
+                                    10
+                                );
+
+                            var displayValue =
+                                checkbox.checked
+                                    ? ""
+                                    : "none";
+
+                            var headerCell =
+                                table.querySelector(
+                                    "thead tr"
+                                ).children[columnIndex];
+
+                            if (headerCell) {
+                                headerCell.style.display =
+                                    displayValue;
+                            }
+
+                            var bodyRows =
+                                table.querySelectorAll(
+                                    "tbody tr"
+                                );
+
+                            Array.prototype.forEach.call(
+                                bodyRows,
+                                function (row) {
+                                    var cell =
+                                        row.children[
+                                            columnIndex
+                                        ];
+
+                                    if (cell) {
+                                        cell.style.display =
+                                            displayValue;
+                                    }
+                                }
+                            );
+                        }
+                    );
+                }
+            );
+        }
+
+        var exportButton =
+            document.getElementById(
+                "exportDashboardButton"
+            );
+
+        if (exportButton) {
+            exportButton.addEventListener(
+                "click",
+                function () {
+                    var csvRows = [];
+
+                    var headers =
+                        table.querySelectorAll(
+                            "thead th"
+                        );
+
+                    var headerValues = [];
+
+                    Array.prototype.forEach.call(
+                        headers,
+                        function (header) {
+                            if (
+                                header.style.display !==
+                                "none"
+                            ) {
+                                headerValues.push(
+                                    '"' +
+                                    header.innerText
+                                        .replace(
+                                            /\r?\n|\r/g,
+                                            " "
+                                        )
+                                        .replace(
+                                            /"/g,
+                                            '""'
+                                        ) +
+                                    '"'
+                                );
+                            }
+                        }
+                    );
+
+                    csvRows.push(
+                        headerValues.join(",")
+                    );
+
+                    rows.forEach(function (row) {
+                        var values = [];
+
+                        Array.prototype.forEach.call(
+                            row.children,
+                            function (cell) {
+                                if (
+                                    cell.style.display !==
+                                    "none"
+                                ) {
+                                    values.push(
+                                        '"' +
+                                        cell.innerText
+                                            .replace(
+                                                /\r?\n|\r/g,
+                                                " "
+                                            )
+                                            .trim()
+                                            .replace(
+                                                /"/g,
+                                                '""'
+                                            ) +
+                                        '"'
+                                    );
+                                }
+                            }
+                        );
+
+                        csvRows.push(values.join(","));
+                    });
+
+                    var csvContent =
+                        csvRows.join("\r\n");
+
+                    var blob =
+                        new Blob(
+                            [csvContent],
+                            {
+                                type:
+                                    "text/csv;charset=utf-8;"
+                            }
+                        );
+
+                    var url =
+                        URL.createObjectURL(blob);
+
+                    var link =
+                        document.createElement("a");
+
+                    link.href = url;
+                    link.download =
+                        "IVT_Trading_Volume_Analysis.csv";
+
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+
+                    URL.revokeObjectURL(url);
+                }
+            );
+        }
+
+        showPage(1);
+    })();
+</script>

@@ -1,0 +1,207 @@
+﻿@model IEnumerable<AFSDataGateway.Models.vAccountComments>
+
+@{
+
+
+    ViewBag.Title = "All Customer Comments";
+    if (TempData["Utype"] == null)
+    {
+        TempData["Utype"] = 0;
+    }
+    if (Session["Utype"] == null)
+    {
+        Session["Utype"] = 0;
+    }
+    if ((int)TempData["Utype"] == 1 || (int)Session["Utype"] == 1)
+    {
+
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+
+}
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+@section css {
+    <style>
+        .filter-table .quick {
+            margin-left: 0.5em;
+            font-size: 0.8em;
+            text-decoration: none;
+            font-family: "TitilliumWeb";
+        }
+
+        .fitler-table .quick:hover {
+            text-decoration: underline;
+            font-family: "TitilliumWeb";
+        }
+
+        td.alt {
+            background-color: #ffc;
+            background-color: rgba(255, 255, 0, 0.2);
+            font-family: "TitilliumWeb";
+        }
+    </style>
+}
+
+
+@{
+    var startdate = (DateTime)ViewBag.startdate;
+    var enddate = (DateTime)ViewBag.enddate;
+    var Search = "";
+}
+<br />
+<br />
+@using (Html.BeginForm("SearchCommentHistory", "IntegrityConsignment", FormMethod.Get))
+{
+
+<div style="font-family: TitilliumWeb">
+    Customer Group:@Html.TextBox("search", Search)
+    From Date: @Html.TextBox("startdate", string.Format("{0:dd MMM yyy}", startdate), new { @value = startdate, @class = "datefield", type = "date" })
+    To Date: @Html.TextBox("enddate", string.Format("{0:dd MMM yyy}", enddate), new { @value = enddate, @class = "datefield", type = "date" })
+
+    <input type="submit" value="Search" />
+</div>
+
+}
+<br />
+<div style="color:blue;font-family: TitilliumWeb-Regular">
+    For The Invoice Week Between @startdate.ToShortDateString() and @enddate.ToShortDateString().
+</div>
+
+<br />
+<table class="table table-bordered table-striped " id="accountcommentTable">
+    <tr>
+        <th style="white-space:nowrap">
+            @Html.Label("", (string)"Invoice Week")
+        </th>
+        <th style="white-space:nowrap">
+            @Html.Label("", (string)"Account Manager")
+        </th>
+        <th>
+            @Html.Label("", (string)"Customer")
+        </th>
+        @*<th style="white-space:nowrap">
+                @Html.Label("", (string)"Business Update")
+            </th>*@
+        <th style="white-space:nowrap">
+            @Html.Label("", (string)"Financial Update")
+        </th>
+        <th style="white-space:nowrap">
+            @Html.Label("", (string)"Risk Level")
+        </th>
+        <th style="white-space:nowrap">
+            @Html.Label("", (string)"At Risk Reason")
+        </th>
+        <th style="white-space:nowrap">
+            @Html.Label("", (string)"Action Plan")
+        </th>
+        <th style="white-space:nowrap">
+            @Html.Label("", (string)"Executive Support Required")
+        </th>
+        <th style="white-space:nowrap">
+            @Html.Label("", (string)"Due Date")
+        </th>
+        <th style="white-space:nowrap">
+            @Html.Label("", (string)"Contract Status")
+        </th>
+        @*<th style="white-space:nowrap">
+                @Html.Label("", (string)"Contract Status Update")
+            </th>*@
+        <th style="white-space:nowrap">
+            @Html.Label("", (string)"Last Invoice Date")
+        </th>
+        <th>
+            @Html.Label("", (string)"Action")
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        string Risk = (item.RiskLevel != null ? item.RiskLevel.ToUpper().Trim() : "NA");
+
+<tr style="@(Risk == "HIGH" ? "Background-color:#FFA07A" : Risk == "MEDIUM"?"Background-color:#FFFACD": Risk == "LOST"?"Background-color:#CD5C5C":"Background-color:#90EE90")">
+    <td style="white-space:nowrap">
+        @Html.DisplayFor(modelItem => item.InvoiceWeek).ToString().Substring(0, (item.InvoiceWeek.ToString().Length > 10) ? 10 : item.InvoiceWeek.ToString().Length)
+    </td>
+    <td style="white-space:nowrap">
+        @Html.DisplayFor(modelItem => item.DWHEditor)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CustomerGroup)
+    </td>
+    @*<td style="white-space:nowrap">
+            @Html.DisplayFor(modelItem => item.CustomerBusinessUpdate).ToString().Substring(0, (item.CustomerBusinessUpdate.Length > 100) ? 100 : item.CustomerBusinessUpdate.Length)
+        </td>*@
+    <td>
+        @Html.DisplayFor(modelItem => item.RevenueComment).ToString().Substring(0, (item.RevenueComment.Length > 100) ? 100 : item.RevenueComment.Length)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.RiskLevel)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CustomerComment).ToString().Substring(0, (item.CustomerComment.Length > 100) ? 100 : item.CustomerComment.Length)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ActionRequired)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Executive)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DueDate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ContractStatus)
+    </td>
+    @*<td>
+            @Html.DisplayFor(modelItem => item.ContractStatusUpdate).ToString().Substring(0, (item.ContractStatusUpdate.Length > 100) ? 100 : item.ContractStatusUpdate.Length)
+        </td>*@
+
+    <td>
+        @Html.DisplayFor(modelItem => item.LastInvoiceDate).ToString().Substring(0, (item.LastInvoiceDate.ToString().Length > 10) ? 10 : item.LastInvoiceDate.ToString().Length)
+    </td>
+
+    <td style="white-space:nowrap">
+        @Html.ActionLink("View", "ViewCommentHistory", new { Id = item.Id })
+        @*|
+            @Html.ActionLink("Delete", "Delete", new { Id = item.Id })*@
+
+    </td>
+</tr>
+    }
+
+</table>
+
+
+@section scripts {
+    <script src="@Url.Content("~/Scripts/jquery.filtertable.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#accountcommentTable').filterTable({ ignoreClass: 'no-filter' });
+
+            $('#ddlFilterColumns').change(function () {
+                var index = $(this).val();
+                if (index == "")
+                    $('#accountcommentTable td').removeClass('no-filter');
+                else {
+                    $('#accountcommentTable>tbody>tr>td').addClass('no-filter');
+                    $('#accountcommentTable>tbody>tr').each(function () {
+                        $('td:eq(' + index + ')', this).removeClass('no-filter');
+                    });
+                }
+            });
+        });
+    </script>
+}

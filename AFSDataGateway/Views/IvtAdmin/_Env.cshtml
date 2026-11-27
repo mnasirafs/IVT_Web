@@ -1,0 +1,21 @@
+@using AFSDataGateway.Services.IvtAdmin
+@model IvtEnvironment
+@{
+    // Environment switch links: the action and other query values are kept; only env changes.
+    var testAllowed = ViewData["TestAllowed"] as bool? ?? true;
+    var query = HttpUtility.ParseQueryString(Request.QueryString.ToString());
+    Func<string, string> link = e => { query["env"] = e; return Request.Path + "?" + query; };
+}
+<div class="ivt-envbar">
+    <span class="ivt-env @Model.Key()" role="status">
+        <i class="fas @(Model == IvtEnvironment.Production ? "fa-exclamation-triangle" : "fa-flask")"></i>
+        @Model.Label()
+    </span>
+    @if (testAllowed)
+    {
+        <span class="switch">Environment:
+            <a href="@link("production")" class="btn btn-sm @(Model == IvtEnvironment.Production ? "btn-danger" : "btn-outline-secondary")">Production</a>
+            <a href="@link("test")" class="btn btn-sm @(Model == IvtEnvironment.Test ? "btn-warning" : "btn-outline-secondary")">Test</a>
+        </span>
+    }
+</div>

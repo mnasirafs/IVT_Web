@@ -1,0 +1,58 @@
+@using AFSDataGateway.Services.IvtAdmin
+@model IvtEntityDef
+@{
+    var env = (IvtEnvironment)ViewBag.IvtEnvironment;
+    ViewBag.Title = Model.Title;
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    // Field metadata for the editor; types/limits mirror the verified procedure parameters.
+    var def = Newtonsoft.Json.JsonConvert.SerializeObject(new
+    {
+        key = Model.Key,
+        fields = Model.Fields.Select(f => new
+        {
+            column = f.Column, label = f.Label, section = f.Section ?? "General", kind = f.Kind.ToString(), readOnly = f.ReadOnly, required = f.Required,
+            toggle = f.Toggle, help = f.Help, hasUpdate = f.Update != null, hasCreate = f.Create != null, fixedOnCreate = f.HasCreateFixedValue,
+            maxLength = f.Kind == IvtFieldKind.Text ? (int?)Math.Min(f.Update == null ? int.MaxValue : f.Update.Size, f.Create == null ? int.MaxValue : f.Create.Size) : null
+        })
+    });
+    var sections = Model.Fields.Where(f => f.Create != null && !f.HasCreateFixedValue).Select(f => f.Section ?? "General").Distinct().ToList();
+}
+@Html.Partial("~/Views/IvtAdmin/_Assets.cshtml")
+<div class="ivt-adm" data-ivt-page="settings" data-env="@env.Key()" data-env-label="@env.Label()" data-def="@def"
+     data-search-url="@Url.Action("Search")" data-update-url="@Url.Action("Update")" data-update-all-url="@Url.Action("UpdateAll")"
+     data-create-url="@Url.Action("Create")" data-toggle-url="@Url.Action("Toggle")">
+    <h2>@Model.Title</h2>
+    <p class="sub">@Model.Description</p>
+    @Html.Partial("~/Views/IvtAdmin/_Env.cshtml", env)
+    @if (!string.IsNullOrEmpty(Model.Note) && env == IvtEnvironment.Production)
+    {
+        <div class="alert alert-warning">@Model.Note</div>
+    }
+    <div id="ivt-msg"></div>
+
+    <div class="card-box">
+        <form id="ivt-search-form" class="toolbar" role="search">
+            <div><label for="ivt-search">Search (blank = all records)</label><input id="ivt-search" class="form-control" maxlength="500" /></div>
+            <button type="submit" id="ivt-search-go" class="btn btn-primary">Search / refresh</button>
+            <button type="button" id="ivt-save-all" class="btn btn-outline-primary" disabled>Save all displayed (0)</button>
+            <span id="ivt-count" class="muted" style="display:inline"></span>
+        </form>
+        <p class="muted">Edit cells and press <b>Save</b> on a row, or <b>Save all displayed</b> to save every changed row in this result (only rows shown here; the server re-checks the result before writing).
+            Grey rows are deleted/disabled. Id and timestamps are read-only.</p>
+        <div id="ivt-grid"></div>
+    </div>
+
+    <div class="card-box">
+        <h3>Add a record (@env.Label())</h3>
+        <form id="ivt-create">
+            <div class="sections">
+                @foreach (var s in sections)
+                {
+                    <fieldset data-section="@s"><legend>@s</legend></fieldset>
+                }
+                @if (!sections.Contains("General")) { <fieldset data-section="General" hidden></fieldset> }
+            </div>
+            <button type="submit" class="btn btn-success mt-2">Create</button>
+        </form>
+    </div>
+</div>

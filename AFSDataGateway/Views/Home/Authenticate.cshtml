@@ -1,0 +1,84 @@
+﻿@model AFSDataGateway.Models.User
+
+@{
+    ViewBag.Title = "Login Page";
+
+}
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/css")
+
+
+}
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<div style="font-family: TitilliumWeb">
+    <h2>Login Page</h2>
+</div>
+<hr />
+<br />
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row form-horizontal">
+        <div class="col-md-12">
+
+            <div class="form-group">
+                @Html.Label("Login Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.TextBoxFor(model => model.Username,  new { @Value = @Context.Request.LogonUserIdentity.Name.Split('\\').Last(), htmlattributes = new { @class = "form-control", placeholder = "User name" } } )
+                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.PasswordFor(model => model.Password, new { htmlattributes = new { @class = "form-control", placeholder = "password" } })
+                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                @Html.Label("", (string)"remember me", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                <div class="col-md-10">
+                    @Html.CheckBoxFor(m => m.RememberMe)
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Login" class="btn btn-success" />
+                    @if (AFSDataGateway.Services.Entra.EntraAuth.Enabled)
+                    {
+                        <a href="@Url.Action("SignIn", "Entra")" class="btn btn-primary" style="margin-left:8px">Sign in with Microsoft</a>
+                    }
+                </div>
+            </div>
+            <div style="font-family: TitilliumWeb">
+                @Html.Label("", (string)@ViewBag.Message, new { @class = "myfaillabel" })
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+}
+

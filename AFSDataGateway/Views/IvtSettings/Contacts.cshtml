@@ -1,0 +1,28 @@
+@using AFSDataGateway.Services.IvtAdmin
+@{
+    var env = (IvtEnvironment)ViewBag.IvtEnvironment;
+    ViewBag.Title = "Shared email contacts";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@Html.Partial("~/Views/IvtAdmin/_Assets.cshtml")
+<div class="ivt-adm" data-ivt-page="contacts" data-env="@env.Key()" data-env-label="@env.Label()" data-save-url="@Url.Action("SaveContacts")">
+    <h2>Shared email contacts</h2>
+    <p class="sub">Manage shared notification contacts.
+        Separate several addresses with <b>;</b>.</p>
+    @Html.Partial("~/Views/IvtAdmin/_Env.cshtml", env)
+    @if ((int)ViewBag.Rows != 1)
+    {
+        <div class="alert alert-warning">Found @ViewBag.Rows contact configuration records; exactly one is expected. Saving updates every contact configuration record.</div>
+    }
+    <div id="ivt-msg"></div>
+    <form id="ivt-contacts" class="card-box" style="max-width:900px">
+        <div class="ivt-field"><label for="cc">CC contacts (CC_Contact) - copied on AM emails; the bulk hold/release loader also uses these</label>
+            <textarea id="cc" class="form-control" rows="2" maxlength="1000">@ViewBag.Cc</textarea></div>
+        <div class="ivt-field"><label for="exec">Executive contacts (EXEC_Contact)</label>
+            <textarea id="exec" class="form-control" rows="2" maxlength="1000">@ViewBag.Exec</textarea></div>
+        <div class="ivt-field"><label for="admin">Admin contacts (ADMIN_Contact) - receive comment notifications</label>
+            <textarea id="admin" class="form-control" rows="2" maxlength="1000">@ViewBag.Admin</textarea></div>
+        <p class="muted">Comment notifications also copy the finance contacts, which are managed separately from these contacts.</p>
+        <button type="submit" class="btn btn-primary">Save contacts</button>
+    </form>
+</div>

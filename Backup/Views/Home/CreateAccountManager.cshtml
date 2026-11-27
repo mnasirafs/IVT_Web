@@ -1,0 +1,52 @@
+﻿@model AFSDataGateway.Models.CustomerAccountManager
+
+@{
+    ViewBag.Title = "Add Account Manager";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <div style="font-family: TitilliumWeb">
+        <h4>New Customer Account Manager</h4>
+        </div>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Customer", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.CustomerCode, ViewBag.Customers as SelectList)
+                @Html.ValidationMessageFor(model => model.CustomerCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Account Manager", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.AccountManager, ViewBag.AccountManagers as SelectList)
+                @Html.ValidationMessageFor(model => model.AccountManager, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+    }
+
+<div style="font-family: TitilliumWeb">
+    @Html.ActionLink("Back to List", "AccountManagerList")
+</div>

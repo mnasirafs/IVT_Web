@@ -1,0 +1,241 @@
+@model AFSDataGateway.Services.ML.MLReviewPage
+@{
+    ViewBag.Title = "ML Findings";
+    Layout = ViewBag.IsAdmin == true ? "~/Views/Shared/_AdminLayout.cshtml" : "~/Views/Shared/_Layout.cshtml";
+    var weekValue = Model.Week.HasValue ? Model.Week.Value.ToString("yyyy-MM-dd") : "";
+    Func<decimal?, string> money = v => v.HasValue ? (v.Value < 0 ? "-$" : "$") + Math.Abs(v.Value).ToString("N2") : "&mdash;";
+    var outcomeLabels = new System.Collections.Generic.Dictionary<string, string> {
+        { "IncorrectBuy", "Incorrect buy (carrier) charge" }, { "IncorrectSell", "Incorrect sell (customer) charge" },
+        { "IncorrectDimensions", "Incorrect weight / dimensions" }, { "DuplicateCharge", "Duplicate charge" }, { "MissingCharge", "Missing charge" },
+        { "ValidRateChange", "Valid - rate change" }, { "ValidTransaction", "Valid - nothing wrong" }, { "InsufficientInformation", "Not enough information" } };
+}
+<style>
+    .mlr { max-width: 1200px; font-family: inherit; }
+    .mlr h2 { margin: 0 0 4px; }
+    .mlr .mlr-sub { color: #4b5563; margin: 0 0 16px; }
+    .mlr .mlr-notice { padding: 10px 14px; border-radius: 6px; margin-bottom: 14px; background: #ecfdf5; border: 1px solid #10b981; }
+    .mlr .mlr-notice.err { background: #fef2f2; border-color: #ef4444; }
+    .mlr .mlr-stats { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+    .mlr .mlr-stat { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px 16px; min-width: 130px; }
+    .mlr .mlr-stat b { display: block; font-size: 22px; }
+    .mlr .mlr-filters { display: flex; gap: 10px; flex-wrap: wrap; align-items: end; margin-bottom: 16px; }
+    .mlr .mlr-filters label { display: block; font-size: 12px; color: #4b5563; }
+    .mlr .mlr-card { background: #fff; border: 1px solid #e5e7eb; border-left: 4px solid #b45309; border-radius: 8px; padding: 14px 16px; margin-bottom: 12px; }
+    .mlr .mlr-card.random { border-left-color: #2563eb; }
+    .mlr .mlr-card.done { border-left-color: #10b981; opacity: .9; }
+    .mlr .mlr-head { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+    .mlr .mlr-title { font-weight: 600; font-size: 15px; }
+    .mlr .mlr-badges span { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 10px; margin-left: 4px; background: #f3f4f6; }
+    .mlr .b-random { background: #dbeafe !important; } .mlr .b-rule { background: #fef3c7 !important; } .mlr .b-done { background: #d1fae5 !important; } .mlr .b-held { background: #fee2e2 !important; }
+    .mlr .mlr-facts { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: #374151; margin: 8px 0; }
+    .mlr .mlr-expl { margin: 8px 0; line-height: 1.45; }
+    .mlr .mlr-action { font-size: 13px; color: #92400e; }
+    .mlr details { margin-top: 10px; }
+    .mlr summary { cursor: pointer; font-weight: 600; color: #1f2937; }
+    .mlr .mlr-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 10px; }
+    .mlr .mlr-form label { font-size: 12px; color: #4b5563; display: block; }
+    .mlr .mlr-form select, .mlr .mlr-form input, .mlr .mlr-form textarea { width: 100%; }
+    .mlr .mlr-form .wide { grid-column: 1 / -1; }
+    .mlr .mlr-review { font-size: 13px; background: #f0fdf4; padding: 6px 10px; border-radius: 6px; margin-top: 8px; }
+    .mlr .muted { color: #6b7280; font-size: 12px; }
+</style>
+
+<div class="mlr">
+    <h2>ML Findings</h2>
+    <p class="mlr-sub">Consignments the anomaly-detection model found unusual (shadow mode &ndash; not IVT exceptions yet). Your assessments train the next model version. Scope: @Model.ScopeLabel</p>
+
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <div class="mlr-notice @(Model.MessageIsError ? "err" : "")" role="status">@Model.Message</div>
+    }
+
+    @if (!Model.Week.HasValue)
+    {
+        <p>No ML findings are available yet for your account.</p>
+    }
+    else
+    {
+        <div class="mlr-stats">
+            <div class="mlr-stat"><b>@Model.Total</b>findings this week</div>
+            <div class="mlr-stat"><b>@Model.Reviewed</b>assessed</div>
+            <div class="mlr-stat"><b>@Model.Confirmed</b>confirmed exceptions</div>
+            <div class="mlr-stat"><b>@Model.Valid</b>valid</div>
+        </div>
+
+        using (Html.BeginForm("Index", "MLReview", FormMethod.Get, new { @class = "mlr-filters" }))
+        {
+            <div>
+                <label for="week">Invoice week</label>
+                <select id="week" name="week">
+                    @foreach (var w in Model.Weeks)
+                    {
+                        <option value="@w.ToString("yyyy-MM-dd")" @(w == Model.Week ? "selected" : "")>@w.ToString("dd MMM yyyy")</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <label for="status">Status</label>
+                <select id="status" name="status">
+                    <option value="pending" @(Model.Status == "pending" ? "selected" : "")>To assess</option>
+                    <option value="reviewed" @(Model.Status == "reviewed" ? "selected" : "")>Assessed</option>
+                    <option value="all" @(Model.Status == "all" ? "selected" : "")>All</option>
+                </select>
+            </div>
+            <div>
+                <label for="stratum">Type</label>
+                <select id="stratum" name="stratum">
+                    <option value="all" @(Model.Stratum == "all" ? "selected" : "")>All</option>
+                    <option value="candidates" @(Model.Stratum == "candidates" ? "selected" : "")>Model findings</option>
+                    <option value="random" @(Model.Stratum == "random" ? "selected" : "")>Random checks</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Apply</button>
+        }
+
+        if (!Model.Items.Any())
+        {
+            <p>Nothing to show for this filter.</p>
+        }
+
+        foreach (var i in Model.Items)
+        {
+            var random = i.SamplingStratum == "RANDOM_CHECK";
+            var done = i.ReviewOutcome != null;
+            <div class="mlr-card @(random ? "random" : "") @(done ? "done" : "")">
+                <div class="mlr-head">
+                    <div class="mlr-title">
+                        Connote @i.ConsignmentNote &middot; Job @i.JobNumber &middot; @i.Customer via @i.Carrier
+                    </div>
+                    <div class="mlr-badges">
+                        @if (random) { <span class="b-random" title="Randomly selected unflagged transaction - helps measure what the model misses">Random check</span> }
+                        @if (i.AlreadyRuleFlagged == true) { <span class="b-rule" title="Also flagged by IVT rule(s)">IVT rule @i.RuleCodes</span> }
+                        @if (done) { <span class="b-done">Assessed</span> }
+                        @if (i.IsHeld) { <span class="b-held" title="@i.HoldReason">Held by @i.HeldBy</span> }
+                    </div>
+                </div>
+                <div class="mlr-facts">
+                    <span>Sell @Html.Raw(money(i.SellNett))</span>
+                    <span>Buy @Html.Raw(money(i.BuyNett))</span>
+                    <span>Margin @Html.Raw(money(i.Margin))</span>
+                    <span>@(i.CurrencyCode ?? "")</span>
+                    <span>Lane @i.FromLocation &rarr; @i.ToLocation (@i.WorkCode)</span>
+                    @if (i.ChargeableWeight.HasValue) { <span>Chargeable @i.ChargeableWeight.Value.ToString("N1") kg</span> }
+                    @if (i.AEAnomalyPercentile.HasValue) { <span title="Share of the model's reference transactions that are less unusual. Not a probability.">Unusualness @i.AEAnomalyPercentile.Value.ToString("N1")th percentile</span> }
+                    @if (i.EvidenceCount.HasValue && !random) { <span>@i.EvidenceCount independent signal(s)</span> }
+                </div>
+                @if (!string.IsNullOrEmpty(i.ReasonSummary) && !random) { <div><strong>@i.ReasonSummary</strong></div> }
+                <div class="mlr-expl">@i.ExplanationText</div>
+                @if (!string.IsNullOrEmpty(i.RecommendedAction) && !random) { <div class="mlr-action">Suggested check: @i.RecommendedAction</div> }
+
+                @if (done)
+                {
+                    <div class="mlr-review">
+                        Assessed by @i.ReviewedBy on @(i.ReviewedAt.HasValue ? i.ReviewedAt.Value.ToString("dd MMM yyyy HH:mm") : "") (UTC):
+                        <strong>@(outcomeLabels.ContainsKey(i.OutcomeType ?? "") ? outcomeLabels[i.OutcomeType] : i.OutcomeType)</strong>
+                        @if (!string.IsNullOrEmpty(i.ReviewComments)) { <span> &ndash; @i.ReviewComments</span> }
+                    </div>
+                }
+
+                <details>
+                    <summary>@(done ? "Change assessment" : "Assess this finding")</summary>
+                    @using (Html.BeginForm("Assess", "MLReview", FormMethod.Post, new { @class = "mlr-form", data_mlr = "1" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="snapshotKey" value="@i.SnapshotKey" />
+                        <input type="hidden" name="week" value="@weekValue" />
+                        <input type="hidden" name="status" value="@Model.Status" />
+                        <input type="hidden" name="stratum" value="@Model.Stratum" />
+                        <div>
+                            <label>Assessment</label>
+                            <select name="reviewOutcome" required data-mlr-outcome="1">
+                                <option value="">Choose&hellip;</option>
+                                <option value="CONFIRMED_EXCEPTION">Confirmed exception</option>
+                                <option value="CONFIRMED_VALID">Valid - no issue</option>
+                                <option value="INSUFFICIENT_INFORMATION">Not enough information</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Outcome type</label>
+                            <select name="outcomeType" required data-mlr-type="1">
+                                <option value="">Choose the assessment first</option>
+                                @foreach (var group in AFSDataGateway.Services.ML.MLReviewService.OutcomeTypes)
+                                {
+                                    foreach (var t in group.Value)
+                                    {
+                                        <option value="@t" data-group="@group.Key" hidden>@outcomeLabels[t]</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div><label>Corrected buy amount (optional)</label><input type="number" step="0.01" name="correctedBuyAmount" /></div>
+                        <div><label>Corrected sell amount (optional)</label><input type="number" step="0.01" name="correctedSellAmount" /></div>
+                        <div><label>Confirmed financial impact (optional)</label><input type="number" step="0.01" name="confirmedFinancialImpact" /></div>
+                        <div class="wide"><label>Comment (required for a confirmed exception unless a corrected amount is given)</label><textarea name="comments" rows="2" maxlength="2000"></textarea></div>
+                        <div class="wide"><button type="submit" class="btn btn-success">Save assessment</button>
+                            <span class="muted">Saved as a new version; earlier assessments are kept for audit.</span></div>
+                    }
+                </details>
+
+                @if (!i.IsHeld)
+                {
+                    <details>
+                        <summary>Hold this connote</summary>
+                        @using (Html.BeginForm("Hold", "MLReview", FormMethod.Post, new { @class = "mlr-form", data_mlr_hold = "1" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="snapshotKey" value="@i.SnapshotKey" />
+                            <input type="hidden" name="week" value="@weekValue" />
+                            <input type="hidden" name="status" value="@Model.Status" />
+                            <input type="hidden" name="stratum" value="@Model.Stratum" />
+                            <div>
+                                <label>Reason for holding</label>
+                                <select name="holdReason" required data-mlr-hold-reason="1">
+                                    <option value="">Choose&hellip;</option>
+                                    @foreach (var r in AFSDataGateway.Services.ML.MLReviewService.HoldReasons)
+                                    {
+                                        <option value="@r">@r</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="wide"><label>Details (required when the reason is "Other")</label><textarea name="holdComments" rows="2" maxlength="2000" data-mlr-hold-comments="1"></textarea></div>
+                            <div class="wide"><button type="submit" class="btn btn-warning">Hold connote @i.ConsignmentNote</button>
+                                <span class="muted">IVT admins are notified.</span></div>
+                        }
+                    </details>
+                }
+                else if (!string.IsNullOrEmpty(i.HoldReason))
+                {
+                    <div class="mlr-review">Held by @i.HeldBy: <strong>@i.HoldReason</strong></div>
+                }
+                <div class="muted">Model @i.ModelVersion &middot; decision @i.Decision</div>
+            </div>
+        }
+    }
+</div>
+
+<script>
+    // Show only the outcome types that belong to the chosen assessment.
+    document.querySelectorAll('form[data-mlr]').forEach(function (form) {
+        var outcome = form.querySelector('[data-mlr-outcome]');
+        var type = form.querySelector('[data-mlr-type]');
+        outcome.addEventListener('change', function () {
+            var first = null;
+            type.querySelectorAll('option[data-group]').forEach(function (o) {
+                o.hidden = o.getAttribute('data-group') !== outcome.value;
+                if (!o.hidden && !first) first = o;
+            });
+            type.value = first ? first.value : '';
+            type.options[0].textContent = outcome.value ? 'Choose...' : 'Choose the assessment first';
+        });
+    });
+
+    // "Other" needs a written reason; confirm before holding.
+    document.querySelectorAll('form[data-mlr-hold]').forEach(function (form) {
+        var reason = form.querySelector('[data-mlr-hold-reason]');
+        var comments = form.querySelector('[data-mlr-hold-comments]');
+        reason.addEventListener('change', function () { comments.required = reason.value === 'Other'; });
+        form.addEventListener('submit', function (e) {
+            if (!confirm('Hold this connote? IVT admins will be notified.')) e.preventDefault();
+        });
+    });
+</script>

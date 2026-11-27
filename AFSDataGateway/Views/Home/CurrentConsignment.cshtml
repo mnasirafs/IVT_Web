@@ -1,0 +1,473 @@
+﻿
+@{
+    ViewBag.Title = "Hold Connote";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+@model IEnumerable<AFSDataGateway.Models.vIVT_Result_Admin>
+
+
+
+
+
+@section css {
+    <style>
+        .filter-table .quick {
+            margin-left: 0.5em;
+            font-size: 0.8em;
+            text-decoration: none;
+            font-family: "TitilliumWeb";
+        }
+
+        .fitler-table .quick:hover {
+            text-decoration: underline;
+            font-family: "TitilliumWeb";
+        }
+
+        td.alt {
+            background-color: #ffc;
+            background-color: rgba(255, 255, 0, 0.2);
+            font-family: "TitilliumWeb";
+        }
+
+        .table {
+            font-size: 14px;
+        }
+
+        #IVTResutlsTable_wrapper {
+            overflow-x: auto;
+            max-width: 100%; /* Adjust as needed */
+        }
+    </style>
+}
+
+<div style=" font-size:15px; font-family: TitilliumWeb">
+    @if ((string)TempData["UserName"] != null)
+    {
+        @Html.Label("", (string)@ViewBag.lblGreeting + (string)TempData["UserName"] + ".", new { @class = "lastUpdateLabel" })
+    }
+</div>
+<br />
+<div style="border: solid 1px blue;font-size:14px; visibility: @ViewBag.ViewMessage;font-family: TitilliumWeb">
+    @if (TempData["message"] != null && @ViewBag.messageStatus == 1)
+    {
+        @Html.Label("", (string)TempData["message"], new { @class = "mysucesslabel" })
+    }
+</div>
+
+<div style="border: solid 1px blue; font-size:14px; visibility: @ViewBag.ViewMessage;font-family: TitilliumWeb">
+    @if (TempData["message"] != null && @ViewBag.messageStatus == 2)
+    {
+        @Html.Label("", (string)TempData["message"], new { @class = "myfaillabel" })
+    }
+</div>
+
+
+
+@{
+    var despatchDate = DateTime.Now;
+
+    var Search = "";
+    var customerGroupFilter = "";
+    var customerFilter = "";
+    var carrierFilter = "";
+    var workcodeFilter = "";
+    var minMargin = "";
+    var maxMargin = "";
+}
+
+<br />
+<div class="form-horizontal">
+    <div style="font-family: TitilliumWeb;color:blue">
+        <h4>Explore MOST RECENT IVT Exceptions: Use the <strong>Search</strong> function with Connote, Customer, or Error to delve into specific details.</h4>
+        <h5>Displayed here are the first 100 records. For the entire dataset, utilize the download CSV button.</h5>
+    </div>
+</div>
+<br />
+@using (Html.BeginForm("CurrentConsignment", "Home", FormMethod.Get))
+{
+
+    <div style="font-family: TitilliumWeb">
+        Search(Any) @Html.TextBox("search", Search)
+
+        Account Manager @Html.DropDownList("accountManagerFilter", ViewBag.UniqueAccountManager as SelectList, "Select AccountManager")
+
+        @*Customer Group @Html.DropDownList("customerGroupFilter", ViewBag.UniqueCustomerGroup as SelectList, "Select CustomerGroup")*@
+
+
+        Customer Group <select id="customerGroupFilter" name="customerGroupFilter" data-url="@Url.Action("GetCustomerGroups", "Home", new { viewname = "CurrentConsignment"})">
+            <option value="">@ViewBag.selectedCustomerGroup</option>
+        </select>
+
+        @*Customer @Html.DropDownList("customerFilter", ViewBag.UniqueCustomers as SelectList, "Select Customer")*@
+
+        Customer <select id="customerFilter" name="customerFilter" data-url="@Url.Action("GetCustomers", "Home", new { viewname = "CurrentConsignment"})">
+            <option value="">@ViewBag.selectedCustomer</option>
+        </select>
+
+        Carrier <select id="carrierFilter" name="carrierFilter" data-url="@Url.Action("GetCarriers", "Home", new { viewname = "CurrentConsignment"})">
+            <option value="">@ViewBag.selectedCarrier</option>
+        </select>
+
+        Workcode <select id="workcodeFilter" name="workcodeFilter" data-url="@Url.Action("GetWorkcodes", "Home", new { viewname = "CurrentConsignment"})">
+            <option value="">@ViewBag.selectedWorkCode</option>
+        </select>
+
+        Min Margin @Html.TextBox("minMargin", minMargin)
+        Max Margin @Html.TextBox("maxMargin", maxMargin)
+
+        <input type="submit" value="Search" />
+    </div>
+    @Html.Hidden("selectedAccountManager", (string)ViewBag.selectedAccountManager, new { id = "selectedAccountManager" })
+    @Html.Hidden("selectedCustomerGroup", (string)ViewBag.selectedCustomerGroup, new { id = "selectedCustomerGroup" })
+    @Html.Hidden("selectedCustomer", (string)ViewBag.selectedCustomer, new { id = "selectedCustomer" })
+    @Html.Hidden("selectedCarrier", (string)ViewBag.selectedCarrier, new { id = "selectedCarrier" })
+    @Html.Hidden("selectedWorkCode", (string)ViewBag.selectedWorkCode, new { id = "selectedWorkCode" })
+    <br />
+
+    <br />
+    <div class="form-horizontal" style="visibility: @ViewBag.DisplayForSuperAdmin">
+        <div style="font-family: TitilliumWeb;color:maroon">
+            <h4>You can <strong>HOLD</strong> multiple connotes shared the same <strong>reason.</strong> </h4>
+        </div>
+        @Html.Label("Hold Reason", new { title = "Reason" })
+        @Html.TextArea("Reason", htmlAttributes: new { placeholder = "Why are you holding the consignment(s)?", style = "width: 100%; max-width: 100%;", title = "Reasons" })
+
+        <input type="submit" value="Hold" class="btn btn-primary" />
+        <br />
+    </div>
+
+
+    <hr style="height:2px; width:100%; border-width:0; color:blue; background-color:black" />
+
+
+    <div>
+        <a href="@Url.Action("DownloadCSV_IVTResults", "Home")" class="btn btn-primary">Download CSV</a>
+    </div>
+    <br />
+    <div>
+        <input type="checkbox" id="CheckAll" /><span style="font-size:16px">Select All</span>
+    </div>
+    <div id="checkboxes">
+        <table class="table table-bordered table-striped" id="IVTResutlsTable">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>InvoiceWeek</th>
+                    <th>AM</th>
+                    <th>IsHeld?</th>
+                    <th>Connote</th>
+                    <th>ConnoteDate</th>
+                    <th>Customer</th>
+                    <th>Carrier</th>
+                    <th>SellNett</th>
+                    <th>BuyNett</th>
+                    <th>GM$$</th>
+                    <th>GM%</th>
+                    <th>WorkCode</th>
+                    <th>Reason</th>
+                    <th>Exception Detail</th>
+                    <th>View</th>
+                    <th style="visibility: @ViewBag.DisplayForSuperAdmin">Hold</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    @{
+                        decimal totalNett = Convert.ToDecimal(item.total_nett);
+                        decimal buyNett = Convert.ToDecimal(item.BuyNett);
+                    }
+                    <td><input type="checkbox" name="ID" value="@item.Id" class="custom-checkbox chkCheckBoxId" /></td>
+                    <td>@Convert.ToDateTime(item.CurrentWeek).ToString("dd/MM/yyyy")</td>
+                    <td style="white-space:nowrap">@Html.DisplayFor(modelItem => item.AccountManager)</td>
+                    <td style="white-space:nowrap">@Html.DisplayFor(modelItem => item.IsHeld)</td>
+                    <td style="white-space:nowrap">@Html.DisplayFor(modelItem => item.Connote)</td>
+                    <td>@Convert.ToDateTime(item.cons_date).ToString("dd/MM/yyyy")</td>
+                    <td style="white-space:nowrap">@Html.DisplayFor(modelItem => item.customer)</td>
+                    <td style="white-space:nowrap">@Html.DisplayFor(modelItem => item.carrier)</td>
+                    <td style="white-space:nowrap">@String.Format("{0:C}", totalNett)</td>
+                    <td style="white-space:nowrap">@String.Format("{0:C}", buyNett)</td>
+
+                    <td style="white-space:nowrap">@String.Format("{0:C}", totalNett - buyNett)</td>
+                    <td style="white-space:nowrap">@String.Format("{0:0.00}%", item.GrossMargin)</td>
+                    <td style="white-space:nowrap">@Html.DisplayFor(modelItem => item.work_code)</td>
+                    <td style="white-space:nowrap">@Html.DisplayFor(modelItem => item.Reason)</td>
+                    <td style="white-space:nowrap">@Html.DisplayFor(modelItem => item.Sub_Reason)</td>
+                    <td style="white-space:nowrap">
+                        @Html.ActionLink("View", "ViewReleasedConsignment", new { Id = item.Id })
+                    </td>
+                    <td style="white-space:nowrap;visibility: @ViewBag.DisplayForSuperAdmin">
+                        @Html.ActionLink("Hold", "HoldConsignment", new { Id = item.Id })
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+}
+
+@section scripts {
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- DataTables JS -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#IVTResutlsTable').DataTable();
+        });
+    </script>
+
+
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+        function toggleChecked(status) {
+            $("#checkboxes input").filter(':visible').each(function () {
+                // Set the checked status of each to match the
+                // checked status of the check all checkbox:
+                //$(this).filter(':visible').find("input:checkbox").attr('checked', true);
+                $(this).prop("checked", status);
+            });
+        }
+
+        $(document).ready(function () {
+
+            // Grab a reference to the check all box:
+            var checkAllBox = $("#CheckAll");
+
+            //Set the default value of the global checkbox to true:
+            checkAllBox.prop('checked', false);
+
+            // Attach the call to toggleChecked to the
+            // click event of the global checkbox:
+            checkAllBox.click(function () {
+                var status = checkAllBox.prop('checked');
+                toggleChecked(status);
+            });
+        });
+
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Initialize the dropdowns
+            updateCustomerGroupDropdown();
+            updateCustomerDropdown();
+            updateCarrierDropdown();
+            updateWorkcodeDropdown();
+
+            // Set the initial selected values from hidden fields
+            var initialSelectedCustomerGroup = $("#selectedCustomerGroup").val();
+            var initialSelectedCustomer = $("#selectedCustomer").val();
+            var initialSelectedCarrier = $("#selectedCarrier").val();
+            var initialSelectedWorkCode = $("#selectedWorkCode").val();
+
+            $("#customerGroupFilter").val(initialSelectedCustomerGroup);
+            $("#customerFilter").val(initialSelectedCustomer);
+            $("#carrierFilter").val(initialSelectedCarrier);
+            $("#workcodeFilter").val(initialSelectedWorkCode);
+
+            // Event handlers
+            $("#accountManagerFilter").change(function () {
+                updateCustomerGroupDropdown();
+            });
+
+            $("#customerGroupFilter").change(function () {
+                updateCustomerDropdown();
+            });
+
+            $("#customerFilter").change(function () {
+                updateCarrierDropdown();
+                updateWorkcodeDropdown();
+            });
+
+            $("#carrierFilter").change(function () {
+                updateWorkcodeDropdown();
+            });
+
+
+
+
+            // Function to update CustomerGroup dropdown
+            function updateCustomerGroupDropdown() {
+                var selectedAccountManager = $("#accountManagerFilter").val();
+                var customerGroupDropdown = $("#customerGroupFilter");
+
+                // Clear previous selections
+                customerGroupDropdown.empty().append('<option value="">Select Customer Group</option>');
+
+                if (!selectedAccountManager) {
+                    // If no customer group is selected, fetch all customers directly
+                    fetchAllCustomerGroups();
+                } else {
+                     //Fetch customers based on selected customer group
+                    $.get(customerGroupDropdown.data("url"), { accountmanager: selectedAccountManager }, function (data) {
+                        $.each(data, function (index, item) {
+                            customerGroupDropdown.append('<option value="' + item.value + '">' + item.text + '</option>');
+                        });
+                        $("#customerGroupFilter").val(initialSelectedCustomerGroup).trigger('change');
+                    });
+                }
+            }
+
+
+            // Function to update Customer dropdown
+            function updateCustomerDropdown() {
+                var selectedCustomerGroup = $("#customerGroupFilter").val();
+                var customerDropdown = $("#customerFilter");
+
+                // Clear previous selections
+                customerDropdown.empty().append('<option value="">Select Customer</option>');
+
+                if (!selectedCustomerGroup) {
+                    // If no customer group is selected, fetch all customers directly
+                    fetchAllCustomers();
+                } else {
+                    // Fetch customers based on selected customer group
+                    $.get(customerDropdown.data("url"), { customergroup: selectedCustomerGroup }, function (data) {
+                        $.each(data, function (index, item) {
+                            customerDropdown.append('<option value="' + item.value + '">' + item.text + '</option>');
+                        });
+                        $("#customerFilter").val(initialSelectedCustomer).trigger('change');
+                    });
+                }
+            }
+
+            // Function to update Carrier dropdown
+            function updateCarrierDropdown() {
+                var selectedCustomer = $("#customerFilter").val();
+                var carrierDropdown = $("#carrierFilter");
+
+                // Clear previous selections
+                carrierDropdown.empty().append('<option value="">Select Carrier</option>');
+
+                if (!selectedCustomer) {
+                    // If no customer is selected, fetch all carriers directly
+                    fetchAllCarriers();
+                } else {
+                    // Fetch carriers based on selected customer
+                    $.get(carrierDropdown.data("url"), { customer: selectedCustomer }, function (data) {
+                        $.each(data, function (index, item) {
+                            carrierDropdown.append('<option value="' + item.value + '">' + item.text + '</option>');
+                        });
+                        $("#carrierFilter").val(initialSelectedCarrier).trigger('change');
+                    });
+                }
+            }
+
+            // Function to update Workcode dropdown
+            function updateWorkcodeDropdown() {
+                var selectedCustomer = $("#customerFilter").val();
+                var selectedCarrier = $("#carrierFilter").val();
+                var workcodeDropdown = $("#workcodeFilter");
+
+                // Clear previous selections
+                workcodeDropdown.empty().append('<option value="">Select Workcode</option>');
+
+                if (selectedCustomer && selectedCarrier) {
+                    // Fetch workcodes based on both customer and carrier selected
+                    $.get(workcodeDropdown.data("url"), { customer: selectedCustomer, carrier: selectedCarrier }, function (data) {
+                        $.each(data, function (index, item) {
+                            workcodeDropdown.append('<option value="' + item.value + '">' + item.text + '</option>');
+                        });
+                        $("#workcodeFilter").val(initialSelectedWorkCode);
+                    });
+                } else if (selectedCustomer) {
+                    // Fetch workcodes based on only customer selected
+                    $.get(workcodeDropdown.data("url"), { customer: selectedCustomer }, function (data) {
+                        $.each(data, function (index, item) {
+                            workcodeDropdown.append('<option value="' + item.value + '">' + item.text + '</option>');
+                        });
+                        $("#workcodeFilter").val(initialSelectedWorkCode);
+                    });
+                } else if (selectedCarrier) {
+                    // Fetch workcodes based on only carrier selected
+                    $.get(workcodeDropdown.data("url"), { carrier: selectedCarrier }, function (data) {
+                        $.each(data, function (index, item) {
+                            workcodeDropdown.append('<option value="' + item.value + '">' + item.text + '</option>');
+                        });
+                        $("#workcodeFilter").val(initialSelectedWorkCode);
+                    });
+                } else {
+                    // Fetch all unique workcodes
+                    fetchAllWorkcodes();
+                }
+            }
+
+            // Function to fetch all carriers
+            function fetchAllCarriers() {
+                var carrierDropdown = $("#carrierFilter");
+
+                // Fetch all carriers
+                $.get(carrierDropdown.data("url"), function (data) {
+                    $.each(data, function (index, item) {
+                        carrierDropdown.append('<option value="' + item.value + '">' + item.text + '</option>');
+                    });
+
+                    // Trigger the change event to update workcodes based on the selected carrier
+                    carrierDropdown.trigger('change');
+                });
+            }
+
+
+
+            // Function to fetch all customers
+            function fetchAllCustomerGroups() {
+                var customerGroupDropdown = $("#customerGroupFilter");
+
+                // Fetch all customers
+                $.get(customerGroupDropdown.data("url"), function (data) {
+                    $.each(data, function (index, item) {
+                        customerGroupDropdown.append('<option value="' + item.value + '">' + item.text + '</option>');
+                    });
+
+                    // Trigger the change event to update workcodes based on the selected customer
+                    customerGroupDropdown.trigger('change');
+                });
+            }
+
+            // Function to fetch all customers
+            function fetchAllCustomers() {
+                var customerDropdown = $("#customerFilter");
+
+                // Fetch all customers
+                $.get(customerDropdown.data("url"), function (data) {
+                    $.each(data, function (index, item) {
+                        customerDropdown.append('<option value="' + item.value + '">' + item.text + '</option>');
+                    });
+
+                    // Trigger the change event to update workcodes based on the selected customer
+                    customerDropdown.trigger('change');
+                });
+            }
+
+            // Function to fetch all workcodes
+            function fetchAllWorkcodes() {
+                var workcodeDropdown = $("#workcodeFilter");
+
+                // Fetch all workcodes
+                $.get(workcodeDropdown.data("url"), function (data) {
+                    $.each(data, function (index, item) {
+                        workcodeDropdown.append('<option value="' + item.value + '">' + item.text + '</option>');
+                    });
+                });
+            }
+        });
+
+    </script>
+}

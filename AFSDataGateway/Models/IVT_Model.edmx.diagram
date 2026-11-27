@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="824c2ac9c6254659b5cd203dd7008bb5" Name="Diagram1" ZoomLevel="50">
+        <EntityTypeShape EntityType="IVTModel.AM_Portfolio" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="IVTModel.Dash_CustomerCarrierCounts" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="IVTModel.Dash_CustomerTotalMeasures" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="IVTModel.Dash_TotalMeasures_History" Width="1.5" PointX="0.75" PointY="5.75" />
+        <EntityTypeShape EntityType="IVTModel.IVT_Portal_Log" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="IVTModel.IVT_Run_Control" Width="1.5" PointX="6.75" PointY="3.75" />
+        <EntityTypeShape EntityType="IVTModel.TaskLog" Width="1.5" PointX="2.75" PointY="7.75" />
+        <EntityTypeShape EntityType="IVTModel.Report_Distribution_List" Width="1.5" PointX="4.75" PointY="7.75" />
+        <EntityTypeShape EntityType="IVTModel.vAccountManager" Width="1.5" PointX="6.75" PointY="7.75" />
+        <EntityTypeShape EntityType="IVTModel.vAllCurrentDetails_Fetcher" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="IVTModel.vBMS_Hold_Check_Not_IN_BMS" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="IVTModel.vBMS_Release_Check_Not_IN_BMS" Width="1.5" PointX="2.75" PointY="10.75" />
+        <EntityTypeShape EntityType="IVTModel.vEmailControl" Width="1.5" PointX="4.75" PointY="11.75" />
+        <EntityTypeShape EntityType="IVTModel.vIVT_Result_Fetcher" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="IVTModel.vMandatoryRules" Width="1.5" PointX="14.75" PointY="0.75" />
+        <EntityTypeShape EntityType="IVTModel.vMoveitMismatch" Width="1.5" PointX="4.75" PointY="14.75" />
+        <EntityTypeShape EntityType="IVTModel.vMoveitMismatch_v1" Width="1.5" PointX="14.75" PointY="5.75" />
+        <EntityTypeShape EntityType="IVTModel.vOversize_Count" Width="1.5" PointX="10.75" PointY="14.75" />
+        <EntityTypeShape EntityType="IVTModel.vP24_Current_Exception" Width="1.5" PointX="12.75" PointY="14.75" />
+        <EntityTypeShape EntityType="IVTModel.vRuleExclusion" Width="1.5" PointX="14.75" PointY="13.75" />
+        <EntityTypeShape EntityType="IVTModel.vRuleOption" Width="1.5" PointX="6.75" PointY="15.75" />
+        <EntityTypeShape EntityType="IVTModel.vIVT_Portal_Log" Width="1.5" PointX="16.75" PointY="0.75" />
+        <EntityTypeShape EntityType="IVTModel.vTaskLog" Width="1.5" PointX="16.75" PointY="3.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

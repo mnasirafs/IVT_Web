@@ -1,0 +1,326 @@
+﻿@model AFSDataGateway.Models.vIVT_Result
+
+@{
+    ViewBag.Title = "View Connote";
+    if (TempData["Utype"] == null)
+    {
+        TempData["Utype"] = 0;
+    }
+    if (Session["Utype"] == null)
+    {
+        Session["Utype"] = 0;
+    }
+    if ((int)TempData["Utype"] == 1 || (int)Session["Utype"] == 1 || (int)TempData["Utype"] == 2 || (int)Session["Utype"] == 2)
+    {
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+@section css {
+    <style>
+        .dl-horizontal dt,
+        .dl-horizontal dd {
+            font-size: 16px; /* You can adjust the font size to your preference */
+            /* Additional styling, if needed */
+        }
+    </style>
+}
+<div style="font-family: TitilliumWeb">
+    <h2>View Consignment</h2>
+</div>
+<div>
+
+    <hr />
+    <br />
+    <br />
+    <div style="font-family: TitilliumWeb">
+        <h4>Details for the Connote: @Model.con_note</h4>
+    </div>
+    <hr />
+    <div style="font-size:16px; font-family: TitilliumWeb">
+
+        <a href="javascript:void(0);" onclick="history.go(-1);">Back to List</a>
+    </div>
+
+
+    <dl class="dl-horizontal">
+
+
+        <dt>
+            @Html.DisplayName("Connote Date")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cons_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("jno")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.jno)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("CurrentWeek")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CurrentWeek)
+        </dd>
+        <dt>
+            @Html.DisplayName("Customer")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.customer)
+        </dd>
+        <dt>
+            @Html.DisplayName("Carrier")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.carrier)
+        </dd>
+        <dt>
+            @Html.DisplayName("ErrCode")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ErrCode)
+        </dd>
+        <dt>
+            @Html.DisplayName("ErrPriority")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ErrPriority)
+        </dd>
+        <dt>
+            @Html.DisplayName("Reason")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Reason)
+        </dd>
+        <dt>
+            @Html.DisplayName("Sub Reason")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sub_Reason)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("from_loc")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.from_loc)
+        </dd>
+        <dt>
+            @Html.DisplayName("colsubzone")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.colsubzone)
+        </dd>
+        <dt>
+            @Html.DisplayName("To")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.to)
+        </dd>
+        <dt>
+            @Html.DisplayName("delsubzone")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.delsubzone)
+        </dd>
+        <dt>
+            @Html.DisplayName("option_code")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.option_code)
+        </dd>
+        <dt>
+            @Html.DisplayName("work_code")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.work_code)
+        </dd>
+        <dt>
+            @Html.DisplayName("freight_charges")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.freight_charges)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("other_charges")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.other_charges)
+        </dd>
+        <dt>
+            @Html.DisplayName("fuel_surch")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fuel_surch)
+        </dd>
+        <dt>
+            @Html.DisplayName("total_nett")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.total_nett)
+        </dd>
+        <dt>
+            @Html.DisplayName("GST")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.gst)
+        </dd>
+        <dt>
+            @Html.DisplayName("gross")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.gross)
+        </dd>
+        <dt>
+            @Html.DisplayName("items")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.items)
+        </dd>
+        <dt>
+            @Html.DisplayName("quantity")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.quantity)
+        </dd>
+        <dt>
+            @Html.DisplayName("weight")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.weight)
+        </dd>
+        <dt>
+            @Html.DisplayName("pallet")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pallet)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("cubic")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cubic)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("del_com")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.del_com)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("cus_ref")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cus_ref)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("col_post")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.col_post)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("del_post")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.del_post)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("chg_kg")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.chg_kg)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("unit")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.unit)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("del_ref")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.del_ref)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("supplier_ref")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.supplier_ref)
+        </dd>
+        <dt>
+            @Html.DisplayName("AccountManager")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccountManager)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("ActionTime")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActionTime)
+        </dd>
+
+
+    </dl>
+</div>
+
+<div style="font-size:16px; font-family: TitilliumWeb">
+
+    <a href="javascript:void(0);" onclick="history.go(-1);">Back to List</a>
+</div>

@@ -1,0 +1,40 @@
+@using AFSDataGateway.Services.IvtAdmin
+@model IvtAdminSettings
+@{
+    ViewBag.Title = "Notifications and reports";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var recent = (List<IvtAuditEntry>)ViewBag.Recent;
+    var tz = Model.TimeZone();
+}
+@Html.Partial("~/Views/IvtAdmin/_Assets.cshtml")
+<div class="ivt-adm" data-ivt-page="notifications" data-notify-url="@Url.Action("Notify")" data-test-url="@Url.Action("NotifyTest")">
+    <h2>Notifications and reports</h2>
+    <div id="ivt-msg"></div>
+    <div class="card-box">
+        <span class="ivt-env production">PRODUCTION</span>
+        <p class="muted mt-2">Calls the report service at <code>@(Model.LegacyReportApi.BaseUrl ?? "not configured")</code> with the web server's Windows identity.
+            A repeat within @NotificationActionService.DuplicateWindowMinutes minutes asks for confirmation.</p>
+        @foreach (var a in NotificationActionService.LegacyActions)
+        {
+            <button type="button" class="btn btn-outline-danger mr-2 mb-2" data-notify="@a[0]" data-prompt="@a[1]: @a[2] Send now?" title="@a[2]">@a[1]</button>
+        }
+    </div>
+    <div class="card-box">
+        <span class="ivt-env test">TEST</span>
+        <p class="muted mt-2">Runs the test notification script (@(Model.TestNotifier.Enabled ? Model.TestNotifier.Arguments : "disabled in settings")). Success requires exit code 0 within @Model.TestNotifier.TimeoutSeconds s; output is shown below the result.</p>
+        <button type="button" class="btn btn-outline-warning" id="ivt-notify-test" @(Model.TestNotifier.Enabled ? "" : "disabled")>Send test notifications</button>
+    </div>
+    <div class="card-box">
+        <h3>Recent requests</h3>
+        @if (recent.Count == 0) { <p class="ivt-empty">None yet.</p> }
+        else
+        {
+            <div class="ivt-table-wrap"><table class="ivt-grid"><thead><tr><th>When</th><th>Operator</th><th>Action</th><th>Outcome</th><th>Detail</th></tr></thead><tbody>
+                @foreach (var r in recent)
+                {
+                    <tr><td>@TimeZoneInfo.ConvertTimeFromUtc(r.OccurredAtUtc, tz).ToString("dd MMM HH:mm")</td><td>@r.Operator</td><td>@r.Operation</td><td>@r.Outcome</td><td>@r.Detail</td></tr>
+                }
+            </tbody></table></div>
+        }
+    </div>
+</div>

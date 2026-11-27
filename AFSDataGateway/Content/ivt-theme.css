@@ -1,0 +1,228 @@
+/* IVT 2.0 application theme: shared shell (left sidebar + content) and modern defaults for Bootstrap 4 and
+   DataTables. Everything is scoped under body.ivt-app so the chat widget and third-party widgets are unaffected. */
+
+:root {
+    --ivt-sidebar-bg: #0f172a;
+    --ivt-sidebar-bg-2: #111c33;
+    --ivt-sidebar-text: #cbd5e1;
+    --ivt-sidebar-muted: #64748b;
+    --ivt-sidebar-hover: rgba(255, 255, 255, .06);
+    --ivt-accent: #d6202a;          /* AFS red */
+    --ivt-accent-soft: rgba(214, 32, 42, .14);
+    --ivt-primary: #1d4ed8;
+    --ivt-bg: #f4f6fb;
+    --ivt-surface: #ffffff;
+    --ivt-border: #e3e8f0;
+    --ivt-text: #1e293b;
+    --ivt-text-muted: #64748b;
+    --ivt-radius: 10px;
+    --ivt-shadow: 0 1px 2px rgba(15, 23, 42, .05), 0 2px 8px rgba(15, 23, 42, .04);
+    --ivt-sidebar-width: 248px;
+}
+
+body.ivt-app {
+    margin: 0;
+    padding: 0;
+    background: var(--ivt-bg);
+    color: var(--ivt-text);
+    font-family: "Inter", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* ---------------- Sidebar ---------------- */
+.ivt-app .app-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: var(--ivt-sidebar-width);
+    background: linear-gradient(180deg, var(--ivt-sidebar-bg) 0%, var(--ivt-sidebar-bg-2) 100%);
+    color: var(--ivt-sidebar-text);
+    display: flex;
+    flex-direction: column;
+    z-index: 1030;
+    transition: transform .2s ease;
+}
+
+.ivt-app .app-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 16px 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, .06);
+    text-decoration: none !important;
+}
+
+/* Portrait AFS "Invoice Vetting Tool" logo on a white card, sized to stay prominent without crowding the menu. */
+.ivt-app .app-brand img { display: block; width: 100%; max-width: 112px; height: auto; max-height: 150px; object-fit: contain; background: #fff; border-radius: 10px; padding: 5px; box-shadow: 0 2px 10px rgba(0, 0, 0, .25); transition: transform .15s ease; }
+.ivt-app .app-brand:hover img { transform: scale(1.03); }
+.ivt-app .app-brand-text { text-align: center; }
+.ivt-app .app-brand-text { color: #fff; font-weight: 700; font-size: 15px; line-height: 1.2; }
+.ivt-app .app-brand-text small { display: block; color: var(--ivt-sidebar-muted); font-weight: 500; font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
+
+.ivt-app .app-nav { flex: 1; overflow-y: auto; padding: 10px 10px 16px; }
+.ivt-app .app-nav-section {
+    color: var(--ivt-sidebar-muted);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 14px 10px 6px;
+}
+
+.ivt-app .app-nav a.app-link,
+.ivt-app .app-nav button.app-link {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    width: 100%;
+    padding: 8px 10px;
+    margin: 1px 0;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--ivt-sidebar-text);
+    font-size: 13.5px;
+    font-weight: 500;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background .15s, color .15s;
+}
+
+.ivt-app .app-nav .app-link i { width: 18px; text-align: center; color: var(--ivt-sidebar-muted); font-size: 14px; transition: color .15s; }
+.ivt-app .app-nav .app-link:hover { background: var(--ivt-sidebar-hover); color: #fff; }
+.ivt-app .app-nav .app-link:hover i { color: #fff; }
+.ivt-app .app-nav .app-link.active { background: var(--ivt-accent-soft); color: #fff; box-shadow: inset 3px 0 0 var(--ivt-accent); }
+.ivt-app .app-nav .app-link.active i { color: var(--ivt-accent); }
+.ivt-app .app-nav .app-link .chev { margin-left: auto; font-size: 11px; transition: transform .2s; }
+.ivt-app .app-nav .app-group.open > .app-link .chev { transform: rotate(90deg); }
+.ivt-app .app-nav .app-sub { display: none; padding-left: 29px; }
+.ivt-app .app-nav .app-group.open > .app-sub { display: block; }
+.ivt-app .app-nav .app-sub a.app-link { font-size: 13px; padding: 6px 10px; }
+
+.ivt-app .app-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    border-top: 1px solid rgba(255, 255, 255, .06);
+    font-size: 12.5px;
+    color: var(--ivt-sidebar-text);
+}
+
+.ivt-app .app-user .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--ivt-accent);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    text-transform: uppercase;
+    flex: 0 0 32px;
+}
+.ivt-app .app-user small { display: block; color: var(--ivt-sidebar-muted); }
+
+/* ---------------- Main area ---------------- */
+.ivt-app .app-main { margin-left: var(--ivt-sidebar-width); min-height: 100vh; display: flex; flex-direction: column; }
+
+.ivt-app .app-topbar {
+    display: none; /* only on small screens */
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    background: var(--ivt-sidebar-bg);
+    color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+}
+.ivt-app .app-topbar button { background: transparent; border: 0; color: #fff; font-size: 20px; padding: 2px 6px; }
+
+.ivt-app .app-content { flex: 1; padding: 24px 28px 8px; max-width: 100%; overflow-x: auto; }
+.ivt-app .app-footer { padding: 14px 28px 18px; color: var(--ivt-text-muted); font-size: 12px; border-top: 1px solid var(--ivt-border); }
+
+.ivt-app .app-backdrop { display: none; }
+
+@media (max-width: 991.98px) {
+    .ivt-app .app-sidebar { transform: translateX(-100%); box-shadow: 0 0 40px rgba(0, 0, 0, .35); }
+    .ivt-app.sidebar-open .app-sidebar { transform: translateX(0); }
+    .ivt-app.sidebar-open .app-backdrop { display: block; position: fixed; inset: 0; background: rgba(15, 23, 42, .45); z-index: 1025; }
+    .ivt-app .app-main { margin-left: 0; }
+    .ivt-app .app-topbar { display: flex; }
+    .ivt-app .app-content { padding: 16px; }
+}
+
+/* ---------------- Typography & surfaces ---------------- */
+.ivt-app h1, .ivt-app h2, .ivt-app h3, .ivt-app h4 { color: var(--ivt-text); font-weight: 700; letter-spacing: -.01em; }
+.ivt-app h1 { font-size: 26px; }
+.ivt-app h2 { font-size: 22px; }
+.ivt-app h3 { font-size: 18px; }
+.ivt-app a:not(.btn):not(.app-link):not(.app-brand) { color: var(--ivt-primary); }
+.ivt-app a.btn-primary, .ivt-app a.btn-success, .ivt-app a.btn-danger, .ivt-app a.btn-secondary, .ivt-app a.btn-info, .ivt-app a.btn-dark { color: #fff; }
+.ivt-app hr { border-top-color: var(--ivt-border); }
+
+.ivt-app .card {
+    border: 1px solid var(--ivt-border);
+    border-radius: var(--ivt-radius);
+    box-shadow: var(--ivt-shadow);
+}
+.ivt-app .card-header { background: #fafbfd; border-bottom: 1px solid var(--ivt-border); font-weight: 600; }
+
+/* ---------------- Buttons & forms ---------------- */
+.ivt-app .btn { border-radius: 8px; font-weight: 600; font-size: 13px; padding: 6px 14px; box-shadow: none; transition: filter .15s, box-shadow .15s; }
+.ivt-app .btn:hover { filter: brightness(.96); }
+.ivt-app .btn:focus { box-shadow: 0 0 0 3px rgba(29, 78, 216, .2); }
+.ivt-app .btn-primary { background: var(--ivt-primary); border-color: var(--ivt-primary); }
+.ivt-app .btn-danger { background: var(--ivt-accent); border-color: var(--ivt-accent); }
+
+.ivt-app .form-control, .ivt-app select, .ivt-app input[type="text"], .ivt-app input[type="search"], .ivt-app input[type="date"], .ivt-app input[type="number"], .ivt-app textarea {
+    border-radius: 8px;
+    border: 1px solid #cfd8e3;
+    font-size: 13px;
+}
+.ivt-app .form-control:focus, .ivt-app select:focus, .ivt-app input:focus, .ivt-app textarea:focus {
+    border-color: var(--ivt-primary);
+    box-shadow: 0 0 0 3px rgba(29, 78, 216, .15);
+    outline: none;
+}
+.ivt-app label { font-weight: 600; color: #334155; }
+
+.ivt-app .alert { border-radius: var(--ivt-radius); border-width: 1px; }
+
+/* ---------------- Tables & DataTables ---------------- */
+.ivt-app table.table, .ivt-app table.dataTable {
+    background: var(--ivt-surface);
+    border-radius: var(--ivt-radius);
+    font-size: 13px;
+}
+.ivt-app table.table thead th, .ivt-app table.dataTable thead th {
+    background: #f1f5f9;
+    color: #334155;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    border-bottom: 1px solid var(--ivt-border) !important;
+    white-space: nowrap;
+}
+.ivt-app table.table td, .ivt-app table.dataTable td { border-top-color: #eef2f7; vertical-align: middle; }
+.ivt-app table.dataTable tbody tr:hover, .ivt-app .table-hover tbody tr:hover { background: #f8fafc; }
+.ivt-app table.dataTable.no-footer { border-bottom: 1px solid var(--ivt-border); }
+.ivt-app .dataTables_wrapper { background: var(--ivt-surface); border: 1px solid var(--ivt-border); border-radius: var(--ivt-radius); padding: 14px; box-shadow: var(--ivt-shadow); margin-bottom: 18px; }
+.ivt-app .dataTables_wrapper .dataTables_filter input, .ivt-app .dataTables_wrapper .dataTables_length select { border-radius: 8px; border: 1px solid #cfd8e3; padding: 4px 8px; margin-left: 6px; }
+.ivt-app .dataTables_wrapper .dataTables_paginate .paginate_button { border-radius: 6px !important; border: 0 !important; }
+.ivt-app .dataTables_wrapper .dataTables_paginate .paginate_button.current, .ivt-app .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    background: var(--ivt-primary) !important; color: #fff !important; border: 0 !important;
+}
+.ivt-app .dataTables_wrapper .dataTables_paginate .paginate_button:hover { background: #e2e8f0 !important; color: var(--ivt-text) !important; }
+.ivt-app .dataTables_wrapper .dataTables_info { color: var(--ivt-text-muted); }
+
+/* Scrollbars inside the sidebar */
+.ivt-app .app-nav::-webkit-scrollbar { width: 6px; }
+.ivt-app .app-nav::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, .12); border-radius: 3px; }

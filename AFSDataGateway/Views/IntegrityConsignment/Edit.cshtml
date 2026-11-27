@@ -1,0 +1,125 @@
+﻿@model AFSDataGateway.Models.vConsignments
+
+@{
+    ViewBag.Title = "Update Connote Details";
+    if ((string)TempData["LoginName"] == "ADMIN")
+    {
+
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('input[type=datetime]').datepicker({
+                dateFormat: "dd/M/yy",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-60:+0"
+            });
+
+        });
+    </script>
+
+}
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <div style="font-family: TitilliumWeb;color:blue">
+        <h4><strong>Update </strong> Connote <strong> @Model.ConsignmentNo </strong> despatched at : @Model.DespatchDate.Value.ToString("dd/MM/yyyy") Details</h4>
+    </div>
+    <br />
+    <div style="font-family: TitilliumWeb;color:maroon">
+        <h4> Please only Update  the  <strong> wrong </strong> data and leave rest <strong> Un Changed </strong> </h4>
+    </div>
+
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.cId)
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.DWHEditor, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DWHEditor, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DWHEditor, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.CustomerGroup, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.CustomerGroup, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CustomerGroup, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+
+    @Html.Label("Connote to Update", new { title = "Connote" })
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.ConsignmentNo)
+            @Html.ValidationMessageFor(model => model.ConsignmentNo, "", new { @class = "text-danger" })
+
+          @*  @Html.Label("Connote to Update", htmlAttributes: new { style = "color:grey;font: 10pt TitilliumWeb-Regular" })*@
+
+        </div>
+    </div>
+
+    @Html.Label("TotWeightKg", new { title = "TotWeightKg" })
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.TotWeightKg)
+            @Html.ValidationMessageFor(model => model.TotWeightKg, "", new { @class = "text-danger" })
+            @Html.Label("Updated TotWeightKg", htmlAttributes: new { style = "color:grey;font: 10pt TitilliumWeb-Regular" })
+        </div>
+    </div>
+
+    @Html.Label("TotVolM", new { title = "TotWeightKg" })
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.TotVolM)
+            @Html.ValidationMessageFor(model => model.TotVolM, "", new { @class = "text-danger" })
+            @Html.Label("Updated TotVolM", htmlAttributes: new { style = "color:grey;font: 10pt TitilliumWeb-Regular" })
+        </div>
+    </div>
+
+    @Html.Label("RateIncSurch", new { title = "TotWeightKg" })
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.RateIncSurch)
+            @Html.ValidationMessageFor(model => model.RateIncSurch, "", new { @class = "text-danger" })
+            @Html.Label("Updated RateIncSurch", htmlAttributes: new { style = "color:grey;font: 10pt TitilliumWeb-Regular" })
+        </div>
+    </div>
+    <br />
+    <div >
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Update" class="btn btn-success" />
+        </div>
+    </div>
+</div>
+}
+
+<div style="font-family: TitilliumWeb">
+    @*@Html.ActionLink("Back to List", "Index")*@
+    <a href="javascript:void(0);" onclick="history.go(-1);">Back to List</a>
+</div>

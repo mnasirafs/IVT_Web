@@ -1,0 +1,103 @@
+﻿@model AFSDataGateway.Models.vIVT_Result
+
+@{
+    ViewBag.Title = "View Consignment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section css {
+    <link href="@Url.Content("~/Content/consignment-detail.css")" rel="stylesheet" />
+}
+
+<div class="cd-page">
+    <a class="cd-back" href="javascript:void(0);" onclick="history.go(-1);"><i class="fas fa-arrow-left"></i> Back to List</a>
+
+    <div class="cd-header">
+        <h2 class="cd-title">
+            Connote @Model.con_note
+            <small>Consignment dated @Html.DisplayFor(model => model.cons_date)</small>
+        </h2>
+        <span class="cd-badge cd-badge-ok"><i class="fas fa-check-circle"></i> Released</span>
+    </div>
+
+    <div class="cd-card">
+        <div class="cd-card-head"><i class="fas fa-box"></i>Consignment</div>
+        <div class="cd-card-body">
+            <div class="cd-grid">
+                <div class="cd-field"><label>Connote Date</label><div>@Html.DisplayFor(model => model.cons_date)</div></div>
+                <div class="cd-field"><label>Job No</label><div>@Html.DisplayFor(model => model.jno)</div></div>
+                <div class="cd-field"><label>Current Week</label><div>@Html.DisplayFor(model => model.CurrentWeek)</div></div>
+                <div class="cd-field"><label>Customer</label><div>@Html.DisplayFor(model => model.customer)</div></div>
+                <div class="cd-field"><label>Carrier</label><div>@Html.DisplayFor(model => model.carrier)</div></div>
+                <div class="cd-field"><label>Account Manager</label><div>@Html.DisplayFor(model => model.AccountManager)</div></div>
+                <div class="cd-field"><label>Action Time</label><div>@Html.DisplayFor(model => model.ActionTime)</div></div>
+                <div class="cd-field"><label>Error Code</label><div>@Html.DisplayFor(model => model.ErrCode)</div></div>
+                <div class="cd-field"><label>Priority</label><div>@Html.DisplayFor(model => model.ErrPriority)</div></div>
+                <div class="cd-field cd-field-wide">
+                    <label>Exception</label>
+                    <div class="cd-reason">
+                        <strong>@Html.DisplayFor(model => model.Reason)</strong>
+                        <div class="cd-sub">@Html.DisplayFor(model => model.Sub_Reason)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cd-card">
+        <div class="cd-card-head"><i class="fas fa-route"></i>Route</div>
+        <div class="cd-card-body">
+            <div class="cd-grid">
+                <div class="cd-field"><label>From</label><div>@Html.DisplayFor(model => model.from_loc)</div></div>
+                <div class="cd-field"><label>Collection Subzone</label><div>@Html.DisplayFor(model => model.colsubzone)</div></div>
+                <div class="cd-field"><label>Collection Postcode</label><div>@Html.DisplayFor(model => model.col_post)</div></div>
+                <div class="cd-field"><label>To</label><div>@Html.DisplayFor(model => model.to)</div></div>
+                <div class="cd-field"><label>Delivery Subzone</label><div>@Html.DisplayFor(model => model.delsubzone)</div></div>
+                <div class="cd-field"><label>Delivery Postcode</label><div>@Html.DisplayFor(model => model.del_post)</div></div>
+                <div class="cd-field"><label>Delivery Company</label><div>@Html.DisplayFor(model => model.del_com)</div></div>
+                <div class="cd-field"><label>Option Code</label><div>@Html.DisplayFor(model => model.option_code)</div></div>
+                <div class="cd-field"><label>Work Code</label><div>@Html.DisplayFor(model => model.work_code)</div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cd-card">
+        <div class="cd-card-head"><i class="fas fa-dollar-sign"></i>Charges</div>
+        <div class="cd-card-body">
+            <div class="cd-grid">
+                <div class="cd-field"><label>Freight Charges</label><div>@Html.DisplayFor(model => model.freight_charges)</div></div>
+                <div class="cd-field"><label>Other Charges</label><div>@Html.DisplayFor(model => model.other_charges)</div></div>
+                <div class="cd-field"><label>Fuel Surcharge</label><div>@Html.DisplayFor(model => model.fuel_surch)</div></div>
+                <div class="cd-field"><label>Total Nett</label><div>@Html.DisplayFor(model => model.total_nett)</div></div>
+                <div class="cd-field"><label>GST</label><div>@Html.DisplayFor(model => model.gst)</div></div>
+                <div class="cd-field cd-field-total"><label>Gross</label><div>@Html.DisplayFor(model => model.gross)</div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cd-card">
+        <div class="cd-card-head"><i class="fas fa-weight-hanging"></i>Freight</div>
+        <div class="cd-card-body">
+            <div class="cd-grid">
+                <div class="cd-field"><label>Items</label><div>@Html.DisplayFor(model => model.items)</div></div>
+                <div class="cd-field"><label>Quantity</label><div>@Html.DisplayFor(model => model.quantity)</div></div>
+                <div class="cd-field"><label>Weight</label><div>@Html.DisplayFor(model => model.weight)</div></div>
+                <div class="cd-field"><label>Chargeable Kg</label><div>@Html.DisplayFor(model => model.chg_kg)</div></div>
+                <div class="cd-field"><label>Pallets</label><div>@Html.DisplayFor(model => model.pallet)</div></div>
+                <div class="cd-field"><label>Cubic</label><div>@Html.DisplayFor(model => model.cubic)</div></div>
+                <div class="cd-field"><label>Unit</label><div>@Html.DisplayFor(model => model.unit)</div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cd-card">
+        <div class="cd-card-head"><i class="fas fa-tags"></i>References</div>
+        <div class="cd-card-body">
+            <div class="cd-grid">
+                <div class="cd-field"><label>Customer Ref</label><div>@Html.DisplayFor(model => model.cus_ref)</div></div>
+                <div class="cd-field"><label>Delivery Ref</label><div>@Html.DisplayFor(model => model.del_ref)</div></div>
+                <div class="cd-field"><label>Supplier Ref</label><div>@Html.DisplayFor(model => model.supplier_ref)</div></div>
+            </div>
+        </div>
+    </div>
+</div>

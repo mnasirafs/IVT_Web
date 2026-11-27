@@ -1,0 +1,69 @@
+﻿<style>
+    .contact-info {
+        font-family: 'Titillium Web', sans-serif;
+        font-size: 18px;
+    }
+
+        .contact-info h2 {
+            font-size: 24px;
+            color: #007BFF; /* Blue color, feel free to change */
+        }
+
+        .contact-info address {
+            margin-bottom: 15px;
+            color: #333; /* Dark grey color, feel free to change */
+        }
+
+        .contact-info strong {
+            color: #007BFF; /* Blue color, feel free to change */
+        }
+</style>
+
+@{
+    ViewBag.Title = "Help";
+    if (TempData["Utype"] == null)
+    {
+        TempData["Utype"] = 0;
+    }
+    if (Session["Utype"] == null)
+    {
+        Session["Utype"] = 0;
+    }
+    if ((int)TempData["Utype"] == 1 || (int)Session["Utype"] == 1 || (int)TempData["Utype"] == 2 || (int)Session["Utype"] == 2)
+    {
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<div class="contact-info">
+    <h2><i class="fas fa-info-circle"></i> Support</h2>
+
+    <address>
+        AFS Logistics Australia Pty Limited - Information Technology <br />
+        Data Services<br />
+        <i class="fas fa-phone"></i> +61 3 9289 3888
+    </address>
+
+    <address>
+        For all inquiries related to IVT Results, please contact business support below.
+        <br />
+        If the portal service is down or any other issues related to the portal performance, please contact IT support.
+    </address>
+
+    <address>
+        <strong>Business Support:</strong>   <a href="mailto:nnguyen@afslogistics.com.au"><i class="far fa-envelope"></i> nnguyen@afslogistics.com.au</a><br />
+        <strong>IT Support - 1 :</strong> <a href="mailto:mnasir@afslogistics.com.au"><i class="far fa-envelope"></i> mnasir@afslogistics.com.au</a>
+        <strong>IT Support - 2 :</strong> <a href="mailto:asingh@afslogistics.com.au"><i class="far fa-envelope"></i> asingh@afslogistics.com.au</a>
+    </address>
+</div>

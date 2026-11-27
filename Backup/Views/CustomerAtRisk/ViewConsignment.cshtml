@@ -1,0 +1,594 @@
+﻿@model AFSDataGateway.Models.vConsignments
+
+@{
+    ViewBag.Title = "ViewConsignment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div style="font-family: TitilliumWeb">
+    <h2>View Consignment</h2>
+    </div>
+<div>
+
+    <hr />
+    <br />
+    <br />
+    <div style="font-family: TitilliumWeb">
+        <h4>Details for the Connote: @Model.ConsignmentNo</h4>
+    </div>
+    <hr />
+    <div style="font-family: TitilliumWeb">
+        <p>
+            @Html.ActionLink("Back to List", "SearchConsignments")
+        </p>
+        </div>
+
+
+        <dl class="dl-horizontal">
+
+            <dt>
+                @Html.DisplayName("Manifest No")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ManifestNo)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Consignment No")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ConsignmentNo)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Freight Status")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FreightStatus)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Shipper Reference")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ShipperReference)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("LineItem References")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.LineItemReferences)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Despatch Date")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DespatchDate, new { htmlAttributes = new { @class = "datefield", type = "date" } })
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Actual Despatch Date")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ActualDespatchDate, new { htmlAttributes = new { @class = "datefield", type = "date" } }).ToString().Substring(0, 10)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Expected Delivery Date")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ExpectedDeliveryDate, new { htmlAttributes = new { @class = "datefield", type = "date" } })
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Creation Date")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CreationDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Line Of Business")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.LineOfBusiness)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Pickup Name")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PickupName)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Pickup Address1")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PickupAddress1)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Pickup Address2")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PickupAddress2)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Pickup Address3")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PickupAddress3)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Pickup Town")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PickupTown)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Pickup State")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PickupState)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Pickup Postcode")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PickupPostcode)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Pickup Phone")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PickupPhone)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Pickup Email")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PickupEmail)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Delivery Name")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DeliveryName)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Delivery Address1")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DeliveryAddress1)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Delivery Address2")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DeliveryAddress2)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Delivery Address3")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DeliveryAddress3)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Delivery Town")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DeliveryTown)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Delivery State")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DeliveryState)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Delivery Postcode")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DeliveryPostcode)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Delivery Phone")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DeliveryPhone)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Delivery Email")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DeliveryEmail)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Third Party Name")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ThirdPartyName)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Third Party Address1")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ThirdPartyAddress1)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Third Party Address2")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ThirdPartyAddress2)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Third Party Address3")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ThirdPartyAddress3)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Third Party Town")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ThirdPartyTown)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Third Party State")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ThirdPartyState)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Third Party Postcode")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ThirdPartyPostcode)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Third Party Phone")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ThirdPartyPhone)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Third Party Email")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ThirdPartyEmail)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Carriage Name")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CarriageName)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Carriage Address1")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CarriageAddress1)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Driver Number")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DriverNumber)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Receiver Code")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ReceiverCode)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Carriage Town")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CarriageTown)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Carriage State")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CarriageState)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Carriage Postcode")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CarriagePostcode)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Carriage Phone")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CarriagePhone)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Carriage Email")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CarriageEmail)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Pickup Zone")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PickupZone)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Delivery Zone")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DeliveryZone)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Return Consignment")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ReturnConsignment)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Carrier Business Name")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CarrierBusinessName)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Service Name")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ServiceName)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Special Ins")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SpecialIns)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Insurance Class")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.InsuranceClass)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Insurance Value")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.InsuranceValue)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Dg UnNo")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DgUnNo)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Dg Class")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DgClass)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Dg group")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Dggroup)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Carrier Silent")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CarrierSilent)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Shipper Silent")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ShipperSilent)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Auto Despatch")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AutoDespatch)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Carrier Web Link")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CarrierWebLink)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Code Codes")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CodeCodes)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Pre Despatch NotiDate")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PreDespatchNotiDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("load date")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.load_date)
+            </dd>
+
+
+
+            <dt>
+                @Html.DisplayName("Third Party Pickup")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ThirdPartyPickup)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Broker Name")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.BrokerName)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Signature")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Signature)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Carrier ExpDelive Date")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CarrierExpDeliveryDate)
+            </dd>
+
+
+
+            <dt>
+                @Html.DisplayName("Actual Delivery Date")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ActualDeliveryDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Account Manager")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AccountManager)
+            </dd>
+
+        </dl>
+    </div>
+

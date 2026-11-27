@@ -1,0 +1,54 @@
+﻿@model AFSDataGateway.Models.CustomerAccountManager
+
+@{
+    ViewBag.Title = "Delete Customer Account Manager";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<div style="font-family: TitilliumWeb">
+    <h4>Delete @Model.AccountManager from managing  @Model.CustomerCode? </h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.Label("Customer")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerCode)
+        </dd>
+
+        <dt>
+            @Html.Label("Account Manager")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccountManager)
+        </dd>
+
+        <dt>
+            @Html.Label("Login Name")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LoginName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+<div class="form-actions no-color">
+    <div style="font-family: TitilliumWeb">
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        @Html.ActionLink("Back to List", "AccountManagerList")
+        </div>
+    </div>
+    }
+</div>

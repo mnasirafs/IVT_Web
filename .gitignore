@@ -1,0 +1,39 @@
+.vs/IVT_Prod/FileContentIndex/a6c03f02-91fa-4121-ad67-235ac9400df6.vsidx
+.vs/IVT_Prod/FileContentIndex/842ee2b4-9fba-4af2-98a6-83f7fed1baba.vsidx
+.vs/IVT_Prod/FileContentIndex/1765752c-5ee0-4404-9960-b6fa7584ff6f.vsidx
+
+
+*.vsidx
+*.cache
+/.vs/IVT/v17
+.vs/IVT/v17/DocumentLayout.json
+/.vs
+
+# IVT Assistant server-only secrets
+**/App_Data/ivt-chat.secrets.config
+/AFSDataGateway/obj/Debug
+/ivt-ml/output
+
+# Build output and ML generated files (untracked 2026-10-06)
+/AFSDataGateway/obj/
+**/__pycache__/
+/ivt-ml/.venv/
+/ivt-ml/output/
+/ivt-ml/artifacts/
+
+# IVT Administration server settings (connections, paths) - only the example is committed
+**/App_Data/ivt-admin.settings.json
+tests/**/bin/
+
+# Clean-copy hardening: never commit build output, local/user files, logs or deploy creds
+bin/
+obj/
+packages/
+node_modules/
+*.user
+*.suo
+*.log
+*.pubxml.user
+.env
+local.settings.json
+**/App_Data/*.log

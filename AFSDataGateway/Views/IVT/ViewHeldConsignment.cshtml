@@ -1,0 +1,123 @@
+﻿@model AFSDataGateway.Models.vConsignmentForReview
+
+@{
+    ViewBag.Title = "View Consignment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section css {
+    <link href="@Url.Content("~/Content/consignment-detail.css")" rel="stylesheet" />
+}
+
+<div class="cd-page">
+    <a class="cd-back" href="javascript:void(0);" onclick="history.go(-1);"><i class="fas fa-arrow-left"></i> Back to List</a>
+
+    <div class="cd-header">
+        <h2 class="cd-title">
+            Connote @Model.Connote
+            <small>Consignment dated @Html.DisplayFor(model => model.cons_date)</small>
+        </h2>
+        <span class="cd-badge cd-badge-held"><i class="fas fa-lock"></i> Held</span>
+    </div>
+
+    <div class="cd-card">
+        <div class="cd-card-head"><i class="fas fa-box"></i>Consignment Details</div>
+        <div class="cd-card-body">
+            <div class="cd-grid">
+                <div class="cd-field cd-field-wide">
+                    <label>Held Reason</label>
+                    <div class="cd-note">@Html.DisplayFor(model => model.Comment)</div>
+                </div>
+                <div class="cd-field"><label>Connote Date</label><div>@Html.DisplayFor(model => model.cons_date)</div></div>
+                <div class="cd-field"><label>Customer</label><div>@Html.DisplayFor(model => model.Customer)</div></div>
+                <div class="cd-field"><label>Carrier</label><div>@Html.DisplayFor(model => model.Carrier)</div></div>
+                <div class="cd-field"><label>Actioned By</label><div>@Html.DisplayFor(model => model.ActionedBy)</div></div>
+                <div class="cd-field"><label>Action Time</label><div>@Html.DisplayFor(model => model.ActionTime)</div></div>
+                <div class="cd-field cd-field-wide">
+                    <label>Exception</label>
+                    <div class="cd-reason">
+                        <strong>@Html.DisplayFor(model => model.Reason)</strong>
+                        <div class="cd-sub">@Html.DisplayFor(model => model.Sub_Reason)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cd-card">
+        <div class="cd-card-head"><i class="fas fa-history"></i>Activity Log</div>
+        <div class="table-responsive">
+            <table class="cd-table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Comment</th>
+                        <th>Created By</th>
+                        <th>Action Time</th>
+                    </tr>
+                </thead>
+                <tbody id="logTableBody">
+                    @if (ViewBag.ConsignmentLogs != null)
+                    {
+                        foreach (var log in ViewBag.ConsignmentLogs)
+                        {
+                            <tr>
+                                <td><span class="cd-chip">@log.LogType</span></td>
+                                <td>@log.LogText</td>
+                                <td>@log.CreatedBy</td>
+                                <td class="cd-muted">@log.ActionTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+            <div id="logEmpty" class="cd-empty" style="display:none">No activity recorded yet.</div>
+        </div>
+    </div>
+
+    <div class="cd-card">
+        <div class="cd-card-head"><i class="fas fa-comment-dots"></i>Add a Comment</div>
+        @using (Html.BeginForm("AddLogComment", "IVT", FormMethod.Post, new { id = "logForm" }))
+        {
+            @Html.Hidden("JobNumber", Model.jno)
+            @Html.Hidden("LogType", "Hold")
+            <div class="cd-card-body">
+                <textarea name="LogText" id="LogText" class="cd-textarea" placeholder="Enter your comment..." required></textarea>
+            </div>
+            <div class="cd-actions">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Submit Comment</button>
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            function toggleEmpty() {
+                $("#logEmpty").toggle($("#logTableBody tr").length === 0);
+            }
+            toggleEmpty();
+
+            $("#logForm").submit(function (event) {
+                event.preventDefault();
+                var formData = $(this).serialize();
+
+                $.post("@Url.Action("AddLogComment", "IVT")", formData, function (data) {
+                    if (data.success) {
+                        var row = $("<tr>")
+                            .append($("<td>").append($("<span class='cd-chip'>").text(data.logType)))
+                            .append($("<td>").text(data.logText))
+                            .append($("<td>").text(data.createdBy))
+                            .append($("<td class='cd-muted'>").text(data.actionTime));
+                        $("#logTableBody").prepend(row);
+                        $("#LogText").val("");
+                        toggleEmpty();
+                    } else {
+                        alert("Failed to add comment.");
+                    }
+                });
+            });
+        });
+    </script>
+}

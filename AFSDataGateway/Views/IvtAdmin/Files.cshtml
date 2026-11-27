@@ -1,0 +1,57 @@
+@using AFSDataGateway.Services.IvtAdmin
+@model IvtAdminSettings
+@{
+    ViewBag.Title = "File loads";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Func<IvtFileTemplate, string> folder = t => t.Folder == IvtLandingFolder.HoldConnotes ? Model.Paths.HoldConnotes : t.Folder == IvtLandingFolder.ReleaseConnotes ? Model.Paths.ReleaseConnotes
+        : t.Folder == IvtLandingFolder.BmsCheck ? Model.Paths.BmsCheck : Model.Paths.ReferenceData;
+}
+@Html.Partial("~/Views/IvtAdmin/_Assets.cshtml")
+<div class="ivt-adm" data-ivt-page="files" data-status-url="@Url.Action("FileStatus")" data-upload-url="@Url.Action("Upload")"
+     data-start-url="@Url.Action("StartLoad")" data-file-url="@Url.Action("LandingFile")">
+    <h2>File-based loads</h2>
+    @Html.Partial("~/Views/IvtAdmin/_Env.cshtml", IvtEnvironment.Production, new ViewDataDictionary { { "TestAllowed", false } })
+    <div class="alert alert-info">
+        These loads process <b>files</b> with the existing scheduled jobs.
+        <br /><b>Important:</b> <code>@Model.Jobs.AdminFileLoad</code> processes the BMS check, bulk hold and bulk release folders <b>together in one run</b> -
+        starting any of them loads every waiting file in all three folders.
+    </div>
+    <div class="toolbar"><button type="button" id="ivt-refresh" class="btn btn-outline-secondary">Refresh</button>
+        <span class="muted" data-job="admin"></span></div>
+    <div id="ivt-msg"></div>
+
+    <div class="sections">
+        @foreach (var t in FileLoadService.Templates)
+        {
+            var kind = t.Kind.ToString();
+            var job = t.Kind == IvtFileLoadKind.ReferenceData ? Model.Jobs.ReferenceDataLoad : Model.Jobs.AdminFileLoad;
+            <div class="card-box">
+                <h3>@t.Title</h3>
+                <p class="muted">Folder: <code>@(folder(t) ?? "not configured")</code><br />@t.Notes</p>
+                @if (t.RequiredColumns != null)
+                {
+                    <p class="mb-1">Columns: <code>@string.Join(",", t.RequiredColumns)</code> &middot; @Html.ActionLink("download template", "Template", new { kind })</p>
+                    <form data-upload="@kind" class="toolbar">
+                        <input type="file" accept=".csv,text/csv" class="form-control" aria-label="CSV file for @t.Title" />
+                        <button type="submit" class="btn btn-sm btn-outline-primary">Validate &amp; place file</button>
+                    </form>
+                }
+                <h4 style="font-size:13px">Waiting in the folder</h4>
+                <div data-files="@kind"><p class="ivt-empty">Loading...</p></div>
+                <div class="form-check mt-2">
+                    <input type="checkbox" class="form-check-input" id="confirm-@kind" data-confirm="@kind" />
+                    <label class="form-check-label" for="confirm-@kind">The correct file for <b>@t.Title</b> is in the folder</label>
+                </div>
+                <button type="button" class="btn btn-sm btn-primary mt-2" data-start="@kind"
+                        data-prompt="Start @job now?@(t.Kind == IvtFileLoadKind.ReferenceData ? "" : " It loads every waiting BMS, bulk hold and bulk release file.") The job is only submitted; refresh to follow it.">Start load (@job)</button>
+                @if (t.Kind == IvtFileLoadKind.ReferenceData) { <p class="muted mt-1" data-job="ref"></p> }
+                else if (t.Kind == IvtFileLoadKind.BulkHold) { <p class="muted mt-1">Review held connotes after the load completes.</p> }
+                else if (t.Kind == IvtFileLoadKind.BulkRelease) { <p class="muted mt-1">Review released connotes after the load completes.</p> }
+                else { <p class="muted mt-1">Then open the @Html.ActionLink("BMS reconciliation reports", "Report", "IvtConnotes", new { key = "held-not-in-bms" }, null).</p> }
+            </div>
+        }
+    </div>
+
+    <div class="card-box"><h3>Loader errors (<code>@Model.Paths.AdminLoadRoot</code>)</h3><div id="ivt-loader-errors"></div></div>
+    <div class="card-box"><h3>Recent file actions</h3><div id="ivt-recent"></div></div>
+</div>

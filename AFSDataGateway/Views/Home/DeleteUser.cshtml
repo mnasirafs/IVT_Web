@@ -1,0 +1,60 @@
+﻿@model AFSDataGateway.Models.vIVTUser
+
+@{
+    ViewBag.Title = "DeleteUser";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<div class="form-group">
+    <div style="font-family: TitilliumWeb">
+        <h4>Are you sure deleting this user?</h4>
+        <div style="color:blue">
+            <h4>@Model.LoginName</h4>
+        </div>
+        </div>
+    </div>
+    <div>
+
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayName("User Name")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UserName)
+            </dd>
+            <dt>
+                @Html.DisplayName("Login Name")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.LoginName)
+            </dd>
+            <dt>
+                @Html.DisplayName("User Status")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UserStatus)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-success" /> |
+                @Html.ActionLink("Back to List", "UserList")
+            </div>
+        }
+    </div>

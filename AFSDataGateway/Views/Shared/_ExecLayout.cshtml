@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - DWH Access Tool</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("css", required: false)
+
+    <!-- DataTables CSS -->
+    @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">*@
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- DataTables JS -->
+    <!--<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>-->
+
+    <script>
+        $(document).ready(function () {
+            $('#AMCounts').DataTable({
+                "pageLength": 100 // Set the default number of entries to 50
+            });
+            $('#CustomerCounts').DataTable({
+                "pageLength": 100 // Set the default number of entries to 50
+            });
+            $('#TradingData').DataTable({
+                "pageLength": 25 // Set the default number of entries to 50
+            });
+            $('#AncilarrySummary').DataTable({
+                "pageLength": 25 // Set the default number of entries to 50
+            });
+            $('#HeldConsignment').DataTable({
+                "pageLength": 25 // Set the default number of entries to 50
+            });
+            $('#IVTResutlsTable').DataTable({
+                "pageLength": 25 // Set the default number of entries to 50
+            });
+
+            $('#AncillaryDetail').DataTable({
+                "pageLength": 25 // Set the default number of entries to 50
+            });
+        });
+
+    </script>
+
+    <!-- Use Bootstrap from CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Add your custom styles here -->
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        /* Custom Styles */
+        .navbar {
+            height: 100px; /* Adjust the height as needed */
+        }
+
+        .navbar-brand {
+            max-height: 100%; /* Set max-height to fit within the navbar */
+            display: flex;
+            align-items: center;
+        }
+
+            .navbar-brand h1 {
+                font-size: 24px; /* Adjust font size */
+                margin-left: 10px; /* Add margin as needed */
+            }
+
+        .navbar-nav .nav-link {
+            font-size: 18px; /* Adjust font size */
+            padding: 15px; /* Adjust padding as needed */
+            margin: 0 10px; /* Adjust margin to provide spacing between items */
+            white-space: nowrap; /* Prevent line wrapping */
+        }
+
+        /* Add more custom styles as needed */
+    </style>
+
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <a class="navbar-brand" href='@Url.Action("Dashboard","Home")'>
+                <h1>IVT Executive Dashobard</h1>
+
+            </a>
+
+
+            @*<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item" style="visibility: @ViewBag.DisplayForSuperAdmin">
+                            @Html.ActionLink("Login As", "Login", "Home", new { message = "" }, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item" style="visibility: @ViewBag.DisplayForAdmin">
+                            @Html.ActionLink("Dashboard", "Dashboard", "Home", new { message = "" }, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item" style="visibility: @ViewBag.DisplayForAdmin">
+                            @Html.ActionLink("IVT Results", "CurrentConsignment", "Home", new { message = "" }, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item" style="visibility: @ViewBag.DisplayForAdmin">
+                            @Html.ActionLink("Held Consignments", "HeldConsignment", "Home", new { message = "" }, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item" style="visibility: @ViewBag.DisplayForAdmin">
+                            @Html.ActionLink("Ancillary Summary", "AncillarySummary", "Home", new { message = "" }, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item" style="visibility: @ViewBag.DisplayForAdmin">
+                            @Html.ActionLink("Trading Data", "TradingData", "Home", new { message = "" }, new { @class = "nav-link" })
+                        </li>
+
+                        <li class="nav-item" style="visibility: @ViewBag.DisplayForAdmin">
+                            @Html.ActionLink("Manage Users", "UserList", "Home", new { message = "" }, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item" style="visibility: @ViewBag.DisplayLinkStatus">
+                            @Html.ActionLink("Help", "Help", "Home", new { message = "" }, new { @class = "nav-link" })
+                        </li>
+                    </ul>
+                </div>*@
+        </div>
+    </nav>
+
+
+    <div class="container-fluid mt-5" style="padding-left: 50px; padding-right: 50px;">
+        <!-- Change container to container-fluid -->
+        @RenderBody()
+        <hr class="mt-5" />
+        <div style="font-family: TitilliumWeb">
+            <footer class="text-center">
+                <p style="font-size: 16px;">&copy; @DateTime.Now.Year - IVT (2.0) - Powered By: AFS Logistics - Data Services</p>
+                <p>Executive View</p>
+            </footer>
+        </div>
+    </div>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/chart.min.js"></script>
+    <!-- Add Highcharts reference -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

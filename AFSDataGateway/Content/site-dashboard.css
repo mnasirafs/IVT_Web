@@ -1,0 +1,48 @@
+/* Dashboard specific styles */
+body .dashboard-header { margin: 24px 0; }
+.dashboard-filters { background: #fff; border-radius: 8px; padding: 18px; box-shadow: 0 1px 4px rgba(22,28,45,0.06); }
+.dashboard-metrics { margin-top: 18px; }
+.metric-card { background: #fff; border-radius: 10px; padding: 18px; box-shadow: 0 8px 24px rgba(22,28,45,0.06); border: 1px solid #eef2f6; }
+.metric-card .value { font-size: 26px; font-weight: 700; color: #0f1724; }
+.metric-card .label { font-size: 13px; color: #6b7280; }
+.metric-card .delta { font-size: 12px; margin-top: 6px; }
+.metric-card .delta.positive { color: #16a34a; }
+.metric-card .delta.negative { color: #ef4444; }
+
+/* Top card variant matching mockup */
+.top-card { background: #fff; border-radius: 12px; padding: 14px; box-shadow: 0 6px 18px rgba(22,28,45,0.04); border:1px solid #eef2f6; display:flex; align-items:center; justify-content:space-between; }
+.top-card .left { display:flex; gap:12px; align-items:center; }
+.top-card .icon { width:44px; height:44px; border-radius:10px; background:#eef6ff; display:flex; align-items:center; justify-content:center; font-size:18px; color:#0ea5e9; }
+.top-card .meta { display:flex; flex-direction:column; }
+.top-card .meta .title { font-size:13px; color:#6b7280; }
+.top-card .meta .value { font-size:22px; font-weight:700; color:#0f1724; }
+.top-card .right { border-left:1px solid #eef2f6; padding-left:14px; min-width:180px; text-align:left; }
+.top-card .right .label { font-size:12px; color:#6b7280; }
+.top-card .right .rate { font-weight:600; font-size:16px; }
+.top-card .right .delta { font-size:12px; margin-top:6px; }
+.top-card .delta.positive { color: #16a34a; }
+.top-card .delta.negative { color: #ef4444; }
+
+.table-card { background: #fff; border-radius: 10px; padding: 12px; box-shadow: 0 8px 24px rgba(22,28,45,0.06); border: 1px solid #eef2f6; }
+.table-card .table thead th { border-bottom: none; color: #374151; font-weight: 600; }
+.table-card .table tbody td { vertical-align: middle; padding: 16px 12px; }
+.table-card .controls { display:flex; gap:10px; align-items:center; }
+.btn-export { background: #fff; border:1px solid #e6eef8; padding:8px 12px; border-radius:6px; }
+.btn-primary-apply { background:#0ea5e9; color:#fff; border:none; padding:8px 14px; border-radius:8px; }
+
+.filter-row .form-control { height:44px; }
+.filter-icon { margin-right:8px; }
+
+.pager { display:flex; gap:6px; align-items:center; }
+.pager .page { padding:6px 10px; border-radius:6px; border:1px solid #e6eef8; background:#fff; }
+.pager .page.active { background:#0ea5e9; color:#fff; border-color:#0ea5e9; }
+
+.small-muted { color:#6b7280; font-size:12px; }
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    .metric-card .value { font-size: 20px; }
+    .filter-row .form-control { height:40px; margin-bottom:8px; }
+    .top-card { flex-direction:column; align-items:flex-start; }
+    .top-card .right { border-left:none; padding-left:0; margin-top:8px; }
+}

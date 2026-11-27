@@ -1,0 +1,1332 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AFSXchange1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Consignment">
+          <Key>
+            <PropertyRef Name="cId" />
+          </Key>
+          <Property Name="cId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Manifest_id" Type="int" />
+          <Property Name="ManifestNo" Type="varchar" MaxLength="100" />
+          <Property Name="ConsignmentNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="FreightStatus" Type="varchar" MaxLength="500" />
+          <Property Name="ShipperReference" Type="varchar" MaxLength="100" />
+          <Property Name="LineItemReferences" Type="varchar" MaxLength="800" />
+          <Property Name="Customer_id" Type="int" Nullable="false" />
+          <Property Name="DespatchDate" Type="date" />
+          <Property Name="ActualDespatchDate" Type="date" />
+          <Property Name="ExpectedDeliveryDate" Type="date" />
+          <Property Name="CreationDate" Type="datetime" />
+          <Property Name="LineOfBusiness" Type="varchar" MaxLength="100" />
+          <Property Name="PickupName" Type="varchar" MaxLength="60" />
+          <Property Name="PickupAddress1" Type="varchar" MaxLength="80" />
+          <Property Name="PickupAddress2" Type="varchar" MaxLength="80" />
+          <Property Name="PickupAddress3" Type="varchar" MaxLength="80" />
+          <Property Name="PickupTown" Type="varchar" MaxLength="30" />
+          <Property Name="PickupState" Type="varchar" MaxLength="5" />
+          <Property Name="PickupPostcode" Type="varchar" MaxLength="5" />
+          <Property Name="PickupPhone" Type="varchar" MaxLength="20" />
+          <Property Name="PickupEmail" Type="varchar" MaxLength="100" />
+          <Property Name="DeliveryName" Type="varchar" MaxLength="60" />
+          <Property Name="DeliveryAddress1" Type="varchar" MaxLength="100" />
+          <Property Name="DeliveryAddress2" Type="varchar" MaxLength="80" />
+          <Property Name="DeliveryAddress3" Type="varchar" MaxLength="100" />
+          <Property Name="DeliveryTown" Type="varchar" MaxLength="30" />
+          <Property Name="DeliveryState" Type="varchar" MaxLength="50" />
+          <Property Name="DeliveryPostcode" Type="varchar" MaxLength="5" />
+          <Property Name="DeliveryPhone" Type="varchar" MaxLength="20" />
+          <Property Name="DeliveryEmail" Type="varchar" MaxLength="100" />
+          <Property Name="ThirdPartyName" Type="varchar" MaxLength="60" />
+          <Property Name="ThirdPartyAddress1" Type="varchar" MaxLength="80" />
+          <Property Name="ThirdPartyAddress2" Type="varchar" MaxLength="80" />
+          <Property Name="ThirdPartyAddress3" Type="varchar" MaxLength="80" />
+          <Property Name="ThirdPartyTown" Type="varchar" MaxLength="30" />
+          <Property Name="ThirdPartyState" Type="varchar" MaxLength="5" />
+          <Property Name="ThirdPartyPostcode" Type="varchar" MaxLength="5" />
+          <Property Name="ThirdPartyPhone" Type="varchar" MaxLength="20" />
+          <Property Name="ThirdPartyEmail" Type="varchar" MaxLength="200" />
+          <Property Name="CarriageName" Type="varchar" MaxLength="60" />
+          <Property Name="CarriageAddress1" Type="varchar" MaxLength="80" />
+          <Property Name="DriverNumber" Type="varchar" MaxLength="80" />
+          <Property Name="ReceiverCode" Type="varchar" MaxLength="80" />
+          <Property Name="CarriageTown" Type="varchar" MaxLength="30" />
+          <Property Name="CarriageState" Type="varchar" MaxLength="5" />
+          <Property Name="CarriagePostcode" Type="varchar" MaxLength="5" />
+          <Property Name="CarriagePhone" Type="varchar" MaxLength="20" />
+          <Property Name="CarriageEmail" Type="varchar" MaxLength="50" />
+          <Property Name="PickupZone" Type="varchar" MaxLength="10" />
+          <Property Name="DeliveryZone" Type="varchar" MaxLength="10" />
+          <Property Name="ReturnConsignment" Type="varchar" MaxLength="5" />
+          <Property Name="CarrierBusinessName" Type="varchar" MaxLength="60" />
+          <Property Name="ServiceName" Type="varchar" MaxLength="300" />
+          <Property Name="SpecialIns" Type="varchar" MaxLength="1024" />
+          <Property Name="InsuranceClass" Type="varchar" MaxLength="100" />
+          <Property Name="InsuranceValue" Type="varchar" MaxLength="5" />
+          <Property Name="DgUnNo" Type="varchar" MaxLength="50" />
+          <Property Name="DgClass" Type="varchar" MaxLength="50" />
+          <Property Name="Dggroup" Type="varchar" MaxLength="50" />
+          <Property Name="RateWoSurch" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="CarrierRateWoSurch" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="FuelSurch" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="CarrierFuelSurch" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="RateIncSurch" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="CarrierRateIncSurch" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="RateWoShipperMargin" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="RateWoShipperMarginIncSurch" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="TotWeightKg" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="TotVolM" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="CarrierSilent" Type="varchar" MaxLength="5" />
+          <Property Name="ShipperSilent" Type="varchar" MaxLength="5" />
+          <Property Name="AutoDespatch" Type="varchar" MaxLength="5" />
+          <Property Name="CarrierWebLink" Type="varchar" MaxLength="500" />
+          <Property Name="CodeCodes" Type="varchar" MaxLength="100" />
+          <Property Name="PreDespatchNotiDate" Type="datetime" />
+          <Property Name="FileInfo_id" Type="int" />
+          <Property Name="load_date" Type="datetime" />
+          <Property Name="Moveit_custId" Type="int" />
+          <Property Name="ConsignmentId" Type="bigint" />
+          <Property Name="ThirdPartyPickup" Type="varchar" MaxLength="5" />
+          <Property Name="DeliveryAddrID" Type="varchar" MaxLength="100" />
+          <Property Name="ThirdPartyAddID" Type="varchar" MaxLength="100" />
+          <Property Name="PickupAddID" Type="varchar" MaxLength="100" />
+          <Property Name="BrokerName" Type="varchar" MaxLength="100" />
+          <Property Name="LoadType" Type="int" Nullable="false" />
+          <Property Name="Signature" Type="varchar" MaxLength="500" />
+          <Property Name="CarrierExpDeliveryDate" Type="date" />
+          <Property Name="MoveitSourceFile_id" Type="int" />
+          <Property Name="InsertDate" Type="datetime" Nullable="false" />
+          <Property Name="ActualDeliveryDate" Type="datetime" />
+          <Property Name="IsUpdated" Type="bit" Nullable="false" />
+          <Property Name="LastModifiedTime" Type="datetime" Nullable="false" />
+          <Property Name="DeliveryLocationCode" Type="varchar" MaxLength="500" />
+          <Property Name="DIFOT" Type="varchar" MaxLength="500" />
+          <Property Name="ConsignmentCondition" Type="varchar" MaxLength="500" />
+          <Property Name="ActualDeliveryTransitDays" Type="varchar" MaxLength="500" />
+          <Property Name="ActualDespatchTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ConsignmentIntegrityUpdate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cId" Type="bigint" />
+          <Property Name="ConsignmentNo" Type="varchar" MaxLength="500" />
+          <Property Name="TotWeightKg" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="TotVolM" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="RateIncSurch" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="InsertedBy" Type="varchar" MaxLength="500" />
+          <Property Name="CurrentDetail" Type="bit" Nullable="false" />
+          <Property Name="ActionTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DWHEditorLogin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DWHEditor" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="LoginName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsActive" Type="int" Nullable="false" />
+          <Property Name="IsDeleted" Type="int" Nullable="false" />
+          <Property Name="IsFormLogin" Type="bit" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+          <Property Name="IsFirstLogin" Type="bit" Nullable="false" />
+          <Property Name="UserType" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ConnoteToHide">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Connote" Type="varchar" MaxLength="100" />
+          <Property Name="DespatchDate" Type="date" />
+          <Property Name="Reason" Type="nvarchar(max)" />
+          <Property Name="HidedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="ActionTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AFSXchange1.dbo.vConnoteReadyToHide' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vConnoteReadyToHide">
+          <Key>
+            <PropertyRef Name="cId" />
+            <PropertyRef Name="RateIncSurch" />
+            <PropertyRef Name="TotWeightKg" />
+            <PropertyRef Name="TotVolM" />
+            <PropertyRef Name="LineItemId" />
+            <PropertyRef Name="CatchFilter" />
+          </Key>
+          <Property Name="cId" Type="int" Nullable="false" />
+          <Property Name="CarrierBusinessName" Type="varchar" MaxLength="60" />
+          <Property Name="ConsignmentNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="RateIncSurch" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="DeliveryAddress1" Type="varchar" MaxLength="100" />
+          <Property Name="DeliveryAddress2" Type="varchar" MaxLength="80" />
+          <Property Name="DeliveryTown" Type="varchar" MaxLength="30" />
+          <Property Name="DeliveryPostcode" Type="varchar" MaxLength="5" />
+          <Property Name="DespatchDate" Type="date" />
+          <Property Name="PickupAddress1" Type="varchar" MaxLength="80" />
+          <Property Name="PickupAddress2" Type="varchar" MaxLength="80" />
+          <Property Name="PickupTown" Type="varchar" MaxLength="30" />
+          <Property Name="PickupState" Type="varchar" MaxLength="5" />
+          <Property Name="PickupPostcode" Type="varchar" MaxLength="5" />
+          <Property Name="BrokerName" Type="varchar" MaxLength="100" />
+          <Property Name="ServiceName" Type="varchar" MaxLength="363" />
+          <Property Name="TotWeightKg" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="TotVolM" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="FreightStatus" Type="varchar" MaxLength="500" />
+          <Property Name="CatchFilter" Type="varchar" MaxLength="127" Nullable="false" />
+          <Property Name="CustomerCode" Type="nvarchar" MaxLength="100" />
+          <Property Name="AccountManager" Type="nvarchar" MaxLength="100" />
+          <Property Name="LoginName" Type="varchar" MaxLength="50" />
+          <Property Name="LineItemId" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AFSXchange1.dbo.vConnoteToHide' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vConnoteToHide">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="ActionTime" />
+          </Key>
+          <Property Name="Connote" Type="varchar" MaxLength="100" />
+          <Property Name="Reason" Type="nvarchar(max)" />
+          <Property Name="HidedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ActionTime" Type="datetime" Nullable="false" />
+          <Property Name="DespatchDate" Type="date" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AFSXchange1.dbo.vConsignments' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vConsignments">
+          <Key>
+            <PropertyRef Name="cId" />
+            <PropertyRef Name="Customer_id" />
+            <PropertyRef Name="RateWoSurch" />
+            <PropertyRef Name="CarrierRateWoSurch" />
+            <PropertyRef Name="FuelSurch" />
+            <PropertyRef Name="CarrierFuelSurch" />
+            <PropertyRef Name="RateIncSurch" />
+            <PropertyRef Name="CarrierRateIncSurch" />
+            <PropertyRef Name="RateWoShipperMargin" />
+            <PropertyRef Name="RateWoShipperMarginIncSurch" />
+            <PropertyRef Name="TotWeightKg" />
+            <PropertyRef Name="TotVolM" />
+            <PropertyRef Name="LoadType" />
+            <PropertyRef Name="InsertDate" />
+            <PropertyRef Name="IsUpdated" />
+            <PropertyRef Name="CustomerName" />
+            <PropertyRef Name="CustomerCode" />
+            <PropertyRef Name="FinanceGroup" />
+          </Key>
+          <Property Name="cId" Type="int" Nullable="false" />
+          <Property Name="Manifest_id" Type="int" />
+          <Property Name="ManifestNo" Type="varchar" MaxLength="100" />
+          <Property Name="ConsignmentNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="FreightStatus" Type="varchar" MaxLength="500" />
+          <Property Name="ShipperReference" Type="varchar" MaxLength="100" />
+          <Property Name="LineItemReferences" Type="varchar" MaxLength="800" />
+          <Property Name="Customer_id" Type="int" Nullable="false" />
+          <Property Name="DespatchDate" Type="date" />
+          <Property Name="ActualDespatchDate" Type="date" />
+          <Property Name="ExpectedDeliveryDate" Type="date" />
+          <Property Name="CreationDate" Type="datetime" />
+          <Property Name="LineOfBusiness" Type="varchar" MaxLength="100" />
+          <Property Name="PickupName" Type="varchar" MaxLength="60" />
+          <Property Name="PickupAddress1" Type="varchar" MaxLength="80" />
+          <Property Name="PickupAddress2" Type="varchar" MaxLength="80" />
+          <Property Name="PickupAddress3" Type="varchar" MaxLength="80" />
+          <Property Name="PickupTown" Type="varchar" MaxLength="30" />
+          <Property Name="PickupState" Type="varchar" MaxLength="5" />
+          <Property Name="PickupPostcode" Type="varchar" MaxLength="5" />
+          <Property Name="PickupPhone" Type="varchar" MaxLength="20" />
+          <Property Name="PickupEmail" Type="varchar" MaxLength="100" />
+          <Property Name="DeliveryName" Type="varchar" MaxLength="60" />
+          <Property Name="DeliveryAddress1" Type="varchar" MaxLength="100" />
+          <Property Name="DeliveryAddress2" Type="varchar" MaxLength="80" />
+          <Property Name="DeliveryAddress3" Type="varchar" MaxLength="100" />
+          <Property Name="DeliveryTown" Type="varchar" MaxLength="30" />
+          <Property Name="DeliveryState" Type="varchar" MaxLength="50" />
+          <Property Name="DeliveryPostcode" Type="varchar" MaxLength="5" />
+          <Property Name="DeliveryPhone" Type="varchar" MaxLength="20" />
+          <Property Name="DeliveryEmail" Type="varchar" MaxLength="100" />
+          <Property Name="ThirdPartyName" Type="varchar" MaxLength="60" />
+          <Property Name="ThirdPartyAddress1" Type="varchar" MaxLength="80" />
+          <Property Name="ThirdPartyAddress2" Type="varchar" MaxLength="80" />
+          <Property Name="ThirdPartyAddress3" Type="varchar" MaxLength="80" />
+          <Property Name="ThirdPartyTown" Type="varchar" MaxLength="30" />
+          <Property Name="ThirdPartyState" Type="varchar" MaxLength="5" />
+          <Property Name="ThirdPartyPostcode" Type="varchar" MaxLength="5" />
+          <Property Name="ThirdPartyPhone" Type="varchar" MaxLength="20" />
+          <Property Name="ThirdPartyEmail" Type="varchar" MaxLength="200" />
+          <Property Name="CarriageName" Type="varchar" MaxLength="60" />
+          <Property Name="CarriageAddress1" Type="varchar" MaxLength="80" />
+          <Property Name="DriverNumber" Type="varchar" MaxLength="80" />
+          <Property Name="ReceiverCode" Type="varchar" MaxLength="80" />
+          <Property Name="CarriageTown" Type="varchar" MaxLength="30" />
+          <Property Name="CarriageState" Type="varchar" MaxLength="5" />
+          <Property Name="CarriagePostcode" Type="varchar" MaxLength="5" />
+          <Property Name="CarriagePhone" Type="varchar" MaxLength="20" />
+          <Property Name="CarriageEmail" Type="varchar" MaxLength="50" />
+          <Property Name="PickupZone" Type="varchar" MaxLength="10" />
+          <Property Name="DeliveryZone" Type="varchar" MaxLength="10" />
+          <Property Name="ReturnConsignment" Type="varchar" MaxLength="5" />
+          <Property Name="CarrierBusinessName" Type="varchar" MaxLength="60" />
+          <Property Name="ServiceName" Type="varchar" MaxLength="300" />
+          <Property Name="SpecialIns" Type="varchar" MaxLength="1024" />
+          <Property Name="InsuranceClass" Type="varchar" MaxLength="100" />
+          <Property Name="InsuranceValue" Type="varchar" MaxLength="5" />
+          <Property Name="DgUnNo" Type="varchar" MaxLength="50" />
+          <Property Name="DgClass" Type="varchar" MaxLength="50" />
+          <Property Name="Dggroup" Type="varchar" MaxLength="50" />
+          <Property Name="RateWoSurch" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="CarrierRateWoSurch" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="FuelSurch" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="CarrierFuelSurch" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="RateIncSurch" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="CarrierRateIncSurch" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="RateWoShipperMargin" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="RateWoShipperMarginIncSurch" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="TotWeightKg" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="TotVolM" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="CarrierSilent" Type="varchar" MaxLength="5" />
+          <Property Name="ShipperSilent" Type="varchar" MaxLength="5" />
+          <Property Name="AutoDespatch" Type="varchar" MaxLength="5" />
+          <Property Name="CarrierWebLink" Type="varchar" MaxLength="500" />
+          <Property Name="CodeCodes" Type="varchar" MaxLength="100" />
+          <Property Name="PreDespatchNotiDate" Type="datetime" />
+          <Property Name="FileInfo_id" Type="int" />
+          <Property Name="load_date" Type="datetime" />
+          <Property Name="Moveit_custId" Type="int" />
+          <Property Name="ConsignmentId" Type="bigint" />
+          <Property Name="ThirdPartyPickup" Type="varchar" MaxLength="5" />
+          <Property Name="DeliveryAddrID" Type="varchar" MaxLength="100" />
+          <Property Name="ThirdPartyAddID" Type="varchar" MaxLength="100" />
+          <Property Name="PickupAddID" Type="varchar" MaxLength="100" />
+          <Property Name="BrokerName" Type="varchar" MaxLength="100" />
+          <Property Name="LoadType" Type="int" Nullable="false" />
+          <Property Name="Signature" Type="varchar" MaxLength="500" />
+          <Property Name="CarrierExpDeliveryDate" Type="date" />
+          <Property Name="MoveitSourceFile_id" Type="int" />
+          <Property Name="InsertDate" Type="datetime" Nullable="false" />
+          <Property Name="ActualDeliveryDate" Type="datetime" />
+          <Property Name="IsUpdated" Type="bit" Nullable="false" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="AccountManager" Type="nvarchar" MaxLength="100" />
+          <Property Name="CustomerCode" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="FinanceGroup" Type="nvarchar" MaxLength="16" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AFSXchange1.dbo.vDWHEditorLogin' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vDWHEditorLogin">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="LoginName" />
+            <PropertyRef Name="UserProfile" />
+            <PropertyRef Name="DWHEditor" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DWHEditor" Type="nvarchar" MaxLength="101" Nullable="false" />
+          <Property Name="LoginName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="IsActive" Type="int" />
+          <Property Name="IsDeleted" Type="int" />
+          <Property Name="IsFormLogin" Type="bit" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="IsFirstLogin" Type="bit" />
+          <Property Name="UserStatus" Type="varchar" MaxLength="8" />
+          <Property Name="UserType" Type="int" />
+          <Property Name="UserProfile" Type="varchar" MaxLength="11" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AFSXchange1.dbo.vIntegrityConnoteReadyToHide' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vIntegrityConnoteReadyToHide">
+          <Key>
+            <PropertyRef Name="cId" />
+            <PropertyRef Name="RateIncSurch" />
+            <PropertyRef Name="TotWeightKg" />
+            <PropertyRef Name="TotVolM" />
+          </Key>
+          <Property Name="cId" Type="int" Nullable="false" />
+          <Property Name="CarrierBusinessName" Type="varchar" MaxLength="60" />
+          <Property Name="ConsignmentNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="RateIncSurch" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="DeliveryAddress1" Type="varchar" MaxLength="100" />
+          <Property Name="DeliveryAddress2" Type="varchar" MaxLength="80" />
+          <Property Name="DeliveryTown" Type="varchar" MaxLength="30" />
+          <Property Name="DeliveryPostcode" Type="varchar" MaxLength="5" />
+          <Property Name="DespatchDate" Type="date" />
+          <Property Name="PickupAddress1" Type="varchar" MaxLength="80" />
+          <Property Name="PickupAddress2" Type="varchar" MaxLength="80" />
+          <Property Name="PickupTown" Type="varchar" MaxLength="30" />
+          <Property Name="PickupState" Type="varchar" MaxLength="5" />
+          <Property Name="PickupPostcode" Type="varchar" MaxLength="5" />
+          <Property Name="BrokerName" Type="varchar" MaxLength="100" />
+          <Property Name="ServiceName" Type="varchar" MaxLength="363" />
+          <Property Name="TotWeightKg" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="TotVolM" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="FreightStatus" Type="varchar" MaxLength="500" />
+          <Property Name="CatchFilter" Type="varchar" MaxLength="127" />
+          <Property Name="CustomerCode" Type="nvarchar" MaxLength="100" />
+          <Property Name="AccountManager" Type="nvarchar" MaxLength="100" />
+          <Property Name="LoginName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Function Name="spGetCustomerCounts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fromdate" Type="date" Mode="In" />
+          <Parameter Name="todate" Type="date" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="CNT" Type="int" />
+                <Property Name="Customer_id" Type="int" Nullable="false" />
+                <Property Name="AccountManager" Type="nvarchar" MaxLength="100" />
+                <Property Name="CustomerName" Type="nvarchar" MaxLength="16" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="spIntegrityReportLog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+          <Parameter Name="LogDesc" Type="varchar(max)" Mode="In" />
+        </Function>
+        <EntityContainer Name="AFSXchange1ModelStoreContainer">
+          <EntitySet Name="Consignment" EntityType="Self.Consignment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ConsignmentIntegrityUpdate" EntityType="Self.ConsignmentIntegrityUpdate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DWHEditorLogin" EntityType="Self.DWHEditorLogin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ConnoteToHide" EntityType="Self.ConnoteToHide" Schema="stg" store:Type="Tables" />
+          <EntitySet Name="vConnoteReadyToHide" EntityType="Self.vConnoteReadyToHide" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vConnoteReadyToHide].[cId] AS [cId], 
+    [vConnoteReadyToHide].[CarrierBusinessName] AS [CarrierBusinessName], 
+    [vConnoteReadyToHide].[ConsignmentNo] AS [ConsignmentNo], 
+    [vConnoteReadyToHide].[RateIncSurch] AS [RateIncSurch], 
+    [vConnoteReadyToHide].[DeliveryAddress1] AS [DeliveryAddress1], 
+    [vConnoteReadyToHide].[DeliveryAddress2] AS [DeliveryAddress2], 
+    [vConnoteReadyToHide].[DeliveryTown] AS [DeliveryTown], 
+    [vConnoteReadyToHide].[DeliveryPostcode] AS [DeliveryPostcode], 
+    [vConnoteReadyToHide].[DespatchDate] AS [DespatchDate], 
+    [vConnoteReadyToHide].[PickupAddress1] AS [PickupAddress1], 
+    [vConnoteReadyToHide].[PickupAddress2] AS [PickupAddress2], 
+    [vConnoteReadyToHide].[PickupTown] AS [PickupTown], 
+    [vConnoteReadyToHide].[PickupState] AS [PickupState], 
+    [vConnoteReadyToHide].[PickupPostcode] AS [PickupPostcode], 
+    [vConnoteReadyToHide].[BrokerName] AS [BrokerName], 
+    [vConnoteReadyToHide].[ServiceName] AS [ServiceName], 
+    [vConnoteReadyToHide].[TotWeightKg] AS [TotWeightKg], 
+    [vConnoteReadyToHide].[TotVolM] AS [TotVolM], 
+    [vConnoteReadyToHide].[FreightStatus] AS [FreightStatus], 
+    [vConnoteReadyToHide].[CatchFilter] AS [CatchFilter], 
+    [vConnoteReadyToHide].[CustomerCode] AS [CustomerCode], 
+    [vConnoteReadyToHide].[AccountManager] AS [AccountManager], 
+    [vConnoteReadyToHide].[LoginName] AS [LoginName], 
+    [vConnoteReadyToHide].[LineItemId] AS [LineItemId]
+    FROM [dbo].[vConnoteReadyToHide] AS [vConnoteReadyToHide]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vConnoteToHide" EntityType="Self.vConnoteToHide" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vConnoteToHide].[Connote] AS [Connote], 
+    [vConnoteToHide].[Reason] AS [Reason], 
+    [vConnoteToHide].[HidedBy] AS [HidedBy], 
+    [vConnoteToHide].[id] AS [id], 
+    [vConnoteToHide].[ActionTime] AS [ActionTime], 
+    [vConnoteToHide].[DespatchDate] AS [DespatchDate]
+    FROM [dbo].[vConnoteToHide] AS [vConnoteToHide]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vConsignments" EntityType="Self.vConsignments" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vConsignments].[cId] AS [cId], 
+    [vConsignments].[Manifest_id] AS [Manifest_id], 
+    [vConsignments].[ManifestNo] AS [ManifestNo], 
+    [vConsignments].[ConsignmentNo] AS [ConsignmentNo], 
+    [vConsignments].[FreightStatus] AS [FreightStatus], 
+    [vConsignments].[ShipperReference] AS [ShipperReference], 
+    [vConsignments].[LineItemReferences] AS [LineItemReferences], 
+    [vConsignments].[Customer_id] AS [Customer_id], 
+    [vConsignments].[DespatchDate] AS [DespatchDate], 
+    [vConsignments].[ActualDespatchDate] AS [ActualDespatchDate], 
+    [vConsignments].[ExpectedDeliveryDate] AS [ExpectedDeliveryDate], 
+    [vConsignments].[CreationDate] AS [CreationDate], 
+    [vConsignments].[LineOfBusiness] AS [LineOfBusiness], 
+    [vConsignments].[PickupName] AS [PickupName], 
+    [vConsignments].[PickupAddress1] AS [PickupAddress1], 
+    [vConsignments].[PickupAddress2] AS [PickupAddress2], 
+    [vConsignments].[PickupAddress3] AS [PickupAddress3], 
+    [vConsignments].[PickupTown] AS [PickupTown], 
+    [vConsignments].[PickupState] AS [PickupState], 
+    [vConsignments].[PickupPostcode] AS [PickupPostcode], 
+    [vConsignments].[PickupPhone] AS [PickupPhone], 
+    [vConsignments].[PickupEmail] AS [PickupEmail], 
+    [vConsignments].[DeliveryName] AS [DeliveryName], 
+    [vConsignments].[DeliveryAddress1] AS [DeliveryAddress1], 
+    [vConsignments].[DeliveryAddress2] AS [DeliveryAddress2], 
+    [vConsignments].[DeliveryAddress3] AS [DeliveryAddress3], 
+    [vConsignments].[DeliveryTown] AS [DeliveryTown], 
+    [vConsignments].[DeliveryState] AS [DeliveryState], 
+    [vConsignments].[DeliveryPostcode] AS [DeliveryPostcode], 
+    [vConsignments].[DeliveryPhone] AS [DeliveryPhone], 
+    [vConsignments].[DeliveryEmail] AS [DeliveryEmail], 
+    [vConsignments].[ThirdPartyName] AS [ThirdPartyName], 
+    [vConsignments].[ThirdPartyAddress1] AS [ThirdPartyAddress1], 
+    [vConsignments].[ThirdPartyAddress2] AS [ThirdPartyAddress2], 
+    [vConsignments].[ThirdPartyAddress3] AS [ThirdPartyAddress3], 
+    [vConsignments].[ThirdPartyTown] AS [ThirdPartyTown], 
+    [vConsignments].[ThirdPartyState] AS [ThirdPartyState], 
+    [vConsignments].[ThirdPartyPostcode] AS [ThirdPartyPostcode], 
+    [vConsignments].[ThirdPartyPhone] AS [ThirdPartyPhone], 
+    [vConsignments].[ThirdPartyEmail] AS [ThirdPartyEmail], 
+    [vConsignments].[CarriageName] AS [CarriageName], 
+    [vConsignments].[CarriageAddress1] AS [CarriageAddress1], 
+    [vConsignments].[DriverNumber] AS [DriverNumber], 
+    [vConsignments].[ReceiverCode] AS [ReceiverCode], 
+    [vConsignments].[CarriageTown] AS [CarriageTown], 
+    [vConsignments].[CarriageState] AS [CarriageState], 
+    [vConsignments].[CarriagePostcode] AS [CarriagePostcode], 
+    [vConsignments].[CarriagePhone] AS [CarriagePhone], 
+    [vConsignments].[CarriageEmail] AS [CarriageEmail], 
+    [vConsignments].[PickupZone] AS [PickupZone], 
+    [vConsignments].[DeliveryZone] AS [DeliveryZone], 
+    [vConsignments].[ReturnConsignment] AS [ReturnConsignment], 
+    [vConsignments].[CarrierBusinessName] AS [CarrierBusinessName], 
+    [vConsignments].[ServiceName] AS [ServiceName], 
+    [vConsignments].[SpecialIns] AS [SpecialIns], 
+    [vConsignments].[InsuranceClass] AS [InsuranceClass], 
+    [vConsignments].[InsuranceValue] AS [InsuranceValue], 
+    [vConsignments].[DgUnNo] AS [DgUnNo], 
+    [vConsignments].[DgClass] AS [DgClass], 
+    [vConsignments].[Dggroup] AS [Dggroup], 
+    [vConsignments].[RateWoSurch] AS [RateWoSurch], 
+    [vConsignments].[CarrierRateWoSurch] AS [CarrierRateWoSurch], 
+    [vConsignments].[FuelSurch] AS [FuelSurch], 
+    [vConsignments].[CarrierFuelSurch] AS [CarrierFuelSurch], 
+    [vConsignments].[RateIncSurch] AS [RateIncSurch], 
+    [vConsignments].[CarrierRateIncSurch] AS [CarrierRateIncSurch], 
+    [vConsignments].[RateWoShipperMargin] AS [RateWoShipperMargin], 
+    [vConsignments].[RateWoShipperMarginIncSurch] AS [RateWoShipperMarginIncSurch], 
+    [vConsignments].[TotWeightKg] AS [TotWeightKg], 
+    [vConsignments].[TotVolM] AS [TotVolM], 
+    [vConsignments].[CarrierSilent] AS [CarrierSilent], 
+    [vConsignments].[ShipperSilent] AS [ShipperSilent], 
+    [vConsignments].[AutoDespatch] AS [AutoDespatch], 
+    [vConsignments].[CarrierWebLink] AS [CarrierWebLink], 
+    [vConsignments].[CodeCodes] AS [CodeCodes], 
+    [vConsignments].[PreDespatchNotiDate] AS [PreDespatchNotiDate], 
+    [vConsignments].[FileInfo_id] AS [FileInfo_id], 
+    [vConsignments].[load_date] AS [load_date], 
+    [vConsignments].[Moveit_custId] AS [Moveit_custId], 
+    [vConsignments].[ConsignmentId] AS [ConsignmentId], 
+    [vConsignments].[ThirdPartyPickup] AS [ThirdPartyPickup], 
+    [vConsignments].[DeliveryAddrID] AS [DeliveryAddrID], 
+    [vConsignments].[ThirdPartyAddID] AS [ThirdPartyAddID], 
+    [vConsignments].[PickupAddID] AS [PickupAddID], 
+    [vConsignments].[BrokerName] AS [BrokerName], 
+    [vConsignments].[LoadType] AS [LoadType], 
+    [vConsignments].[Signature] AS [Signature], 
+    [vConsignments].[CarrierExpDeliveryDate] AS [CarrierExpDeliveryDate], 
+    [vConsignments].[MoveitSourceFile_id] AS [MoveitSourceFile_id], 
+    [vConsignments].[InsertDate] AS [InsertDate], 
+    [vConsignments].[ActualDeliveryDate] AS [ActualDeliveryDate], 
+    [vConsignments].[IsUpdated] AS [IsUpdated], 
+    [vConsignments].[CustomerName] AS [CustomerName], 
+    [vConsignments].[AccountManager] AS [AccountManager], 
+    [vConsignments].[CustomerCode] AS [CustomerCode], 
+    [vConsignments].[FinanceGroup] AS [FinanceGroup]
+    FROM [dbo].[vConsignments] AS [vConsignments]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vDWHEditorLogin" EntityType="Self.vDWHEditorLogin" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vDWHEditorLogin].[Id] AS [Id], 
+    [vDWHEditorLogin].[DWHEditor] AS [DWHEditor], 
+    [vDWHEditorLogin].[LoginName] AS [LoginName], 
+    [vDWHEditorLogin].[Password] AS [Password], 
+    [vDWHEditorLogin].[IsActive] AS [IsActive], 
+    [vDWHEditorLogin].[IsDeleted] AS [IsDeleted], 
+    [vDWHEditorLogin].[IsFormLogin] AS [IsFormLogin], 
+    [vDWHEditorLogin].[ModifiedDate] AS [ModifiedDate], 
+    [vDWHEditorLogin].[IsFirstLogin] AS [IsFirstLogin], 
+    [vDWHEditorLogin].[UserStatus] AS [UserStatus], 
+    [vDWHEditorLogin].[UserType] AS [UserType], 
+    [vDWHEditorLogin].[UserProfile] AS [UserProfile]
+    FROM [dbo].[vDWHEditorLogin] AS [vDWHEditorLogin]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vIntegrityConnoteReadyToHide" EntityType="Self.vIntegrityConnoteReadyToHide" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vIntegrityConnoteReadyToHide].[cId] AS [cId], 
+    [vIntegrityConnoteReadyToHide].[CarrierBusinessName] AS [CarrierBusinessName], 
+    [vIntegrityConnoteReadyToHide].[ConsignmentNo] AS [ConsignmentNo], 
+    [vIntegrityConnoteReadyToHide].[RateIncSurch] AS [RateIncSurch], 
+    [vIntegrityConnoteReadyToHide].[DeliveryAddress1] AS [DeliveryAddress1], 
+    [vIntegrityConnoteReadyToHide].[DeliveryAddress2] AS [DeliveryAddress2], 
+    [vIntegrityConnoteReadyToHide].[DeliveryTown] AS [DeliveryTown], 
+    [vIntegrityConnoteReadyToHide].[DeliveryPostcode] AS [DeliveryPostcode], 
+    [vIntegrityConnoteReadyToHide].[DespatchDate] AS [DespatchDate], 
+    [vIntegrityConnoteReadyToHide].[PickupAddress1] AS [PickupAddress1], 
+    [vIntegrityConnoteReadyToHide].[PickupAddress2] AS [PickupAddress2], 
+    [vIntegrityConnoteReadyToHide].[PickupTown] AS [PickupTown], 
+    [vIntegrityConnoteReadyToHide].[PickupState] AS [PickupState], 
+    [vIntegrityConnoteReadyToHide].[PickupPostcode] AS [PickupPostcode], 
+    [vIntegrityConnoteReadyToHide].[BrokerName] AS [BrokerName], 
+    [vIntegrityConnoteReadyToHide].[ServiceName] AS [ServiceName], 
+    [vIntegrityConnoteReadyToHide].[TotWeightKg] AS [TotWeightKg], 
+    [vIntegrityConnoteReadyToHide].[TotVolM] AS [TotVolM], 
+    [vIntegrityConnoteReadyToHide].[FreightStatus] AS [FreightStatus], 
+    [vIntegrityConnoteReadyToHide].[CatchFilter] AS [CatchFilter], 
+    [vIntegrityConnoteReadyToHide].[CustomerCode] AS [CustomerCode], 
+    [vIntegrityConnoteReadyToHide].[AccountManager] AS [AccountManager], 
+    [vIntegrityConnoteReadyToHide].[LoginName] AS [LoginName]
+    FROM [dbo].[vIntegrityConnoteReadyToHide] AS [vIntegrityConnoteReadyToHide]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AFSXchange1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="AFSXchange1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DWHEditorLogin" EntityType="AFSXchange1Model.DWHEditorLogin" />
+          <EntitySet Name="vDWHEditorLogin" EntityType="AFSXchange1Model.vDWHEditorLogin" />
+          <EntitySet Name="ConnoteToHide" EntityType="AFSXchange1Model.ConnoteToHide" />
+          <EntitySet Name="vConnoteToHide" EntityType="AFSXchange1Model.vConnoteToHide" />
+          <EntitySet Name="vConsignments" EntityType="AFSXchange1Model.vConsignments" />
+          <FunctionImport Name="spIntegrityReportLog">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="LogDesc" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="ConsignmentIntegrityUpdate" EntityType="AFSXchange1Model.ConsignmentIntegrityUpdate" />
+          <EntitySet Name="Consignment" EntityType="AFSXchange1Model.Consignment" />
+          <EntitySet Name="vConnoteReadyToHide" EntityType="AFSXchange1Model.vConnoteReadyToHide" />
+          <EntitySet Name="vIntegrityConnoteReadyToHide" EntityType="AFSXchange1Model.vIntegrityConnoteReadyToHide" />
+        </EntityContainer>
+        <EntityType Name="DWHEditorLogin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DWHEditor" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LoginName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsActive" Type="Int32" Nullable="false" />
+          <Property Name="IsDeleted" Type="Int32" Nullable="false" />
+          <Property Name="IsFormLogin" Type="Boolean" Nullable="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="IsFirstLogin" Type="Boolean" Nullable="false" />
+          <Property Name="UserType" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vDWHEditorLogin">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="DWHEditor" />
+            <PropertyRef Name="LoginName" />
+            <PropertyRef Name="UserProfile" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DWHEditor" Type="String" Nullable="false" MaxLength="101" FixedLength="false" Unicode="true" />
+          <Property Name="LoginName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Int32" />
+          <Property Name="IsDeleted" Type="Int32" />
+          <Property Name="IsFormLogin" Type="Boolean" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsFirstLogin" Type="Boolean" />
+          <Property Name="UserStatus" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="UserType" Type="Int32" />
+          <Property Name="UserProfile" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="spGetCustomerCounts_Result">
+          <Property Type="Int32" Name="CNT" Nullable="true" />
+          <Property Type="Int32" Name="Customer_id" Nullable="false" />
+          <Property Type="String" Name="DWHEditor" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="16" />
+        </ComplexType>
+        <EntityType Name="ConnoteToHide">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Connote" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DespatchDate" Type="DateTime" Precision="0" />
+          <Property Name="Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HidedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ActionTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="vConnoteToHide">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="ActionTime" />
+          </Key>
+          <Property Name="Connote" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HidedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ActionTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DespatchDate" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="vConsignments">
+          <Key>
+            <PropertyRef Name="cId" />
+            <PropertyRef Name="Customer_id" />
+            <PropertyRef Name="RateWoSurch" />
+            <PropertyRef Name="CarrierRateWoSurch" />
+            <PropertyRef Name="FuelSurch" />
+            <PropertyRef Name="CarrierFuelSurch" />
+            <PropertyRef Name="RateIncSurch" />
+            <PropertyRef Name="CarrierRateIncSurch" />
+            <PropertyRef Name="RateWoShipperMargin" />
+            <PropertyRef Name="RateWoShipperMarginIncSurch" />
+            <PropertyRef Name="TotWeightKg" />
+            <PropertyRef Name="TotVolM" />
+            <PropertyRef Name="LoadType" />
+            <PropertyRef Name="InsertDate" />
+            <PropertyRef Name="IsUpdated" />
+            <PropertyRef Name="CustomerName" />
+            <PropertyRef Name="CustomerCode" />
+            <PropertyRef Name="FinanceGroup" />
+          </Key>
+          <Property Name="cId" Type="Int32" Nullable="false" />
+          <Property Name="Manifest_id" Type="Int32" />
+          <Property Name="ManifestNo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ConsignmentNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FreightStatus" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ShipperReference" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LineItemReferences" Type="String" MaxLength="800" FixedLength="false" Unicode="false" />
+          <Property Name="Customer_id" Type="Int32" Nullable="false" />
+          <Property Name="DespatchDate" Type="DateTime" Precision="0" />
+          <Property Name="ActualDespatchDate" Type="DateTime" Precision="0" />
+          <Property Name="ExpectedDeliveryDate" Type="DateTime" Precision="0" />
+          <Property Name="CreationDate" Type="DateTime" Precision="3" />
+          <Property Name="LineOfBusiness" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PickupName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="PickupAddress1" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="PickupAddress2" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="PickupAddress3" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="PickupTown" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PickupState" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="PickupPostcode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="PickupPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PickupEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddress1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddress2" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddress3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryTown" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryState" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryPostcode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyAddress1" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyAddress2" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyAddress3" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyTown" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyState" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyPostcode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyEmail" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CarriageName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="CarriageAddress1" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="DriverNumber" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="ReceiverCode" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="CarriageTown" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CarriageState" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CarriagePostcode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CarriagePhone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CarriageEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PickupZone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryZone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ReturnConsignment" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CarrierBusinessName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="ServiceName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="SpecialIns" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="InsuranceClass" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="InsuranceValue" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DgUnNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DgClass" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Dggroup" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RateWoSurch" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="CarrierRateWoSurch" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="FuelSurch" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="CarrierFuelSurch" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="RateIncSurch" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="CarrierRateIncSurch" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="RateWoShipperMargin" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="RateWoShipperMarginIncSurch" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="TotWeightKg" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="TotVolM" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="CarrierSilent" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="ShipperSilent" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="AutoDespatch" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CarrierWebLink" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CodeCodes" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PreDespatchNotiDate" Type="DateTime" Precision="3" />
+          <Property Name="FileInfo_id" Type="Int32" />
+          <Property Name="load_date" Type="DateTime" Precision="3" />
+          <Property Name="Moveit_custId" Type="Int32" />
+          <Property Name="ConsignmentId" Type="Int64" />
+          <Property Name="ThirdPartyPickup" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddrID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyAddID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PickupAddID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BrokerName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LoadType" Type="Int32" Nullable="false" />
+          <Property Name="Signature" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CarrierExpDeliveryDate" Type="DateTime" Precision="0" />
+          <Property Name="MoveitSourceFile_id" Type="Int32" />
+          <Property Name="InsertDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ActualDeliveryDate" Type="DateTime" Precision="3" />
+          <Property Name="IsUpdated" Type="Boolean" Nullable="false" />
+          <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="AccountManager" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerCode" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="FinanceGroup" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ConsignmentIntegrityUpdate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cId" Type="Int64" />
+          <Property Name="ConsignmentNo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="TotWeightKg" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="TotVolM" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="RateIncSurch" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="InsertedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CurrentDetail" Type="Boolean" Nullable="false" />
+          <Property Name="ActionTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Consignment">
+          <Key>
+            <PropertyRef Name="cId" />
+          </Key>
+          <Property Name="cId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Manifest_id" Type="Int32" />
+          <Property Name="ManifestNo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ConsignmentNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FreightStatus" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ShipperReference" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LineItemReferences" Type="String" MaxLength="800" FixedLength="false" Unicode="false" />
+          <Property Name="Customer_id" Type="Int32" Nullable="false" />
+          <Property Name="DespatchDate" Type="DateTime" Precision="0" />
+          <Property Name="ActualDespatchDate" Type="DateTime" Precision="0" />
+          <Property Name="ExpectedDeliveryDate" Type="DateTime" Precision="0" />
+          <Property Name="CreationDate" Type="DateTime" Precision="3" />
+          <Property Name="LineOfBusiness" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PickupName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="PickupAddress1" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="PickupAddress2" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="PickupAddress3" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="PickupTown" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PickupState" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="PickupPostcode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="PickupPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PickupEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddress1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddress2" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddress3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryTown" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryState" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryPostcode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyAddress1" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyAddress2" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyAddress3" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyTown" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyState" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyPostcode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyEmail" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CarriageName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="CarriageAddress1" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="DriverNumber" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="ReceiverCode" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="CarriageTown" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CarriageState" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CarriagePostcode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CarriagePhone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CarriageEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PickupZone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryZone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ReturnConsignment" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CarrierBusinessName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="ServiceName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="SpecialIns" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="InsuranceClass" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="InsuranceValue" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DgUnNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DgClass" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Dggroup" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RateWoSurch" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="CarrierRateWoSurch" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="FuelSurch" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="CarrierFuelSurch" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="RateIncSurch" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="CarrierRateIncSurch" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="RateWoShipperMargin" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="RateWoShipperMarginIncSurch" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="TotWeightKg" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="TotVolM" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="CarrierSilent" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="ShipperSilent" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="AutoDespatch" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CarrierWebLink" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CodeCodes" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PreDespatchNotiDate" Type="DateTime" Precision="3" />
+          <Property Name="FileInfo_id" Type="Int32" />
+          <Property Name="load_date" Type="DateTime" Precision="3" />
+          <Property Name="Moveit_custId" Type="Int32" />
+          <Property Name="ConsignmentId" Type="Int64" />
+          <Property Name="ThirdPartyPickup" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddrID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyAddID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PickupAddID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BrokerName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LoadType" Type="Int32" Nullable="false" />
+          <Property Name="Signature" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CarrierExpDeliveryDate" Type="DateTime" Precision="0" />
+          <Property Name="MoveitSourceFile_id" Type="Int32" />
+          <Property Name="InsertDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ActualDeliveryDate" Type="DateTime" Precision="3" />
+          <Property Name="IsUpdated" Type="Boolean" Nullable="false" />
+          <Property Name="LastModifiedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DeliveryLocationCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DIFOT" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ConsignmentCondition" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ActualDeliveryTransitDays" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ActualDespatchTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="vConnoteReadyToHide">
+          <Key>
+            <PropertyRef Name="cId" />
+            <PropertyRef Name="RateIncSurch" />
+            <PropertyRef Name="TotWeightKg" />
+            <PropertyRef Name="TotVolM" />
+            <PropertyRef Name="CatchFilter" />
+            <PropertyRef Name="LineItemId" />
+          </Key>
+          <Property Name="cId" Type="Int32" Nullable="false" />
+          <Property Name="CarrierBusinessName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="ConsignmentNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RateIncSurch" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="DeliveryAddress1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddress2" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryTown" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryPostcode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DespatchDate" Type="DateTime" Precision="0" />
+          <Property Name="PickupAddress1" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="PickupAddress2" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="PickupTown" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PickupState" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="PickupPostcode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="BrokerName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ServiceName" Type="String" MaxLength="363" FixedLength="false" Unicode="false" />
+          <Property Name="TotWeightKg" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="TotVolM" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="FreightStatus" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CatchFilter" Type="String" Nullable="false" MaxLength="127" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AccountManager" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LoginName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LineItemId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vIntegrityConnoteReadyToHide">
+          <Key>
+            <PropertyRef Name="cId" />
+            <PropertyRef Name="RateIncSurch" />
+            <PropertyRef Name="TotWeightKg" />
+            <PropertyRef Name="TotVolM" />
+          </Key>
+          <Property Name="cId" Type="Int32" Nullable="false" />
+          <Property Name="CarrierBusinessName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="ConsignmentNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RateIncSurch" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="DeliveryAddress1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddress2" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryTown" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryPostcode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DespatchDate" Type="DateTime" Precision="0" />
+          <Property Name="PickupAddress1" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="PickupAddress2" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="PickupTown" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PickupState" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="PickupPostcode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="BrokerName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ServiceName" Type="String" MaxLength="363" FixedLength="false" Unicode="false" />
+          <Property Name="TotWeightKg" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="TotVolM" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="FreightStatus" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CatchFilter" Type="String" MaxLength="127" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AccountManager" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LoginName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AFSXchange1ModelStoreContainer" CdmEntityContainer="AFSXchange1Entities">
+          <EntitySetMapping Name="DWHEditorLogin">
+            <EntityTypeMapping TypeName="AFSXchange1Model.DWHEditorLogin">
+              <MappingFragment StoreEntitySet="DWHEditorLogin">
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="IsFirstLogin" ColumnName="IsFirstLogin" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="IsFormLogin" ColumnName="IsFormLogin" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
+                <ScalarProperty Name="DWHEditor" ColumnName="DWHEditor" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vDWHEditorLogin">
+            <EntityTypeMapping TypeName="AFSXchange1Model.vDWHEditorLogin">
+              <MappingFragment StoreEntitySet="vDWHEditorLogin">
+                <ScalarProperty Name="UserProfile" ColumnName="UserProfile" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="UserStatus" ColumnName="UserStatus" />
+                <ScalarProperty Name="IsFirstLogin" ColumnName="IsFirstLogin" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="IsFormLogin" ColumnName="IsFormLogin" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
+                <ScalarProperty Name="DWHEditor" ColumnName="DWHEditor" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConnoteToHide">
+            <EntityTypeMapping TypeName="AFSXchange1Model.ConnoteToHide">
+              <MappingFragment StoreEntitySet="ConnoteToHide">
+                <ScalarProperty Name="ActionTime" ColumnName="ActionTime" />
+                <ScalarProperty Name="HidedBy" ColumnName="HidedBy" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="DespatchDate" ColumnName="DespatchDate" />
+                <ScalarProperty Name="Connote" ColumnName="Connote" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vConnoteToHide">
+            <EntityTypeMapping TypeName="AFSXchange1Model.vConnoteToHide">
+              <MappingFragment StoreEntitySet="vConnoteToHide">
+                <ScalarProperty Name="DespatchDate" ColumnName="DespatchDate" />
+                <ScalarProperty Name="ActionTime" ColumnName="ActionTime" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="HidedBy" ColumnName="HidedBy" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="Connote" ColumnName="Connote" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vConsignments">
+            <EntityTypeMapping TypeName="AFSXchange1Model.vConsignments">
+              <MappingFragment StoreEntitySet="vConsignments">
+                <ScalarProperty Name="FinanceGroup" ColumnName="FinanceGroup" />
+                <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
+                <ScalarProperty Name="AccountManager" ColumnName="AccountManager" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="IsUpdated" ColumnName="IsUpdated" />
+                <ScalarProperty Name="ActualDeliveryDate" ColumnName="ActualDeliveryDate" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="MoveitSourceFile_id" ColumnName="MoveitSourceFile_id" />
+                <ScalarProperty Name="CarrierExpDeliveryDate" ColumnName="CarrierExpDeliveryDate" />
+                <ScalarProperty Name="Signature" ColumnName="Signature" />
+                <ScalarProperty Name="LoadType" ColumnName="LoadType" />
+                <ScalarProperty Name="BrokerName" ColumnName="BrokerName" />
+                <ScalarProperty Name="PickupAddID" ColumnName="PickupAddID" />
+                <ScalarProperty Name="ThirdPartyAddID" ColumnName="ThirdPartyAddID" />
+                <ScalarProperty Name="DeliveryAddrID" ColumnName="DeliveryAddrID" />
+                <ScalarProperty Name="ThirdPartyPickup" ColumnName="ThirdPartyPickup" />
+                <ScalarProperty Name="ConsignmentId" ColumnName="ConsignmentId" />
+                <ScalarProperty Name="Moveit_custId" ColumnName="Moveit_custId" />
+                <ScalarProperty Name="load_date" ColumnName="load_date" />
+                <ScalarProperty Name="FileInfo_id" ColumnName="FileInfo_id" />
+                <ScalarProperty Name="PreDespatchNotiDate" ColumnName="PreDespatchNotiDate" />
+                <ScalarProperty Name="CodeCodes" ColumnName="CodeCodes" />
+                <ScalarProperty Name="CarrierWebLink" ColumnName="CarrierWebLink" />
+                <ScalarProperty Name="AutoDespatch" ColumnName="AutoDespatch" />
+                <ScalarProperty Name="ShipperSilent" ColumnName="ShipperSilent" />
+                <ScalarProperty Name="CarrierSilent" ColumnName="CarrierSilent" />
+                <ScalarProperty Name="TotVolM" ColumnName="TotVolM" />
+                <ScalarProperty Name="TotWeightKg" ColumnName="TotWeightKg" />
+                <ScalarProperty Name="RateWoShipperMarginIncSurch" ColumnName="RateWoShipperMarginIncSurch" />
+                <ScalarProperty Name="RateWoShipperMargin" ColumnName="RateWoShipperMargin" />
+                <ScalarProperty Name="CarrierRateIncSurch" ColumnName="CarrierRateIncSurch" />
+                <ScalarProperty Name="RateIncSurch" ColumnName="RateIncSurch" />
+                <ScalarProperty Name="CarrierFuelSurch" ColumnName="CarrierFuelSurch" />
+                <ScalarProperty Name="FuelSurch" ColumnName="FuelSurch" />
+                <ScalarProperty Name="CarrierRateWoSurch" ColumnName="CarrierRateWoSurch" />
+                <ScalarProperty Name="RateWoSurch" ColumnName="RateWoSurch" />
+                <ScalarProperty Name="Dggroup" ColumnName="Dggroup" />
+                <ScalarProperty Name="DgClass" ColumnName="DgClass" />
+                <ScalarProperty Name="DgUnNo" ColumnName="DgUnNo" />
+                <ScalarProperty Name="InsuranceValue" ColumnName="InsuranceValue" />
+                <ScalarProperty Name="InsuranceClass" ColumnName="InsuranceClass" />
+                <ScalarProperty Name="SpecialIns" ColumnName="SpecialIns" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="CarrierBusinessName" ColumnName="CarrierBusinessName" />
+                <ScalarProperty Name="ReturnConsignment" ColumnName="ReturnConsignment" />
+                <ScalarProperty Name="DeliveryZone" ColumnName="DeliveryZone" />
+                <ScalarProperty Name="PickupZone" ColumnName="PickupZone" />
+                <ScalarProperty Name="CarriageEmail" ColumnName="CarriageEmail" />
+                <ScalarProperty Name="CarriagePhone" ColumnName="CarriagePhone" />
+                <ScalarProperty Name="CarriagePostcode" ColumnName="CarriagePostcode" />
+                <ScalarProperty Name="CarriageState" ColumnName="CarriageState" />
+                <ScalarProperty Name="CarriageTown" ColumnName="CarriageTown" />
+                <ScalarProperty Name="ReceiverCode" ColumnName="ReceiverCode" />
+                <ScalarProperty Name="DriverNumber" ColumnName="DriverNumber" />
+                <ScalarProperty Name="CarriageAddress1" ColumnName="CarriageAddress1" />
+                <ScalarProperty Name="CarriageName" ColumnName="CarriageName" />
+                <ScalarProperty Name="ThirdPartyEmail" ColumnName="ThirdPartyEmail" />
+                <ScalarProperty Name="ThirdPartyPhone" ColumnName="ThirdPartyPhone" />
+                <ScalarProperty Name="ThirdPartyPostcode" ColumnName="ThirdPartyPostcode" />
+                <ScalarProperty Name="ThirdPartyState" ColumnName="ThirdPartyState" />
+                <ScalarProperty Name="ThirdPartyTown" ColumnName="ThirdPartyTown" />
+                <ScalarProperty Name="ThirdPartyAddress3" ColumnName="ThirdPartyAddress3" />
+                <ScalarProperty Name="ThirdPartyAddress2" ColumnName="ThirdPartyAddress2" />
+                <ScalarProperty Name="ThirdPartyAddress1" ColumnName="ThirdPartyAddress1" />
+                <ScalarProperty Name="ThirdPartyName" ColumnName="ThirdPartyName" />
+                <ScalarProperty Name="DeliveryEmail" ColumnName="DeliveryEmail" />
+                <ScalarProperty Name="DeliveryPhone" ColumnName="DeliveryPhone" />
+                <ScalarProperty Name="DeliveryPostcode" ColumnName="DeliveryPostcode" />
+                <ScalarProperty Name="DeliveryState" ColumnName="DeliveryState" />
+                <ScalarProperty Name="DeliveryTown" ColumnName="DeliveryTown" />
+                <ScalarProperty Name="DeliveryAddress3" ColumnName="DeliveryAddress3" />
+                <ScalarProperty Name="DeliveryAddress2" ColumnName="DeliveryAddress2" />
+                <ScalarProperty Name="DeliveryAddress1" ColumnName="DeliveryAddress1" />
+                <ScalarProperty Name="DeliveryName" ColumnName="DeliveryName" />
+                <ScalarProperty Name="PickupEmail" ColumnName="PickupEmail" />
+                <ScalarProperty Name="PickupPhone" ColumnName="PickupPhone" />
+                <ScalarProperty Name="PickupPostcode" ColumnName="PickupPostcode" />
+                <ScalarProperty Name="PickupState" ColumnName="PickupState" />
+                <ScalarProperty Name="PickupTown" ColumnName="PickupTown" />
+                <ScalarProperty Name="PickupAddress3" ColumnName="PickupAddress3" />
+                <ScalarProperty Name="PickupAddress2" ColumnName="PickupAddress2" />
+                <ScalarProperty Name="PickupAddress1" ColumnName="PickupAddress1" />
+                <ScalarProperty Name="PickupName" ColumnName="PickupName" />
+                <ScalarProperty Name="LineOfBusiness" ColumnName="LineOfBusiness" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="ExpectedDeliveryDate" ColumnName="ExpectedDeliveryDate" />
+                <ScalarProperty Name="ActualDespatchDate" ColumnName="ActualDespatchDate" />
+                <ScalarProperty Name="DespatchDate" ColumnName="DespatchDate" />
+                <ScalarProperty Name="Customer_id" ColumnName="Customer_id" />
+                <ScalarProperty Name="LineItemReferences" ColumnName="LineItemReferences" />
+                <ScalarProperty Name="ShipperReference" ColumnName="ShipperReference" />
+                <ScalarProperty Name="FreightStatus" ColumnName="FreightStatus" />
+                <ScalarProperty Name="ConsignmentNo" ColumnName="ConsignmentNo" />
+                <ScalarProperty Name="ManifestNo" ColumnName="ManifestNo" />
+                <ScalarProperty Name="Manifest_id" ColumnName="Manifest_id" />
+                <ScalarProperty Name="cId" ColumnName="cId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spIntegrityReportLog" FunctionName="AFSXchange1Model.Store.spIntegrityReportLog" />
+          <EntitySetMapping Name="ConsignmentIntegrityUpdate">
+            <EntityTypeMapping TypeName="AFSXchange1Model.ConsignmentIntegrityUpdate">
+              <MappingFragment StoreEntitySet="ConsignmentIntegrityUpdate">
+                <ScalarProperty Name="ActionTime" ColumnName="ActionTime" />
+                <ScalarProperty Name="CurrentDetail" ColumnName="CurrentDetail" />
+                <ScalarProperty Name="InsertedBy" ColumnName="InsertedBy" />
+                <ScalarProperty Name="RateIncSurch" ColumnName="RateIncSurch" />
+                <ScalarProperty Name="TotVolM" ColumnName="TotVolM" />
+                <ScalarProperty Name="TotWeightKg" ColumnName="TotWeightKg" />
+                <ScalarProperty Name="ConsignmentNo" ColumnName="ConsignmentNo" />
+                <ScalarProperty Name="cId" ColumnName="cId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Consignment">
+            <EntityTypeMapping TypeName="AFSXchange1Model.Consignment">
+              <MappingFragment StoreEntitySet="Consignment">
+                <ScalarProperty Name="ActualDespatchTime" ColumnName="ActualDespatchTime" />
+                <ScalarProperty Name="ActualDeliveryTransitDays" ColumnName="ActualDeliveryTransitDays" />
+                <ScalarProperty Name="ConsignmentCondition" ColumnName="ConsignmentCondition" />
+                <ScalarProperty Name="DIFOT" ColumnName="DIFOT" />
+                <ScalarProperty Name="DeliveryLocationCode" ColumnName="DeliveryLocationCode" />
+                <ScalarProperty Name="LastModifiedTime" ColumnName="LastModifiedTime" />
+                <ScalarProperty Name="IsUpdated" ColumnName="IsUpdated" />
+                <ScalarProperty Name="ActualDeliveryDate" ColumnName="ActualDeliveryDate" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="MoveitSourceFile_id" ColumnName="MoveitSourceFile_id" />
+                <ScalarProperty Name="CarrierExpDeliveryDate" ColumnName="CarrierExpDeliveryDate" />
+                <ScalarProperty Name="Signature" ColumnName="Signature" />
+                <ScalarProperty Name="LoadType" ColumnName="LoadType" />
+                <ScalarProperty Name="BrokerName" ColumnName="BrokerName" />
+                <ScalarProperty Name="PickupAddID" ColumnName="PickupAddID" />
+                <ScalarProperty Name="ThirdPartyAddID" ColumnName="ThirdPartyAddID" />
+                <ScalarProperty Name="DeliveryAddrID" ColumnName="DeliveryAddrID" />
+                <ScalarProperty Name="ThirdPartyPickup" ColumnName="ThirdPartyPickup" />
+                <ScalarProperty Name="ConsignmentId" ColumnName="ConsignmentId" />
+                <ScalarProperty Name="Moveit_custId" ColumnName="Moveit_custId" />
+                <ScalarProperty Name="load_date" ColumnName="load_date" />
+                <ScalarProperty Name="FileInfo_id" ColumnName="FileInfo_id" />
+                <ScalarProperty Name="PreDespatchNotiDate" ColumnName="PreDespatchNotiDate" />
+                <ScalarProperty Name="CodeCodes" ColumnName="CodeCodes" />
+                <ScalarProperty Name="CarrierWebLink" ColumnName="CarrierWebLink" />
+                <ScalarProperty Name="AutoDespatch" ColumnName="AutoDespatch" />
+                <ScalarProperty Name="ShipperSilent" ColumnName="ShipperSilent" />
+                <ScalarProperty Name="CarrierSilent" ColumnName="CarrierSilent" />
+                <ScalarProperty Name="TotVolM" ColumnName="TotVolM" />
+                <ScalarProperty Name="TotWeightKg" ColumnName="TotWeightKg" />
+                <ScalarProperty Name="RateWoShipperMarginIncSurch" ColumnName="RateWoShipperMarginIncSurch" />
+                <ScalarProperty Name="RateWoShipperMargin" ColumnName="RateWoShipperMargin" />
+                <ScalarProperty Name="CarrierRateIncSurch" ColumnName="CarrierRateIncSurch" />
+                <ScalarProperty Name="RateIncSurch" ColumnName="RateIncSurch" />
+                <ScalarProperty Name="CarrierFuelSurch" ColumnName="CarrierFuelSurch" />
+                <ScalarProperty Name="FuelSurch" ColumnName="FuelSurch" />
+                <ScalarProperty Name="CarrierRateWoSurch" ColumnName="CarrierRateWoSurch" />
+                <ScalarProperty Name="RateWoSurch" ColumnName="RateWoSurch" />
+                <ScalarProperty Name="Dggroup" ColumnName="Dggroup" />
+                <ScalarProperty Name="DgClass" ColumnName="DgClass" />
+                <ScalarProperty Name="DgUnNo" ColumnName="DgUnNo" />
+                <ScalarProperty Name="InsuranceValue" ColumnName="InsuranceValue" />
+                <ScalarProperty Name="InsuranceClass" ColumnName="InsuranceClass" />
+                <ScalarProperty Name="SpecialIns" ColumnName="SpecialIns" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="CarrierBusinessName" ColumnName="CarrierBusinessName" />
+                <ScalarProperty Name="ReturnConsignment" ColumnName="ReturnConsignment" />
+                <ScalarProperty Name="DeliveryZone" ColumnName="DeliveryZone" />
+                <ScalarProperty Name="PickupZone" ColumnName="PickupZone" />
+                <ScalarProperty Name="CarriageEmail" ColumnName="CarriageEmail" />
+                <ScalarProperty Name="CarriagePhone" ColumnName="CarriagePhone" />
+                <ScalarProperty Name="CarriagePostcode" ColumnName="CarriagePostcode" />
+                <ScalarProperty Name="CarriageState" ColumnName="CarriageState" />
+                <ScalarProperty Name="CarriageTown" ColumnName="CarriageTown" />
+                <ScalarProperty Name="ReceiverCode" ColumnName="ReceiverCode" />
+                <ScalarProperty Name="DriverNumber" ColumnName="DriverNumber" />
+                <ScalarProperty Name="CarriageAddress1" ColumnName="CarriageAddress1" />
+                <ScalarProperty Name="CarriageName" ColumnName="CarriageName" />
+                <ScalarProperty Name="ThirdPartyEmail" ColumnName="ThirdPartyEmail" />
+                <ScalarProperty Name="ThirdPartyPhone" ColumnName="ThirdPartyPhone" />
+                <ScalarProperty Name="ThirdPartyPostcode" ColumnName="ThirdPartyPostcode" />
+                <ScalarProperty Name="ThirdPartyState" ColumnName="ThirdPartyState" />
+                <ScalarProperty Name="ThirdPartyTown" ColumnName="ThirdPartyTown" />
+                <ScalarProperty Name="ThirdPartyAddress3" ColumnName="ThirdPartyAddress3" />
+                <ScalarProperty Name="ThirdPartyAddress2" ColumnName="ThirdPartyAddress2" />
+                <ScalarProperty Name="ThirdPartyAddress1" ColumnName="ThirdPartyAddress1" />
+                <ScalarProperty Name="ThirdPartyName" ColumnName="ThirdPartyName" />
+                <ScalarProperty Name="DeliveryEmail" ColumnName="DeliveryEmail" />
+                <ScalarProperty Name="DeliveryPhone" ColumnName="DeliveryPhone" />
+                <ScalarProperty Name="DeliveryPostcode" ColumnName="DeliveryPostcode" />
+                <ScalarProperty Name="DeliveryState" ColumnName="DeliveryState" />
+                <ScalarProperty Name="DeliveryTown" ColumnName="DeliveryTown" />
+                <ScalarProperty Name="DeliveryAddress3" ColumnName="DeliveryAddress3" />
+                <ScalarProperty Name="DeliveryAddress2" ColumnName="DeliveryAddress2" />
+                <ScalarProperty Name="DeliveryAddress1" ColumnName="DeliveryAddress1" />
+                <ScalarProperty Name="DeliveryName" ColumnName="DeliveryName" />
+                <ScalarProperty Name="PickupEmail" ColumnName="PickupEmail" />
+                <ScalarProperty Name="PickupPhone" ColumnName="PickupPhone" />
+                <ScalarProperty Name="PickupPostcode" ColumnName="PickupPostcode" />
+                <ScalarProperty Name="PickupState" ColumnName="PickupState" />
+                <ScalarProperty Name="PickupTown" ColumnName="PickupTown" />
+                <ScalarProperty Name="PickupAddress3" ColumnName="PickupAddress3" />
+                <ScalarProperty Name="PickupAddress2" ColumnName="PickupAddress2" />
+                <ScalarProperty Name="PickupAddress1" ColumnName="PickupAddress1" />
+                <ScalarProperty Name="PickupName" ColumnName="PickupName" />
+                <ScalarProperty Name="LineOfBusiness" ColumnName="LineOfBusiness" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="ExpectedDeliveryDate" ColumnName="ExpectedDeliveryDate" />
+                <ScalarProperty Name="ActualDespatchDate" ColumnName="ActualDespatchDate" />
+                <ScalarProperty Name="DespatchDate" ColumnName="DespatchDate" />
+                <ScalarProperty Name="Customer_id" ColumnName="Customer_id" />
+                <ScalarProperty Name="LineItemReferences" ColumnName="LineItemReferences" />
+                <ScalarProperty Name="ShipperReference" ColumnName="ShipperReference" />
+                <ScalarProperty Name="FreightStatus" ColumnName="FreightStatus" />
+                <ScalarProperty Name="ConsignmentNo" ColumnName="ConsignmentNo" />
+                <ScalarProperty Name="ManifestNo" ColumnName="ManifestNo" />
+                <ScalarProperty Name="Manifest_id" ColumnName="Manifest_id" />
+                <ScalarProperty Name="cId" ColumnName="cId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vConnoteReadyToHide">
+            <EntityTypeMapping TypeName="AFSXchange1Model.vConnoteReadyToHide">
+              <MappingFragment StoreEntitySet="vConnoteReadyToHide">
+                <ScalarProperty Name="LineItemId" ColumnName="LineItemId" />
+                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
+                <ScalarProperty Name="AccountManager" ColumnName="AccountManager" />
+                <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
+                <ScalarProperty Name="CatchFilter" ColumnName="CatchFilter" />
+                <ScalarProperty Name="FreightStatus" ColumnName="FreightStatus" />
+                <ScalarProperty Name="TotVolM" ColumnName="TotVolM" />
+                <ScalarProperty Name="TotWeightKg" ColumnName="TotWeightKg" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="BrokerName" ColumnName="BrokerName" />
+                <ScalarProperty Name="PickupPostcode" ColumnName="PickupPostcode" />
+                <ScalarProperty Name="PickupState" ColumnName="PickupState" />
+                <ScalarProperty Name="PickupTown" ColumnName="PickupTown" />
+                <ScalarProperty Name="PickupAddress2" ColumnName="PickupAddress2" />
+                <ScalarProperty Name="PickupAddress1" ColumnName="PickupAddress1" />
+                <ScalarProperty Name="DespatchDate" ColumnName="DespatchDate" />
+                <ScalarProperty Name="DeliveryPostcode" ColumnName="DeliveryPostcode" />
+                <ScalarProperty Name="DeliveryTown" ColumnName="DeliveryTown" />
+                <ScalarProperty Name="DeliveryAddress2" ColumnName="DeliveryAddress2" />
+                <ScalarProperty Name="DeliveryAddress1" ColumnName="DeliveryAddress1" />
+                <ScalarProperty Name="RateIncSurch" ColumnName="RateIncSurch" />
+                <ScalarProperty Name="ConsignmentNo" ColumnName="ConsignmentNo" />
+                <ScalarProperty Name="CarrierBusinessName" ColumnName="CarrierBusinessName" />
+                <ScalarProperty Name="cId" ColumnName="cId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vIntegrityConnoteReadyToHide">
+            <EntityTypeMapping TypeName="AFSXchange1Model.vIntegrityConnoteReadyToHide">
+              <MappingFragment StoreEntitySet="vIntegrityConnoteReadyToHide">
+                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
+                <ScalarProperty Name="AccountManager" ColumnName="AccountManager" />
+                <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
+                <ScalarProperty Name="CatchFilter" ColumnName="CatchFilter" />
+                <ScalarProperty Name="FreightStatus" ColumnName="FreightStatus" />
+                <ScalarProperty Name="TotVolM" ColumnName="TotVolM" />
+                <ScalarProperty Name="TotWeightKg" ColumnName="TotWeightKg" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="BrokerName" ColumnName="BrokerName" />
+                <ScalarProperty Name="PickupPostcode" ColumnName="PickupPostcode" />
+                <ScalarProperty Name="PickupState" ColumnName="PickupState" />
+                <ScalarProperty Name="PickupTown" ColumnName="PickupTown" />
+                <ScalarProperty Name="PickupAddress2" ColumnName="PickupAddress2" />
+                <ScalarProperty Name="PickupAddress1" ColumnName="PickupAddress1" />
+                <ScalarProperty Name="DespatchDate" ColumnName="DespatchDate" />
+                <ScalarProperty Name="DeliveryPostcode" ColumnName="DeliveryPostcode" />
+                <ScalarProperty Name="DeliveryTown" ColumnName="DeliveryTown" />
+                <ScalarProperty Name="DeliveryAddress2" ColumnName="DeliveryAddress2" />
+                <ScalarProperty Name="DeliveryAddress1" ColumnName="DeliveryAddress1" />
+                <ScalarProperty Name="RateIncSurch" ColumnName="RateIncSurch" />
+                <ScalarProperty Name="ConsignmentNo" ColumnName="ConsignmentNo" />
+                <ScalarProperty Name="CarrierBusinessName" ColumnName="CarrierBusinessName" />
+                <ScalarProperty Name="cId" ColumnName="cId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

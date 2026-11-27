@@ -1,0 +1,1406 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AFSXchange1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AccountComments">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountManager" Type="nvarchar" MaxLength="100" />
+          <Property Name="CustomerGroup" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="RiskLevel" Type="nvarchar" MaxLength="10" />
+          <Property Name="CustomerComment" Type="nvarchar" MaxLength="4000" />
+          <Property Name="RevenueComment" Type="nvarchar" MaxLength="4000" />
+          <Property Name="ContractStatus" Type="nvarchar" MaxLength="100" />
+          <Property Name="Load_date" Type="date" />
+          <Property Name="FileInfo_id" Type="int" />
+          <Property Name="LastInvoiceDate" Type="date" />
+          <Property Name="InvoiceWeek" Type="date" />
+          <Property Name="Executive" Type="nvarchar" MaxLength="50" />
+          <Property Name="ActionRequired" Type="nvarchar" MaxLength="4000" />
+          <Property Name="DueDate" Type="date" />
+        </EntityType>
+        <EntityType Name="AccountComments_pre">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountManager" Type="nvarchar" MaxLength="100" />
+          <Property Name="CustomerGroup" Type="nvarchar" MaxLength="16" />
+          <Property Name="RiskLevel" Type="nvarchar" MaxLength="10" />
+          <Property Name="CustomerComment" Type="nvarchar" MaxLength="4000" />
+          <Property Name="RevenueComment" Type="nvarchar" MaxLength="4000" />
+          <Property Name="ContractStatus" Type="nvarchar" MaxLength="100" />
+          <Property Name="FileInfo_id" Type="int" />
+          <Property Name="Executive" Type="nvarchar" MaxLength="50" />
+          <Property Name="ActionRequired" Type="nvarchar" MaxLength="4000" />
+          <Property Name="DueDate" Type="datetime" />
+          <Property Name="CustomerBusinessUpdate" Type="nvarchar" MaxLength="4000" />
+          <Property Name="ContractStatusUpdate" Type="nvarchar" MaxLength="4000" />
+        </EntityType>
+        <EntityType Name="AccountManagerLogin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountManager" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="LoginName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="IsActive" Type="int" />
+          <Property Name="IsDeleted" Type="int" />
+          <Property Name="IsFormLogin" Type="bit" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="IsFirstLogin" Type="bit" />
+          <Property Name="UserType" Type="int" />
+        </EntityType>
+        <EntityType Name="CustomerAccountManager">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerCode" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="AccountManager" Type="nvarchar" MaxLength="100" />
+          <Property Name="LoginName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsDeleted" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustomerContractStatus">
+          <Key>
+            <PropertyRef Name="ContractStatusId" />
+          </Key>
+          <Property Name="ContractStatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="nvarchar" MaxLength="100" />
+          <Property Name="ContractStatus" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="CustomerRiskLevel">
+          <Key>
+            <PropertyRef Name="RiskId" />
+          </Key>
+          <Property Name="RiskId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="nvarchar" MaxLength="10" />
+          <Property Name="RiskLevel" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerSubCode" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="CustomerCode" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="FinanceGroup" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="AccountManager" Type="nvarchar" MaxLength="100" />
+          <Property Name="PostCode" Type="nvarchar" MaxLength="5" />
+          <Property Name="State" Type="nvarchar" MaxLength="4" />
+          <Property Name="Suburb" Type="nvarchar" MaxLength="40" />
+          <Property Name="NB_advisor" Type="nvarchar" MaxLength="100" />
+          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AFSXchange1.dbo.vAccountComments' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vAccountComments">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CustomerGroup" />
+            <PropertyRef Name="CustomerComment" />
+            <PropertyRef Name="RevenueComment" />
+            <PropertyRef Name="LastInvoiceDate" />
+            <PropertyRef Name="InvoiceWeek" />
+            <PropertyRef Name="LoginName" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="AccountManager" Type="nvarchar" MaxLength="100" />
+          <Property Name="CustomerGroup" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="RiskLevel" Type="nvarchar" MaxLength="10" />
+          <Property Name="CustomerComment" Type="nvarchar" MaxLength="4000" Nullable="false" />
+          <Property Name="RevenueComment" Type="nvarchar" MaxLength="4000" Nullable="false" />
+          <Property Name="ContractStatus" Type="nvarchar" MaxLength="100" />
+          <Property Name="Load_date" Type="date" />
+          <Property Name="FileInfo_id" Type="int" />
+          <Property Name="LastInvoiceDate" Type="date" Nullable="false" />
+          <Property Name="InvoiceWeek" Type="date" Nullable="false" />
+          <Property Name="Executive" Type="nvarchar" MaxLength="50" />
+          <Property Name="ActionRequired" Type="nvarchar" MaxLength="4000" />
+          <Property Name="DueDate" Type="varchar" MaxLength="30" />
+          <Property Name="LoginName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserType" Type="int" />
+          <Property Name="UserStatus" Type="varchar" MaxLength="8" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AFSXchange1.dbo.vAccountComments_pre' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vAccountComments_pre">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountManager" Type="nvarchar" MaxLength="100" />
+          <Property Name="CustomerGroup" Type="nvarchar" MaxLength="16" />
+          <Property Name="RiskLevel" Type="nvarchar" MaxLength="10" />
+          <Property Name="CustomerComment" Type="nvarchar" MaxLength="4000" />
+          <Property Name="RevenueComment" Type="nvarchar" MaxLength="4000" />
+          <Property Name="ContractStatus" Type="nvarchar" MaxLength="100" />
+          <Property Name="FileInfo_id" Type="int" />
+          <Property Name="Executive" Type="nvarchar" MaxLength="50" />
+          <Property Name="ActionRequired" Type="nvarchar" MaxLength="4000" />
+          <Property Name="DueDate" Type="datetime" />
+          <Property Name="CustomerBusinessUpdate" Type="nvarchar" MaxLength="4000" />
+          <Property Name="ContractStatusUpdate" Type="nvarchar" MaxLength="4000" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AFSXchange1.dbo.vAccountCommentsPre_All' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vAccountCommentsPre_All">
+          <Key>
+            <PropertyRef Name="CustomerCode" />
+            <PropertyRef Name="LoginName" />
+          </Key>
+          <Property Name="CustomerCode" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="AccountManager" Type="nvarchar" MaxLength="100" />
+          <Property Name="RiskLevel" Type="nvarchar" MaxLength="10" />
+          <Property Name="CustomerComment" Type="nvarchar" MaxLength="103" />
+          <Property Name="CustomerGroup" Type="nvarchar" MaxLength="16" />
+          <Property Name="RevenueComment" Type="nvarchar" MaxLength="103" />
+          <Property Name="ContractStatus" Type="nvarchar" MaxLength="100" />
+          <Property Name="Executive" Type="nvarchar" MaxLength="50" />
+          <Property Name="ActionRequired" Type="nvarchar" MaxLength="4000" />
+          <Property Name="DueDate" Type="datetime" />
+          <Property Name="LoginName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Id" Type="bigint" />
+          <Property Name="CustomerBusinessUpdate" Type="nvarchar" MaxLength="103" />
+          <Property Name="ContractStatusUpdate" Type="nvarchar" MaxLength="103" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AFSXchange1.dbo.vAccountCommentUpdateTime' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vAccountCommentUpdateTime">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="LastUpdate" Type="date" />
+          <Property Name="NextLoad" Type="date" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AFSXchange1.dbo.vAccountManagerDelegate' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vAccountManagerDelegate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Original_AM" Type="varchar" MaxLength="100" />
+          <Property Name="Original_Login" Type="varchar" MaxLength="50" />
+          <Property Name="Delegate_AM" Type="varchar" MaxLength="100" />
+          <Property Name="Delegate_Login" Type="varchar" MaxLength="50" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AFSXchange1.dbo.vAccountManagerLogin' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vAccountManagerLogin">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="AccountManager" />
+            <PropertyRef Name="LoginName" />
+            <PropertyRef Name="UserProfile" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountManager" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="LoginName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="IsActive" Type="int" />
+          <Property Name="IsDeleted" Type="int" />
+          <Property Name="IsFormLogin" Type="bit" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="IsFirstLogin" Type="bit" />
+          <Property Name="UserStatus" Type="varchar" MaxLength="8" />
+          <Property Name="UserType" Type="int" />
+          <Property Name="UserProfile" Type="varchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AFSXchange1.dbo.vConsignments' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vConsignments">
+          <Key>
+            <PropertyRef Name="cId" />
+            <PropertyRef Name="Customer_id" />
+            <PropertyRef Name="RateWoSurch" />
+            <PropertyRef Name="CarrierRateWoSurch" />
+            <PropertyRef Name="FuelSurch" />
+            <PropertyRef Name="CarrierFuelSurch" />
+            <PropertyRef Name="RateIncSurch" />
+            <PropertyRef Name="CarrierRateIncSurch" />
+            <PropertyRef Name="RateWoShipperMargin" />
+            <PropertyRef Name="RateWoShipperMarginIncSurch" />
+            <PropertyRef Name="TotWeightKg" />
+            <PropertyRef Name="TotVolM" />
+            <PropertyRef Name="LoadType" />
+            <PropertyRef Name="InsertDate" />
+            <PropertyRef Name="IsUpdated" />
+            <PropertyRef Name="CustomerName" />
+            <PropertyRef Name="CustomerCode" />
+            <PropertyRef Name="FinanceGroup" />
+          </Key>
+          <Property Name="cId" Type="int" Nullable="false" />
+          <Property Name="Manifest_id" Type="int" />
+          <Property Name="ManifestNo" Type="varchar" MaxLength="100" />
+          <Property Name="ConsignmentNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="FreightStatus" Type="varchar" MaxLength="500" />
+          <Property Name="ShipperReference" Type="varchar" MaxLength="100" />
+          <Property Name="LineItemReferences" Type="varchar" MaxLength="800" />
+          <Property Name="Customer_id" Type="int" Nullable="false" />
+          <Property Name="DespatchDate" Type="date" />
+          <Property Name="ActualDespatchDate" Type="date" />
+          <Property Name="ExpectedDeliveryDate" Type="date" />
+          <Property Name="CreationDate" Type="datetime" />
+          <Property Name="LineOfBusiness" Type="varchar" MaxLength="100" />
+          <Property Name="PickupName" Type="varchar" MaxLength="60" />
+          <Property Name="PickupAddress1" Type="varchar" MaxLength="80" />
+          <Property Name="PickupAddress2" Type="varchar" MaxLength="80" />
+          <Property Name="PickupAddress3" Type="varchar" MaxLength="80" />
+          <Property Name="PickupTown" Type="varchar" MaxLength="30" />
+          <Property Name="PickupState" Type="varchar" MaxLength="5" />
+          <Property Name="PickupPostcode" Type="varchar" MaxLength="5" />
+          <Property Name="PickupPhone" Type="varchar" MaxLength="20" />
+          <Property Name="PickupEmail" Type="varchar" MaxLength="100" />
+          <Property Name="DeliveryName" Type="varchar" MaxLength="60" />
+          <Property Name="DeliveryAddress1" Type="varchar" MaxLength="100" />
+          <Property Name="DeliveryAddress2" Type="varchar" MaxLength="80" />
+          <Property Name="DeliveryAddress3" Type="varchar" MaxLength="100" />
+          <Property Name="DeliveryTown" Type="varchar" MaxLength="30" />
+          <Property Name="DeliveryState" Type="varchar" MaxLength="50" />
+          <Property Name="DeliveryPostcode" Type="varchar" MaxLength="5" />
+          <Property Name="DeliveryPhone" Type="varchar" MaxLength="20" />
+          <Property Name="DeliveryEmail" Type="varchar" MaxLength="100" />
+          <Property Name="ThirdPartyName" Type="varchar" MaxLength="60" />
+          <Property Name="ThirdPartyAddress1" Type="varchar" MaxLength="80" />
+          <Property Name="ThirdPartyAddress2" Type="varchar" MaxLength="80" />
+          <Property Name="ThirdPartyAddress3" Type="varchar" MaxLength="80" />
+          <Property Name="ThirdPartyTown" Type="varchar" MaxLength="30" />
+          <Property Name="ThirdPartyState" Type="varchar" MaxLength="5" />
+          <Property Name="ThirdPartyPostcode" Type="varchar" MaxLength="5" />
+          <Property Name="ThirdPartyPhone" Type="varchar" MaxLength="20" />
+          <Property Name="ThirdPartyEmail" Type="varchar" MaxLength="200" />
+          <Property Name="CarriageName" Type="varchar" MaxLength="60" />
+          <Property Name="CarriageAddress1" Type="varchar" MaxLength="80" />
+          <Property Name="DriverNumber" Type="varchar" MaxLength="80" />
+          <Property Name="ReceiverCode" Type="varchar" MaxLength="80" />
+          <Property Name="CarriageTown" Type="varchar" MaxLength="30" />
+          <Property Name="CarriageState" Type="varchar" MaxLength="5" />
+          <Property Name="CarriagePostcode" Type="varchar" MaxLength="5" />
+          <Property Name="CarriagePhone" Type="varchar" MaxLength="20" />
+          <Property Name="CarriageEmail" Type="varchar" MaxLength="50" />
+          <Property Name="PickupZone" Type="varchar" MaxLength="10" />
+          <Property Name="DeliveryZone" Type="varchar" MaxLength="10" />
+          <Property Name="ReturnConsignment" Type="varchar" MaxLength="5" />
+          <Property Name="CarrierBusinessName" Type="varchar" MaxLength="60" />
+          <Property Name="ServiceName" Type="varchar" MaxLength="300" />
+          <Property Name="SpecialIns" Type="varchar" MaxLength="1024" />
+          <Property Name="InsuranceClass" Type="varchar" MaxLength="100" />
+          <Property Name="InsuranceValue" Type="varchar" MaxLength="5" />
+          <Property Name="DgUnNo" Type="varchar" MaxLength="50" />
+          <Property Name="DgClass" Type="varchar" MaxLength="50" />
+          <Property Name="Dggroup" Type="varchar" MaxLength="50" />
+          <Property Name="RateWoSurch" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="CarrierRateWoSurch" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="FuelSurch" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="CarrierFuelSurch" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="RateIncSurch" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="CarrierRateIncSurch" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="RateWoShipperMargin" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="RateWoShipperMarginIncSurch" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="TotWeightKg" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="TotVolM" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="CarrierSilent" Type="varchar" MaxLength="5" />
+          <Property Name="ShipperSilent" Type="varchar" MaxLength="5" />
+          <Property Name="AutoDespatch" Type="varchar" MaxLength="5" />
+          <Property Name="CarrierWebLink" Type="varchar" MaxLength="500" />
+          <Property Name="CodeCodes" Type="varchar" MaxLength="100" />
+          <Property Name="PreDespatchNotiDate" Type="datetime" />
+          <Property Name="FileInfo_id" Type="int" />
+          <Property Name="load_date" Type="datetime" />
+          <Property Name="Moveit_custId" Type="int" />
+          <Property Name="ConsignmentId" Type="bigint" />
+          <Property Name="ThirdPartyPickup" Type="varchar" MaxLength="5" />
+          <Property Name="DeliveryAddrID" Type="varchar" MaxLength="100" />
+          <Property Name="ThirdPartyAddID" Type="varchar" MaxLength="100" />
+          <Property Name="PickupAddID" Type="varchar" MaxLength="100" />
+          <Property Name="BrokerName" Type="varchar" MaxLength="100" />
+          <Property Name="LoadType" Type="int" Nullable="false" />
+          <Property Name="Signature" Type="varchar" MaxLength="500" />
+          <Property Name="CarrierExpDeliveryDate" Type="date" />
+          <Property Name="MoveitSourceFile_id" Type="int" />
+          <Property Name="InsertDate" Type="datetime" Nullable="false" />
+          <Property Name="ActualDeliveryDate" Type="datetime" />
+          <Property Name="IsUpdated" Type="bit" Nullable="false" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="AccountManager" Type="nvarchar" MaxLength="100" />
+          <Property Name="CustomerCode" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="FinanceGroup" Type="nvarchar" MaxLength="16" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AFSXchange1.dbo.vCustomerAccountManager' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vCustomerAccountManager">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CustomerCode" />
+            <PropertyRef Name="LoginName" />
+            <PropertyRef Name="IsDeleted" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerCode" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="AccountManager" Type="nvarchar" MaxLength="100" />
+          <Property Name="LoginName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsDeleted" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AFSXchange1.dbo.vCustomerWithoutManager' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vCustomerWithoutManager">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CustomerSubCode" />
+            <PropertyRef Name="CustomerCode" />
+            <PropertyRef Name="CustomerName" />
+            <PropertyRef Name="FinanceGroup" />
+            <PropertyRef Name="ModifiedDate" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerSubCode" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="CustomerCode" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="FinanceGroup" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="AccountManager" Type="nvarchar" MaxLength="100" />
+          <Property Name="PostCode" Type="nvarchar" MaxLength="5" />
+          <Property Name="State" Type="nvarchar" MaxLength="4" />
+          <Property Name="Suburb" Type="nvarchar" MaxLength="40" />
+          <Property Name="NB_advisor" Type="nvarchar" MaxLength="100" />
+          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AFSXchange1.dbo.vMissingComment' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vMissingComment">
+          <Key>
+            <PropertyRef Name="CustomerCode" />
+          </Key>
+          <Property Name="CustomerCode" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="AccountManager" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <Function Name="spAmPortalActivityLog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+          <Parameter Name="LogDesc" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="spGetCustomerCounts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fromdate" Type="date" Mode="In" />
+          <Parameter Name="todate" Type="date" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="CNT" Type="int" />
+                <Property Name="Customer_id" Type="int" Nullable="false" />
+                <Property Name="AccountManager" Type="nvarchar" MaxLength="100" />
+                <Property Name="CustomerName" Type="nvarchar" MaxLength="16" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="SyncronizeAccountManagers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="AFSXchange1ModelStoreContainer">
+          <EntitySet Name="AccountComments" EntityType="Self.AccountComments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AccountComments_pre" EntityType="Self.AccountComments_pre" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AccountManagerLogin" EntityType="Self.AccountManagerLogin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerAccountManager" EntityType="Self.CustomerAccountManager" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerContractStatus" EntityType="Self.CustomerContractStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerRiskLevel" EntityType="Self.CustomerRiskLevel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vAccountComments" EntityType="Self.vAccountComments" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vAccountComments].[Id] AS [Id], 
+    [vAccountComments].[AccountManager] AS [AccountManager], 
+    [vAccountComments].[CustomerGroup] AS [CustomerGroup], 
+    [vAccountComments].[RiskLevel] AS [RiskLevel], 
+    [vAccountComments].[CustomerComment] AS [CustomerComment], 
+    [vAccountComments].[RevenueComment] AS [RevenueComment], 
+    [vAccountComments].[ContractStatus] AS [ContractStatus], 
+    [vAccountComments].[Load_date] AS [Load_date], 
+    [vAccountComments].[FileInfo_id] AS [FileInfo_id], 
+    [vAccountComments].[LastInvoiceDate] AS [LastInvoiceDate], 
+    [vAccountComments].[InvoiceWeek] AS [InvoiceWeek], 
+    [vAccountComments].[Executive] AS [Executive], 
+    [vAccountComments].[ActionRequired] AS [ActionRequired], 
+    [vAccountComments].[DueDate] AS [DueDate], 
+    [vAccountComments].[LoginName] AS [LoginName], 
+    [vAccountComments].[UserType] AS [UserType], 
+    [vAccountComments].[UserStatus] AS [UserStatus]
+    FROM [dbo].[vAccountComments] AS [vAccountComments]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vAccountComments_pre" EntityType="Self.vAccountComments_pre" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vAccountComments_pre].[Id] AS [Id], 
+    [vAccountComments_pre].[AccountManager] AS [AccountManager], 
+    [vAccountComments_pre].[CustomerGroup] AS [CustomerGroup], 
+    [vAccountComments_pre].[RiskLevel] AS [RiskLevel], 
+    [vAccountComments_pre].[CustomerComment] AS [CustomerComment], 
+    [vAccountComments_pre].[RevenueComment] AS [RevenueComment], 
+    [vAccountComments_pre].[ContractStatus] AS [ContractStatus], 
+    [vAccountComments_pre].[FileInfo_id] AS [FileInfo_id], 
+    [vAccountComments_pre].[Executive] AS [Executive], 
+    [vAccountComments_pre].[ActionRequired] AS [ActionRequired], 
+    [vAccountComments_pre].[DueDate] AS [DueDate], 
+    [vAccountComments_pre].[CustomerBusinessUpdate] AS [CustomerBusinessUpdate], 
+    [vAccountComments_pre].[ContractStatusUpdate] AS [ContractStatusUpdate]
+    FROM [dbo].[vAccountComments_pre] AS [vAccountComments_pre]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vAccountCommentsPre_All" EntityType="Self.vAccountCommentsPre_All" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vAccountCommentsPre_All].[CustomerCode] AS [CustomerCode], 
+    [vAccountCommentsPre_All].[AccountManager] AS [AccountManager], 
+    [vAccountCommentsPre_All].[RiskLevel] AS [RiskLevel], 
+    [vAccountCommentsPre_All].[CustomerComment] AS [CustomerComment], 
+    [vAccountCommentsPre_All].[CustomerGroup] AS [CustomerGroup], 
+    [vAccountCommentsPre_All].[RevenueComment] AS [RevenueComment], 
+    [vAccountCommentsPre_All].[ContractStatus] AS [ContractStatus], 
+    [vAccountCommentsPre_All].[Executive] AS [Executive], 
+    [vAccountCommentsPre_All].[ActionRequired] AS [ActionRequired], 
+    [vAccountCommentsPre_All].[DueDate] AS [DueDate], 
+    [vAccountCommentsPre_All].[LoginName] AS [LoginName], 
+    [vAccountCommentsPre_All].[Id] AS [Id], 
+    [vAccountCommentsPre_All].[CustomerBusinessUpdate] AS [CustomerBusinessUpdate], 
+    [vAccountCommentsPre_All].[ContractStatusUpdate] AS [ContractStatusUpdate]
+    FROM [dbo].[vAccountCommentsPre_All] AS [vAccountCommentsPre_All]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vAccountCommentUpdateTime" EntityType="Self.vAccountCommentUpdateTime" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vAccountCommentUpdateTime].[LastUpdate] AS [LastUpdate], 
+    [vAccountCommentUpdateTime].[NextLoad] AS [NextLoad], 
+    [vAccountCommentUpdateTime].[Id] AS [Id]
+    FROM [dbo].[vAccountCommentUpdateTime] AS [vAccountCommentUpdateTime]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vAccountManagerDelegate" EntityType="Self.vAccountManagerDelegate" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vAccountManagerDelegate].[Original_AM] AS [Original_AM], 
+    [vAccountManagerDelegate].[Original_Login] AS [Original_Login], 
+    [vAccountManagerDelegate].[Delegate_AM] AS [Delegate_AM], 
+    [vAccountManagerDelegate].[Delegate_Login] AS [Delegate_Login], 
+    [vAccountManagerDelegate].[Id] AS [Id]
+    FROM [dbo].[vAccountManagerDelegate] AS [vAccountManagerDelegate]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vAccountManagerLogin" EntityType="Self.vAccountManagerLogin" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vAccountManagerLogin].[Id] AS [Id], 
+    [vAccountManagerLogin].[AccountManager] AS [AccountManager], 
+    [vAccountManagerLogin].[LoginName] AS [LoginName], 
+    [vAccountManagerLogin].[Password] AS [Password], 
+    [vAccountManagerLogin].[IsActive] AS [IsActive], 
+    [vAccountManagerLogin].[IsDeleted] AS [IsDeleted], 
+    [vAccountManagerLogin].[IsFormLogin] AS [IsFormLogin], 
+    [vAccountManagerLogin].[ModifiedDate] AS [ModifiedDate], 
+    [vAccountManagerLogin].[IsFirstLogin] AS [IsFirstLogin], 
+    [vAccountManagerLogin].[UserStatus] AS [UserStatus], 
+    [vAccountManagerLogin].[UserType] AS [UserType], 
+    [vAccountManagerLogin].[UserProfile] AS [UserProfile]
+    FROM [dbo].[vAccountManagerLogin] AS [vAccountManagerLogin]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vConsignments" EntityType="Self.vConsignments" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vConsignments].[cId] AS [cId], 
+    [vConsignments].[Manifest_id] AS [Manifest_id], 
+    [vConsignments].[ManifestNo] AS [ManifestNo], 
+    [vConsignments].[ConsignmentNo] AS [ConsignmentNo], 
+    [vConsignments].[FreightStatus] AS [FreightStatus], 
+    [vConsignments].[ShipperReference] AS [ShipperReference], 
+    [vConsignments].[LineItemReferences] AS [LineItemReferences], 
+    [vConsignments].[Customer_id] AS [Customer_id], 
+    [vConsignments].[DespatchDate] AS [DespatchDate], 
+    [vConsignments].[ActualDespatchDate] AS [ActualDespatchDate], 
+    [vConsignments].[ExpectedDeliveryDate] AS [ExpectedDeliveryDate], 
+    [vConsignments].[CreationDate] AS [CreationDate], 
+    [vConsignments].[LineOfBusiness] AS [LineOfBusiness], 
+    [vConsignments].[PickupName] AS [PickupName], 
+    [vConsignments].[PickupAddress1] AS [PickupAddress1], 
+    [vConsignments].[PickupAddress2] AS [PickupAddress2], 
+    [vConsignments].[PickupAddress3] AS [PickupAddress3], 
+    [vConsignments].[PickupTown] AS [PickupTown], 
+    [vConsignments].[PickupState] AS [PickupState], 
+    [vConsignments].[PickupPostcode] AS [PickupPostcode], 
+    [vConsignments].[PickupPhone] AS [PickupPhone], 
+    [vConsignments].[PickupEmail] AS [PickupEmail], 
+    [vConsignments].[DeliveryName] AS [DeliveryName], 
+    [vConsignments].[DeliveryAddress1] AS [DeliveryAddress1], 
+    [vConsignments].[DeliveryAddress2] AS [DeliveryAddress2], 
+    [vConsignments].[DeliveryAddress3] AS [DeliveryAddress3], 
+    [vConsignments].[DeliveryTown] AS [DeliveryTown], 
+    [vConsignments].[DeliveryState] AS [DeliveryState], 
+    [vConsignments].[DeliveryPostcode] AS [DeliveryPostcode], 
+    [vConsignments].[DeliveryPhone] AS [DeliveryPhone], 
+    [vConsignments].[DeliveryEmail] AS [DeliveryEmail], 
+    [vConsignments].[ThirdPartyName] AS [ThirdPartyName], 
+    [vConsignments].[ThirdPartyAddress1] AS [ThirdPartyAddress1], 
+    [vConsignments].[ThirdPartyAddress2] AS [ThirdPartyAddress2], 
+    [vConsignments].[ThirdPartyAddress3] AS [ThirdPartyAddress3], 
+    [vConsignments].[ThirdPartyTown] AS [ThirdPartyTown], 
+    [vConsignments].[ThirdPartyState] AS [ThirdPartyState], 
+    [vConsignments].[ThirdPartyPostcode] AS [ThirdPartyPostcode], 
+    [vConsignments].[ThirdPartyPhone] AS [ThirdPartyPhone], 
+    [vConsignments].[ThirdPartyEmail] AS [ThirdPartyEmail], 
+    [vConsignments].[CarriageName] AS [CarriageName], 
+    [vConsignments].[CarriageAddress1] AS [CarriageAddress1], 
+    [vConsignments].[DriverNumber] AS [DriverNumber], 
+    [vConsignments].[ReceiverCode] AS [ReceiverCode], 
+    [vConsignments].[CarriageTown] AS [CarriageTown], 
+    [vConsignments].[CarriageState] AS [CarriageState], 
+    [vConsignments].[CarriagePostcode] AS [CarriagePostcode], 
+    [vConsignments].[CarriagePhone] AS [CarriagePhone], 
+    [vConsignments].[CarriageEmail] AS [CarriageEmail], 
+    [vConsignments].[PickupZone] AS [PickupZone], 
+    [vConsignments].[DeliveryZone] AS [DeliveryZone], 
+    [vConsignments].[ReturnConsignment] AS [ReturnConsignment], 
+    [vConsignments].[CarrierBusinessName] AS [CarrierBusinessName], 
+    [vConsignments].[ServiceName] AS [ServiceName], 
+    [vConsignments].[SpecialIns] AS [SpecialIns], 
+    [vConsignments].[InsuranceClass] AS [InsuranceClass], 
+    [vConsignments].[InsuranceValue] AS [InsuranceValue], 
+    [vConsignments].[DgUnNo] AS [DgUnNo], 
+    [vConsignments].[DgClass] AS [DgClass], 
+    [vConsignments].[Dggroup] AS [Dggroup], 
+    [vConsignments].[RateWoSurch] AS [RateWoSurch], 
+    [vConsignments].[CarrierRateWoSurch] AS [CarrierRateWoSurch], 
+    [vConsignments].[FuelSurch] AS [FuelSurch], 
+    [vConsignments].[CarrierFuelSurch] AS [CarrierFuelSurch], 
+    [vConsignments].[RateIncSurch] AS [RateIncSurch], 
+    [vConsignments].[CarrierRateIncSurch] AS [CarrierRateIncSurch], 
+    [vConsignments].[RateWoShipperMargin] AS [RateWoShipperMargin], 
+    [vConsignments].[RateWoShipperMarginIncSurch] AS [RateWoShipperMarginIncSurch], 
+    [vConsignments].[TotWeightKg] AS [TotWeightKg], 
+    [vConsignments].[TotVolM] AS [TotVolM], 
+    [vConsignments].[CarrierSilent] AS [CarrierSilent], 
+    [vConsignments].[ShipperSilent] AS [ShipperSilent], 
+    [vConsignments].[AutoDespatch] AS [AutoDespatch], 
+    [vConsignments].[CarrierWebLink] AS [CarrierWebLink], 
+    [vConsignments].[CodeCodes] AS [CodeCodes], 
+    [vConsignments].[PreDespatchNotiDate] AS [PreDespatchNotiDate], 
+    [vConsignments].[FileInfo_id] AS [FileInfo_id], 
+    [vConsignments].[load_date] AS [load_date], 
+    [vConsignments].[Moveit_custId] AS [Moveit_custId], 
+    [vConsignments].[ConsignmentId] AS [ConsignmentId], 
+    [vConsignments].[ThirdPartyPickup] AS [ThirdPartyPickup], 
+    [vConsignments].[DeliveryAddrID] AS [DeliveryAddrID], 
+    [vConsignments].[ThirdPartyAddID] AS [ThirdPartyAddID], 
+    [vConsignments].[PickupAddID] AS [PickupAddID], 
+    [vConsignments].[BrokerName] AS [BrokerName], 
+    [vConsignments].[LoadType] AS [LoadType], 
+    [vConsignments].[Signature] AS [Signature], 
+    [vConsignments].[CarrierExpDeliveryDate] AS [CarrierExpDeliveryDate], 
+    [vConsignments].[MoveitSourceFile_id] AS [MoveitSourceFile_id], 
+    [vConsignments].[InsertDate] AS [InsertDate], 
+    [vConsignments].[ActualDeliveryDate] AS [ActualDeliveryDate], 
+    [vConsignments].[IsUpdated] AS [IsUpdated], 
+    [vConsignments].[CustomerName] AS [CustomerName], 
+    [vConsignments].[AccountManager] AS [AccountManager], 
+    [vConsignments].[CustomerCode] AS [CustomerCode], 
+    [vConsignments].[FinanceGroup] AS [FinanceGroup]
+    FROM [dbo].[vConsignments] AS [vConsignments]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vCustomerAccountManager" EntityType="Self.vCustomerAccountManager" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vCustomerAccountManager].[Id] AS [Id], 
+    [vCustomerAccountManager].[CustomerCode] AS [CustomerCode], 
+    [vCustomerAccountManager].[AccountManager] AS [AccountManager], 
+    [vCustomerAccountManager].[LoginName] AS [LoginName], 
+    [vCustomerAccountManager].[IsDeleted] AS [IsDeleted]
+    FROM [dbo].[vCustomerAccountManager] AS [vCustomerAccountManager]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vCustomerWithoutManager" EntityType="Self.vCustomerWithoutManager" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vCustomerWithoutManager].[Id] AS [Id], 
+    [vCustomerWithoutManager].[CustomerSubCode] AS [CustomerSubCode], 
+    [vCustomerWithoutManager].[CustomerCode] AS [CustomerCode], 
+    [vCustomerWithoutManager].[CustomerName] AS [CustomerName], 
+    [vCustomerWithoutManager].[FinanceGroup] AS [FinanceGroup], 
+    [vCustomerWithoutManager].[AccountManager] AS [AccountManager], 
+    [vCustomerWithoutManager].[PostCode] AS [PostCode], 
+    [vCustomerWithoutManager].[State] AS [State], 
+    [vCustomerWithoutManager].[Suburb] AS [Suburb], 
+    [vCustomerWithoutManager].[NB_advisor] AS [NB_advisor], 
+    [vCustomerWithoutManager].[ModifiedDate] AS [ModifiedDate]
+    FROM [dbo].[vCustomerWithoutManager] AS [vCustomerWithoutManager]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vMissingComment" EntityType="Self.vMissingComment" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vMissingComment].[CustomerCode] AS [CustomerCode], 
+    [vMissingComment].[AccountManager] AS [AccountManager]
+    FROM [dbo].[vMissingComment] AS [vMissingComment]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AFSXchange1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="AFSXchange1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CustomerContractStatus" EntityType="AFSXchange1Model.CustomerContractStatus" />
+          <EntitySet Name="Customers" EntityType="AFSXchange1Model.Customers" />
+          <EntitySet Name="CustomerAccountManager" EntityType="AFSXchange1Model.CustomerAccountManager" />
+          <EntitySet Name="vCustomerAccountManager" EntityType="AFSXchange1Model.vCustomerAccountManager" />
+          <EntitySet Name="vCustomerWithoutManager" EntityType="AFSXchange1Model.vCustomerWithoutManager" />
+          <EntitySet Name="vMissingComment" EntityType="AFSXchange1Model.vMissingComment" />
+          <EntitySet Name="AccountManagerLogin" EntityType="AFSXchange1Model.AccountManagerLogin" />
+          <EntitySet Name="vAccountCommentUpdateTime" EntityType="AFSXchange1Model.vAccountCommentUpdateTime" />
+          <EntitySet Name="AccountComments" EntityType="AFSXchange1Model.AccountComments" />
+          <EntitySet Name="vConsignments" EntityType="AFSXchange1Model.vConsignments" />
+          <EntitySet Name="CustomerRiskLevel" EntityType="AFSXchange1Model.CustomerRiskLevel" />
+          <EntitySet Name="vAccountComments" EntityType="AFSXchange1Model.vAccountComments" />
+          <EntitySet Name="vAccountManagerDelegate" EntityType="AFSXchange1Model.vAccountManagerDelegate" />
+          <EntitySet Name="AccountComments_pre" EntityType="AFSXchange1Model.AccountComments_pre" />
+          <EntitySet Name="vAccountComments_pre" EntityType="AFSXchange1Model.vAccountComments_pre" />
+          <EntitySet Name="vAccountCommentsPre_All" EntityType="AFSXchange1Model.vAccountCommentsPre_All" />
+          <EntitySet Name="vAccountManagerLogin" EntityType="AFSXchange1Model.vAccountManagerLogin" />
+          <FunctionImport Name="spGetCustomerCounts" IsComposable="true" ReturnType="Collection(AFSXchange1Model.spGetCustomerCounts_Result)">
+            <Parameter Name="fromdate" Mode="In" Type="DateTime" />
+            <Parameter Name="todate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spAmPortalActivityLog">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="LogDesc" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SyncronizeAccountManagers" />
+        </EntityContainer>
+        <EntityType Name="CustomerContractStatus">
+          <Key>
+            <PropertyRef Name="ContractStatusId" />
+          </Key>
+          <Property Name="ContractStatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ContractStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerSubCode" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerCode" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="FinanceGroup" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="AccountManager" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PostCode" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="Suburb" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="NB_advisor" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="CustomerAccountManager">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerCode" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="AccountManager" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LoginName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsDeleted" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vCustomerAccountManager">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CustomerCode" />
+            <PropertyRef Name="LoginName" />
+            <PropertyRef Name="IsDeleted" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerCode" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="AccountManager" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LoginName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsDeleted" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vCustomerWithoutManager">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CustomerSubCode" />
+            <PropertyRef Name="CustomerCode" />
+            <PropertyRef Name="CustomerName" />
+            <PropertyRef Name="FinanceGroup" />
+            <PropertyRef Name="ModifiedDate" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerSubCode" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerCode" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="FinanceGroup" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="AccountManager" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PostCode" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="Suburb" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="NB_advisor" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="vMissingComment">
+          <Key>
+            <PropertyRef Name="CustomerCode" />
+          </Key>
+          <Property Name="CustomerCode" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="AccountManager" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AccountManagerLogin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountManager" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LoginName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Int32" />
+          <Property Name="IsDeleted" Type="Int32" />
+          <Property Name="IsFormLogin" Type="Boolean" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsFirstLogin" Type="Boolean" />
+          <Property Name="UserType" Type="Int32" />
+        </EntityType>
+        <EntityType Name="vAccountCommentUpdateTime">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="LastUpdate" Type="DateTime" Precision="0" />
+          <Property Name="NextLoad" Type="DateTime" Precision="0" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="AccountComments">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountManager" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerGroup" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="RiskLevel" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerComment" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="RevenueComment" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="ContractStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Load_date" Type="DateTime" Precision="0" />
+          <Property Name="FileInfo_id" Type="Int32" />
+          <Property Name="LastInvoiceDate" Type="DateTime" Precision="0" />
+          <Property Name="InvoiceWeek" Type="DateTime" Precision="0" />
+          <Property Name="Executive" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ActionRequired" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="DueDate" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="vConsignments">
+          <Key>
+            <PropertyRef Name="cId" />
+            <PropertyRef Name="Customer_id" />
+            <PropertyRef Name="RateWoSurch" />
+            <PropertyRef Name="CarrierRateWoSurch" />
+            <PropertyRef Name="FuelSurch" />
+            <PropertyRef Name="CarrierFuelSurch" />
+            <PropertyRef Name="RateIncSurch" />
+            <PropertyRef Name="CarrierRateIncSurch" />
+            <PropertyRef Name="RateWoShipperMargin" />
+            <PropertyRef Name="RateWoShipperMarginIncSurch" />
+            <PropertyRef Name="TotWeightKg" />
+            <PropertyRef Name="TotVolM" />
+            <PropertyRef Name="LoadType" />
+            <PropertyRef Name="InsertDate" />
+            <PropertyRef Name="IsUpdated" />
+            <PropertyRef Name="CustomerName" />
+            <PropertyRef Name="CustomerCode" />
+            <PropertyRef Name="FinanceGroup" />
+          </Key>
+          <Property Name="cId" Type="Int32" Nullable="false" />
+          <Property Name="Manifest_id" Type="Int32" />
+          <Property Name="ManifestNo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ConsignmentNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FreightStatus" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ShipperReference" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LineItemReferences" Type="String" MaxLength="800" FixedLength="false" Unicode="false" />
+          <Property Name="Customer_id" Type="Int32" Nullable="false" />
+          <Property Name="DespatchDate" Type="DateTime" Precision="0" />
+          <Property Name="ActualDespatchDate" Type="DateTime" Precision="0" />
+          <Property Name="ExpectedDeliveryDate" Type="DateTime" Precision="0" />
+          <Property Name="CreationDate" Type="DateTime" Precision="3" />
+          <Property Name="LineOfBusiness" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PickupName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="PickupAddress1" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="PickupAddress2" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="PickupAddress3" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="PickupTown" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PickupState" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="PickupPostcode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="PickupPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PickupEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddress1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddress2" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddress3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryTown" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryState" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryPostcode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyAddress1" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyAddress2" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyAddress3" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyTown" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyState" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyPostcode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyEmail" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CarriageName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="CarriageAddress1" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="DriverNumber" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="ReceiverCode" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="CarriageTown" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CarriageState" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CarriagePostcode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CarriagePhone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CarriageEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PickupZone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryZone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ReturnConsignment" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CarrierBusinessName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="ServiceName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="SpecialIns" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="InsuranceClass" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="InsuranceValue" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DgUnNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DgClass" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Dggroup" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RateWoSurch" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="CarrierRateWoSurch" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="FuelSurch" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="CarrierFuelSurch" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="RateIncSurch" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="CarrierRateIncSurch" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="RateWoShipperMargin" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="RateWoShipperMarginIncSurch" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="TotWeightKg" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="TotVolM" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="CarrierSilent" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="ShipperSilent" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="AutoDespatch" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CarrierWebLink" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CodeCodes" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PreDespatchNotiDate" Type="DateTime" Precision="3" />
+          <Property Name="FileInfo_id" Type="Int32" />
+          <Property Name="load_date" Type="DateTime" Precision="3" />
+          <Property Name="Moveit_custId" Type="Int32" />
+          <Property Name="ConsignmentId" Type="Int64" />
+          <Property Name="ThirdPartyPickup" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryAddrID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdPartyAddID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PickupAddID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BrokerName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LoadType" Type="Int32" Nullable="false" />
+          <Property Name="Signature" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CarrierExpDeliveryDate" Type="DateTime" Precision="0" />
+          <Property Name="MoveitSourceFile_id" Type="Int32" />
+          <Property Name="InsertDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ActualDeliveryDate" Type="DateTime" Precision="3" />
+          <Property Name="IsUpdated" Type="Boolean" Nullable="false" />
+          <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="AccountManager" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerCode" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="FinanceGroup" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="CustomerRiskLevel">
+          <Key>
+            <PropertyRef Name="RiskId" />
+          </Key>
+          <Property Name="RiskId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="RiskLevel" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="vAccountComments">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CustomerGroup" />
+            <PropertyRef Name="CustomerComment" />
+            <PropertyRef Name="RevenueComment" />
+            <PropertyRef Name="LastInvoiceDate" />
+            <PropertyRef Name="InvoiceWeek" />
+            <PropertyRef Name="LoginName" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="AccountManager" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerGroup" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="RiskLevel" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerComment" Type="String" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="RevenueComment" Type="String" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="ContractStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Load_date" Type="DateTime" Precision="0" />
+          <Property Name="FileInfo_id" Type="Int32" />
+          <Property Name="LastInvoiceDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="InvoiceWeek" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Executive" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ActionRequired" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="DueDate" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="LoginName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserType" Type="Int32" />
+          <Property Name="UserStatus" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vAccountManagerDelegate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Original_AM" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Original_Login" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Delegate_AM" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Delegate_Login" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="AccountComments_pre">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountManager" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerGroup" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="RiskLevel" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerComment" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="RevenueComment" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="ContractStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FileInfo_id" Type="Int32" />
+          <Property Name="Executive" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ActionRequired" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="DueDate" Type="DateTime" Precision="3" />
+          <Property Name="CustomerBusinessUpdate" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="ContractStatusUpdate" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="vAccountComments_pre">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountManager" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerGroup" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="RiskLevel" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerComment" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="RevenueComment" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="ContractStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FileInfo_id" Type="Int32" />
+          <Property Name="Executive" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ActionRequired" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="DueDate" Type="DateTime" Precision="3" />
+          <Property Name="CustomerBusinessUpdate" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="ContractStatusUpdate" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="vAccountCommentsPre_All">
+          <Key>
+            <PropertyRef Name="CustomerCode" />
+            <PropertyRef Name="LoginName" />
+          </Key>
+          <Property Name="CustomerCode" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="AccountManager" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RiskLevel" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerComment" Type="String" MaxLength="103" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerGroup" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="RevenueComment" Type="String" MaxLength="103" FixedLength="false" Unicode="true" />
+          <Property Name="ContractStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Executive" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ActionRequired" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="DueDate" Type="DateTime" Precision="3" />
+          <Property Name="LoginName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Id" Type="Int64" />
+          <Property Name="CustomerBusinessUpdate" Type="String" MaxLength="103" FixedLength="false" Unicode="true" />
+          <Property Name="ContractStatusUpdate" Type="String" MaxLength="103" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="vAccountManagerLogin">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="AccountManager" />
+            <PropertyRef Name="LoginName" />
+            <PropertyRef Name="UserProfile" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountManager" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LoginName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Int32" />
+          <Property Name="IsDeleted" Type="Int32" />
+          <Property Name="IsFormLogin" Type="Boolean" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsFirstLogin" Type="Boolean" />
+          <Property Name="UserStatus" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="UserType" Type="Int32" />
+          <Property Name="UserProfile" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="spGetCustomerCounts_Result">
+          <Property Type="Int32" Name="CNT" Nullable="true" />
+          <Property Type="Int32" Name="Customer_id" Nullable="false" />
+          <Property Type="String" Name="AccountManager" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="16" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AFSXchange1ModelStoreContainer" CdmEntityContainer="AFSXchange1Entities">
+          <EntitySetMapping Name="CustomerContractStatus">
+            <EntityTypeMapping TypeName="AFSXchange1Model.CustomerContractStatus">
+              <MappingFragment StoreEntitySet="CustomerContractStatus">
+                <ScalarProperty Name="ContractStatus" ColumnName="ContractStatus" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ContractStatusId" ColumnName="ContractStatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="AFSXchange1Model.Customers">
+              <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="NB_advisor" ColumnName="NB_advisor" />
+                <ScalarProperty Name="Suburb" ColumnName="Suburb" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="AccountManager" ColumnName="AccountManager" />
+                <ScalarProperty Name="FinanceGroup" ColumnName="FinanceGroup" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
+                <ScalarProperty Name="CustomerSubCode" ColumnName="CustomerSubCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerAccountManager">
+            <EntityTypeMapping TypeName="AFSXchange1Model.CustomerAccountManager">
+              <MappingFragment StoreEntitySet="CustomerAccountManager">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
+                <ScalarProperty Name="AccountManager" ColumnName="AccountManager" />
+                <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vCustomerAccountManager">
+            <EntityTypeMapping TypeName="AFSXchange1Model.vCustomerAccountManager">
+              <MappingFragment StoreEntitySet="vCustomerAccountManager">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
+                <ScalarProperty Name="AccountManager" ColumnName="AccountManager" />
+                <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vCustomerWithoutManager">
+            <EntityTypeMapping TypeName="AFSXchange1Model.vCustomerWithoutManager">
+              <MappingFragment StoreEntitySet="vCustomerWithoutManager">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="NB_advisor" ColumnName="NB_advisor" />
+                <ScalarProperty Name="Suburb" ColumnName="Suburb" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="AccountManager" ColumnName="AccountManager" />
+                <ScalarProperty Name="FinanceGroup" ColumnName="FinanceGroup" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
+                <ScalarProperty Name="CustomerSubCode" ColumnName="CustomerSubCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vMissingComment">
+            <EntityTypeMapping TypeName="AFSXchange1Model.vMissingComment">
+              <MappingFragment StoreEntitySet="vMissingComment">
+                <ScalarProperty Name="AccountManager" ColumnName="AccountManager" />
+                <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccountManagerLogin">
+            <EntityTypeMapping TypeName="AFSXchange1Model.AccountManagerLogin">
+              <MappingFragment StoreEntitySet="AccountManagerLogin">
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="IsFirstLogin" ColumnName="IsFirstLogin" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="IsFormLogin" ColumnName="IsFormLogin" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
+                <ScalarProperty Name="AccountManager" ColumnName="AccountManager" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vAccountCommentUpdateTime">
+            <EntityTypeMapping TypeName="AFSXchange1Model.vAccountCommentUpdateTime">
+              <MappingFragment StoreEntitySet="vAccountCommentUpdateTime">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="NextLoad" ColumnName="NextLoad" />
+                <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccountComments">
+            <EntityTypeMapping TypeName="AFSXchange1Model.AccountComments">
+              <MappingFragment StoreEntitySet="AccountComments">
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="ActionRequired" ColumnName="ActionRequired" />
+                <ScalarProperty Name="Executive" ColumnName="Executive" />
+                <ScalarProperty Name="InvoiceWeek" ColumnName="InvoiceWeek" />
+                <ScalarProperty Name="LastInvoiceDate" ColumnName="LastInvoiceDate" />
+                <ScalarProperty Name="FileInfo_id" ColumnName="FileInfo_id" />
+                <ScalarProperty Name="Load_date" ColumnName="Load_date" />
+                <ScalarProperty Name="ContractStatus" ColumnName="ContractStatus" />
+                <ScalarProperty Name="RevenueComment" ColumnName="RevenueComment" />
+                <ScalarProperty Name="CustomerComment" ColumnName="CustomerComment" />
+                <ScalarProperty Name="RiskLevel" ColumnName="RiskLevel" />
+                <ScalarProperty Name="CustomerGroup" ColumnName="CustomerGroup" />
+                <ScalarProperty Name="AccountManager" ColumnName="AccountManager" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vConsignments">
+            <EntityTypeMapping TypeName="AFSXchange1Model.vConsignments">
+              <MappingFragment StoreEntitySet="vConsignments">
+                <ScalarProperty Name="FinanceGroup" ColumnName="FinanceGroup" />
+                <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
+                <ScalarProperty Name="AccountManager" ColumnName="AccountManager" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="IsUpdated" ColumnName="IsUpdated" />
+                <ScalarProperty Name="ActualDeliveryDate" ColumnName="ActualDeliveryDate" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="MoveitSourceFile_id" ColumnName="MoveitSourceFile_id" />
+                <ScalarProperty Name="CarrierExpDeliveryDate" ColumnName="CarrierExpDeliveryDate" />
+                <ScalarProperty Name="Signature" ColumnName="Signature" />
+                <ScalarProperty Name="LoadType" ColumnName="LoadType" />
+                <ScalarProperty Name="BrokerName" ColumnName="BrokerName" />
+                <ScalarProperty Name="PickupAddID" ColumnName="PickupAddID" />
+                <ScalarProperty Name="ThirdPartyAddID" ColumnName="ThirdPartyAddID" />
+                <ScalarProperty Name="DeliveryAddrID" ColumnName="DeliveryAddrID" />
+                <ScalarProperty Name="ThirdPartyPickup" ColumnName="ThirdPartyPickup" />
+                <ScalarProperty Name="ConsignmentId" ColumnName="ConsignmentId" />
+                <ScalarProperty Name="Moveit_custId" ColumnName="Moveit_custId" />
+                <ScalarProperty Name="load_date" ColumnName="load_date" />
+                <ScalarProperty Name="FileInfo_id" ColumnName="FileInfo_id" />
+                <ScalarProperty Name="PreDespatchNotiDate" ColumnName="PreDespatchNotiDate" />
+                <ScalarProperty Name="CodeCodes" ColumnName="CodeCodes" />
+                <ScalarProperty Name="CarrierWebLink" ColumnName="CarrierWebLink" />
+                <ScalarProperty Name="AutoDespatch" ColumnName="AutoDespatch" />
+                <ScalarProperty Name="ShipperSilent" ColumnName="ShipperSilent" />
+                <ScalarProperty Name="CarrierSilent" ColumnName="CarrierSilent" />
+                <ScalarProperty Name="TotVolM" ColumnName="TotVolM" />
+                <ScalarProperty Name="TotWeightKg" ColumnName="TotWeightKg" />
+                <ScalarProperty Name="RateWoShipperMarginIncSurch" ColumnName="RateWoShipperMarginIncSurch" />
+                <ScalarProperty Name="RateWoShipperMargin" ColumnName="RateWoShipperMargin" />
+                <ScalarProperty Name="CarrierRateIncSurch" ColumnName="CarrierRateIncSurch" />
+                <ScalarProperty Name="RateIncSurch" ColumnName="RateIncSurch" />
+                <ScalarProperty Name="CarrierFuelSurch" ColumnName="CarrierFuelSurch" />
+                <ScalarProperty Name="FuelSurch" ColumnName="FuelSurch" />
+                <ScalarProperty Name="CarrierRateWoSurch" ColumnName="CarrierRateWoSurch" />
+                <ScalarProperty Name="RateWoSurch" ColumnName="RateWoSurch" />
+                <ScalarProperty Name="Dggroup" ColumnName="Dggroup" />
+                <ScalarProperty Name="DgClass" ColumnName="DgClass" />
+                <ScalarProperty Name="DgUnNo" ColumnName="DgUnNo" />
+                <ScalarProperty Name="InsuranceValue" ColumnName="InsuranceValue" />
+                <ScalarProperty Name="InsuranceClass" ColumnName="InsuranceClass" />
+                <ScalarProperty Name="SpecialIns" ColumnName="SpecialIns" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="CarrierBusinessName" ColumnName="CarrierBusinessName" />
+                <ScalarProperty Name="ReturnConsignment" ColumnName="ReturnConsignment" />
+                <ScalarProperty Name="DeliveryZone" ColumnName="DeliveryZone" />
+                <ScalarProperty Name="PickupZone" ColumnName="PickupZone" />
+                <ScalarProperty Name="CarriageEmail" ColumnName="CarriageEmail" />
+                <ScalarProperty Name="CarriagePhone" ColumnName="CarriagePhone" />
+                <ScalarProperty Name="CarriagePostcode" ColumnName="CarriagePostcode" />
+                <ScalarProperty Name="CarriageState" ColumnName="CarriageState" />
+                <ScalarProperty Name="CarriageTown" ColumnName="CarriageTown" />
+                <ScalarProperty Name="ReceiverCode" ColumnName="ReceiverCode" />
+                <ScalarProperty Name="DriverNumber" ColumnName="DriverNumber" />
+                <ScalarProperty Name="CarriageAddress1" ColumnName="CarriageAddress1" />
+                <ScalarProperty Name="CarriageName" ColumnName="CarriageName" />
+                <ScalarProperty Name="ThirdPartyEmail" ColumnName="ThirdPartyEmail" />
+                <ScalarProperty Name="ThirdPartyPhone" ColumnName="ThirdPartyPhone" />
+                <ScalarProperty Name="ThirdPartyPostcode" ColumnName="ThirdPartyPostcode" />
+                <ScalarProperty Name="ThirdPartyState" ColumnName="ThirdPartyState" />
+                <ScalarProperty Name="ThirdPartyTown" ColumnName="ThirdPartyTown" />
+                <ScalarProperty Name="ThirdPartyAddress3" ColumnName="ThirdPartyAddress3" />
+                <ScalarProperty Name="ThirdPartyAddress2" ColumnName="ThirdPartyAddress2" />
+                <ScalarProperty Name="ThirdPartyAddress1" ColumnName="ThirdPartyAddress1" />
+                <ScalarProperty Name="ThirdPartyName" ColumnName="ThirdPartyName" />
+                <ScalarProperty Name="DeliveryEmail" ColumnName="DeliveryEmail" />
+                <ScalarProperty Name="DeliveryPhone" ColumnName="DeliveryPhone" />
+                <ScalarProperty Name="DeliveryPostcode" ColumnName="DeliveryPostcode" />
+                <ScalarProperty Name="DeliveryState" ColumnName="DeliveryState" />
+                <ScalarProperty Name="DeliveryTown" ColumnName="DeliveryTown" />
+                <ScalarProperty Name="DeliveryAddress3" ColumnName="DeliveryAddress3" />
+                <ScalarProperty Name="DeliveryAddress2" ColumnName="DeliveryAddress2" />
+                <ScalarProperty Name="DeliveryAddress1" ColumnName="DeliveryAddress1" />
+                <ScalarProperty Name="DeliveryName" ColumnName="DeliveryName" />
+                <ScalarProperty Name="PickupEmail" ColumnName="PickupEmail" />
+                <ScalarProperty Name="PickupPhone" ColumnName="PickupPhone" />
+                <ScalarProperty Name="PickupPostcode" ColumnName="PickupPostcode" />
+                <ScalarProperty Name="PickupState" ColumnName="PickupState" />
+                <ScalarProperty Name="PickupTown" ColumnName="PickupTown" />
+                <ScalarProperty Name="PickupAddress3" ColumnName="PickupAddress3" />
+                <ScalarProperty Name="PickupAddress2" ColumnName="PickupAddress2" />
+                <ScalarProperty Name="PickupAddress1" ColumnName="PickupAddress1" />
+                <ScalarProperty Name="PickupName" ColumnName="PickupName" />
+                <ScalarProperty Name="LineOfBusiness" ColumnName="LineOfBusiness" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="ExpectedDeliveryDate" ColumnName="ExpectedDeliveryDate" />
+                <ScalarProperty Name="ActualDespatchDate" ColumnName="ActualDespatchDate" />
+                <ScalarProperty Name="DespatchDate" ColumnName="DespatchDate" />
+                <ScalarProperty Name="Customer_id" ColumnName="Customer_id" />
+                <ScalarProperty Name="LineItemReferences" ColumnName="LineItemReferences" />
+                <ScalarProperty Name="ShipperReference" ColumnName="ShipperReference" />
+                <ScalarProperty Name="FreightStatus" ColumnName="FreightStatus" />
+                <ScalarProperty Name="ConsignmentNo" ColumnName="ConsignmentNo" />
+                <ScalarProperty Name="ManifestNo" ColumnName="ManifestNo" />
+                <ScalarProperty Name="Manifest_id" ColumnName="Manifest_id" />
+                <ScalarProperty Name="cId" ColumnName="cId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerRiskLevel">
+            <EntityTypeMapping TypeName="AFSXchange1Model.CustomerRiskLevel">
+              <MappingFragment StoreEntitySet="CustomerRiskLevel">
+                <ScalarProperty Name="RiskLevel" ColumnName="RiskLevel" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="RiskId" ColumnName="RiskId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vAccountComments">
+            <EntityTypeMapping TypeName="AFSXchange1Model.vAccountComments">
+              <MappingFragment StoreEntitySet="vAccountComments">
+                <ScalarProperty Name="UserStatus" ColumnName="UserStatus" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="ActionRequired" ColumnName="ActionRequired" />
+                <ScalarProperty Name="Executive" ColumnName="Executive" />
+                <ScalarProperty Name="InvoiceWeek" ColumnName="InvoiceWeek" />
+                <ScalarProperty Name="LastInvoiceDate" ColumnName="LastInvoiceDate" />
+                <ScalarProperty Name="FileInfo_id" ColumnName="FileInfo_id" />
+                <ScalarProperty Name="Load_date" ColumnName="Load_date" />
+                <ScalarProperty Name="ContractStatus" ColumnName="ContractStatus" />
+                <ScalarProperty Name="RevenueComment" ColumnName="RevenueComment" />
+                <ScalarProperty Name="CustomerComment" ColumnName="CustomerComment" />
+                <ScalarProperty Name="RiskLevel" ColumnName="RiskLevel" />
+                <ScalarProperty Name="CustomerGroup" ColumnName="CustomerGroup" />
+                <ScalarProperty Name="AccountManager" ColumnName="AccountManager" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vAccountManagerDelegate">
+            <EntityTypeMapping TypeName="AFSXchange1Model.vAccountManagerDelegate">
+              <MappingFragment StoreEntitySet="vAccountManagerDelegate">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Delegate_Login" ColumnName="Delegate_Login" />
+                <ScalarProperty Name="Delegate_AM" ColumnName="Delegate_AM" />
+                <ScalarProperty Name="Original_Login" ColumnName="Original_Login" />
+                <ScalarProperty Name="Original_AM" ColumnName="Original_AM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccountComments_pre">
+            <EntityTypeMapping TypeName="AFSXchange1Model.AccountComments_pre">
+              <MappingFragment StoreEntitySet="AccountComments_pre">
+                <ScalarProperty Name="ContractStatusUpdate" ColumnName="ContractStatusUpdate" />
+                <ScalarProperty Name="CustomerBusinessUpdate" ColumnName="CustomerBusinessUpdate" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="ActionRequired" ColumnName="ActionRequired" />
+                <ScalarProperty Name="Executive" ColumnName="Executive" />
+                <ScalarProperty Name="FileInfo_id" ColumnName="FileInfo_id" />
+                <ScalarProperty Name="ContractStatus" ColumnName="ContractStatus" />
+                <ScalarProperty Name="RevenueComment" ColumnName="RevenueComment" />
+                <ScalarProperty Name="CustomerComment" ColumnName="CustomerComment" />
+                <ScalarProperty Name="RiskLevel" ColumnName="RiskLevel" />
+                <ScalarProperty Name="CustomerGroup" ColumnName="CustomerGroup" />
+                <ScalarProperty Name="AccountManager" ColumnName="AccountManager" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vAccountComments_pre">
+            <EntityTypeMapping TypeName="AFSXchange1Model.vAccountComments_pre">
+              <MappingFragment StoreEntitySet="vAccountComments_pre">
+                <ScalarProperty Name="ContractStatusUpdate" ColumnName="ContractStatusUpdate" />
+                <ScalarProperty Name="CustomerBusinessUpdate" ColumnName="CustomerBusinessUpdate" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="ActionRequired" ColumnName="ActionRequired" />
+                <ScalarProperty Name="Executive" ColumnName="Executive" />
+                <ScalarProperty Name="FileInfo_id" ColumnName="FileInfo_id" />
+                <ScalarProperty Name="ContractStatus" ColumnName="ContractStatus" />
+                <ScalarProperty Name="RevenueComment" ColumnName="RevenueComment" />
+                <ScalarProperty Name="CustomerComment" ColumnName="CustomerComment" />
+                <ScalarProperty Name="RiskLevel" ColumnName="RiskLevel" />
+                <ScalarProperty Name="CustomerGroup" ColumnName="CustomerGroup" />
+                <ScalarProperty Name="AccountManager" ColumnName="AccountManager" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vAccountCommentsPre_All">
+            <EntityTypeMapping TypeName="AFSXchange1Model.vAccountCommentsPre_All">
+              <MappingFragment StoreEntitySet="vAccountCommentsPre_All">
+                <ScalarProperty Name="ContractStatusUpdate" ColumnName="ContractStatusUpdate" />
+                <ScalarProperty Name="CustomerBusinessUpdate" ColumnName="CustomerBusinessUpdate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="ActionRequired" ColumnName="ActionRequired" />
+                <ScalarProperty Name="Executive" ColumnName="Executive" />
+                <ScalarProperty Name="ContractStatus" ColumnName="ContractStatus" />
+                <ScalarProperty Name="RevenueComment" ColumnName="RevenueComment" />
+                <ScalarProperty Name="CustomerGroup" ColumnName="CustomerGroup" />
+                <ScalarProperty Name="CustomerComment" ColumnName="CustomerComment" />
+                <ScalarProperty Name="RiskLevel" ColumnName="RiskLevel" />
+                <ScalarProperty Name="AccountManager" ColumnName="AccountManager" />
+                <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vAccountManagerLogin">
+            <EntityTypeMapping TypeName="AFSXchange1Model.vAccountManagerLogin">
+              <MappingFragment StoreEntitySet="vAccountManagerLogin">
+                <ScalarProperty Name="UserProfile" ColumnName="UserProfile" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="UserStatus" ColumnName="UserStatus" />
+                <ScalarProperty Name="IsFirstLogin" ColumnName="IsFirstLogin" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="IsFormLogin" ColumnName="IsFormLogin" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
+                <ScalarProperty Name="AccountManager" ColumnName="AccountManager" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spGetCustomerCounts" FunctionName="AFSXchange1Model.Store.spGetCustomerCounts">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AFSXchange1Model.spGetCustomerCounts_Result">
+                <ScalarProperty Name="CNT" ColumnName="CNT" />
+                <ScalarProperty Name="Customer_id" ColumnName="Customer_id" />
+                <ScalarProperty Name="AccountManager" ColumnName="AccountManager" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spAmPortalActivityLog" FunctionName="AFSXchange1Model.Store.spAmPortalActivityLog" />
+          <FunctionImportMapping FunctionImportName="SyncronizeAccountManagers" FunctionName="AFSXchange1Model.Store.SyncronizeAccountManagers" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

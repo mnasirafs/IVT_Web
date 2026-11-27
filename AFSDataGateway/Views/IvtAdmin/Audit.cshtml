@@ -1,0 +1,24 @@
+@using AFSDataGateway.Services.IvtAdmin
+@model List<IvtAuditEntry>
+@{
+    ViewBag.Title = "IVT administration audit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@Html.Partial("~/Views/IvtAdmin/_Assets.cshtml")
+<div class="ivt-adm" data-ivt-page="audit">
+    <h2>Audit log</h2>
+    <form method="get" class="toolbar">
+        <div><label for="prefix">Operation starts with</label>
+            <input id="prefix" name="prefix" class="form-control" value="@ViewBag.Prefix" placeholder="e.g. RUN., SETTINGS.RULES, CONNOTE." /></div>
+        <button class="btn btn-outline-secondary">Filter</button>
+    </form>
+    <p class="muted">Latest @Model.Count entries. Times are UTC. STARTED rows that never completed indicate an interrupted request: check the related job or record before retrying.</p>
+    <div class="ivt-table-wrap"><table class="ivt-grid"><thead><tr><th>#</th><th>UTC</th><th>Operator</th><th>Env</th><th>Operation</th><th>Target</th><th>Count</th><th>Week</th><th>Job / run</th><th>Outcome</th><th>Detail</th></tr></thead><tbody>
+        @foreach (var e in Model)
+        {
+            <tr><td>@e.Id</td><td>@e.OccurredAtUtc.ToString("yyyy-MM-dd HH:mm:ss")</td><td>@e.Operator</td><td>@e.Environment</td><td>@e.Operation</td><td>@IvtErrors.DisplayText(e.Target)</td>
+                <td>@e.AffectedCount</td><td>@(e.InvoiceWeek.HasValue ? e.InvoiceWeek.Value.ToString("yyyy-MM-dd") : "")</td><td>@e.ExternalId</td><td>@e.Outcome</td>
+                <td><details><summary>view</summary><pre>@IvtErrors.DisplayText(e.Detail)</pre><small class="muted">Correlation @e.CorrelationId</small></details></td></tr>
+        }
+    </tbody></table></div>
+</div>

@@ -1,0 +1,104 @@
+@using AFSDataGateway.Services.IvtAdmin
+@model IvtAdminSettings
+@{
+    var env = (IvtEnvironment)ViewBag.IvtEnvironment;
+    var service = (RunControlService)ViewBag.Service;
+    ViewBag.Title = env == IvtEnvironment.Test ? "Test run control" : "Run control";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Func<IvtRunKind, string> plan = k => string.Join("|", service.Plan(k));
+}
+@Html.Partial("~/Views/IvtAdmin/_Assets.cshtml")
+<div class="ivt-adm" data-ivt-page="run" data-env="@env.Key()" data-env-label="@env.Label()"
+     data-status-url="@Url.Action("RunStatus")" data-start-url="@Url.Action("StartRun")" data-rollback-url="@Url.Action("Rollback")"
+     data-azure-url="@Url.Action("StartAzureRun")" data-azure-status-url="@Url.Action("AzureRunStatus")">
+    <h2>@ViewBag.Title</h2>
+    @Html.Partial("~/Views/IvtAdmin/_Env.cshtml", env)
+
+    <div class="card-box">
+        <h3>Start the engine</h3>
+        <div class="toolbar">
+            <div>
+                <label for="ivt-week">Invoice week</label>
+                <input type="date" id="ivt-week" class="form-control" value="@ViewBag.DefaultWeek" max="@ViewBag.Today" required />
+                <small id="ivt-week-hint" class="muted"></small>
+            </div>
+            <div class="form-check" style="padding-top:18px">
+                <input type="checkbox" class="form-check-input" id="ivt-lz" />
+                <label class="form-check-label" for="ivt-lz">I have placed this week's Buy and Sell files in the landing zone</label>
+            </div>
+        </div>
+        <p class="muted">Default: the most recent Friday before today (@Model.BusinessTimeZone). Landing zone:
+            <code>@(Model.Paths.LandingRoot ?? "not configured")</code> (Buy: <code>@Model.Paths.Buy</code>, Sell: <code>@Model.Paths.Sell</code>).</p>
+        <div class="run-buttons">
+            @if (env == IvtEnvironment.Production)
+            {
+                <button type="button" class="btn btn-danger" data-run="Production" data-label="PRODUCTION run (@Model.Jobs.ProductionEngine)" data-plan="@plan(IvtRunKind.Production)">Run IVT (production)</button>
+                <button type="button" class="btn btn-outline-danger" data-run="Silent" data-label="SILENT production run (@Model.Jobs.SilentEngine)" data-plan="@plan(IvtRunKind.Silent)">Silent run (reports to admins only)</button>
+            }
+            else
+            {
+                <button type="button" class="btn btn-warning" data-run="Test" data-label="TEST run (@Model.Jobs.TestEngine)" data-plan="@plan(IvtRunKind.Test)">Run IVT test</button>
+            }
+            <button type="button" class="btn btn-outline-secondary" id="ivt-refresh">Refresh status</button>
+            <span id="ivt-refreshed" class="muted" style="display:inline"></span>
+        </div>
+        <details>
+            <summary>What each run does</summary>
+            @foreach (var k in env == IvtEnvironment.Production ? new[] { IvtRunKind.Production, IvtRunKind.Silent } : new[] { IvtRunKind.Test })
+            {
+                <p class="mb-1 mt-2"><b>@k</b></p>
+                <ol>@foreach (var s in service.Plan(k)) { <li>@s</li> }</ol>
+            }
+            <p class="muted">Every start checks that no conflicting job (@string.Join(", ", Model.ConflictingJobs)) is running, and blocks a second start while a recent submission is not yet visible.
+                The silent job starts the test job as its last step.</p>
+        </details>
+        <div id="ivt-run-result" class="mt-2"></div>
+    </div>
+
+    <div class="card-box">
+        <h3>SQL Agent status</h3>
+        <div id="ivt-jobs" class="ivt-jobs"></div>
+    </div>
+
+    <div class="card-box">
+        <h3>Run history (@env.Label())</h3>
+        <div id="ivt-history"></div>
+        <h3 class="mt-3">Runs started from this module</h3>
+        <div id="ivt-recent"></div>
+    </div>
+
+    @if (env == IvtEnvironment.Production)
+    {
+        <div class="card-box">
+            <h3>Azure (optional)</h3>
+            @if (Model.Azure.Enabled)
+            {
+                <p class="muted">Prepares IVT, IVT_Test and Azure IVT, uploads the top-level Buy and Sell files to <code>@Model.Azure.Container/@Model.Azure.BuyPrefix</code> and <code>@Model.Azure.SellPrefix</code> (overwriting), then starts pipeline <b>@Model.Azure.Pipeline</b>. Stages are reported separately; nothing is retried automatically.</p>
+                <button type="button" class="btn btn-outline-primary" id="ivt-azure-run">Run on Azure</button>
+                <div class="toolbar mt-2">
+                    <div><label for="ivt-azure-runid">Pipeline run id</label><input id="ivt-azure-runid" class="form-control" /></div>
+                    <button type="button" class="btn btn-outline-secondary" id="ivt-azure-status">Check Azure run</button>
+                </div>
+            }
+            else
+            {
+                <p class="muted mb-0">Disabled (azure.enabled = false). The production run does not touch Azure.</p>
+            }
+        </div>
+    }
+    else if (!string.IsNullOrWhiteSpace(Model.Paths.TestRunOutput))
+    {
+        <div class="card-box"><h3>Test output</h3><p class="mb-0">Test run files are written to <code>@Model.Paths.TestRunOutput</code>.
+            @if (!string.IsNullOrWhiteSpace(Model.Portal.Test)) { <text>Test portal: <a href="@Model.Portal.Test" target="_blank" rel="noopener">@Model.Portal.Test</a></text> }</p></div>
+    }
+
+    <div class="card-box danger-zone">
+        <h3>Roll back the last invoice-week load (@env.Label())</h3>
+        <p class="muted">Rolls back the LAST invoice-week load on @env.Label(). You cannot select a different invoice week. Refused while any IVT job is running.</p>
+        <div class="toolbar">
+            <div><label for="ivt-rollback-confirm">Type <b>ROLLBACK @env.Key().ToUpperInvariant()</b> to confirm</label>
+                <input id="ivt-rollback-confirm" class="form-control" autocomplete="off" /></div>
+            <button type="button" class="btn btn-outline-danger" id="ivt-rollback">Roll back last load</button>
+        </div>
+    </div>
+</div>

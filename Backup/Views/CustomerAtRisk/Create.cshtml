@@ -1,0 +1,164 @@
+﻿@model AFSDataGateway.Models.AccountComments_pre
+
+@{
+    ViewBag.Title = "Create";
+    if ((string)TempData["LoginName"] == "ADMIN")
+    {
+
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('input[type=datetime]').datepicker({
+                dateFormat: "dd/M/yy",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-60:+0"
+            });
+
+        });
+    </script>
+}
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<div style="font-family: TitilliumWeb">
+    <h2>Add a Comment for Missed Customer</h2>
+    </div>
+    <hr />
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.AccountManager, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AccountManager, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AccountManager, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CustomerGroup, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.CustomerGroup, ViewBag.Customers as SelectList)
+            @Html.ValidationMessageFor(model => model.CustomerGroup, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    @Html.Label("Weekly Customer Business Update", new { title = "4-6 points on key activities within the account." })
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.CustomerBusinessUpdate, 5, 400, htmlAttributes: new { placeholder = "Weekly Customer Business Update", style = "width: 100%; max-width: 100%;", title = "4-6 points on key activities within the account" })
+            @Html.ValidationMessageFor(model => model.CustomerBusinessUpdate, "", new { @class = "text-danger" })
+
+            @Html.Label("4-6 points on key activities within the account", htmlAttributes: new { style = "color:grey;font: 10pt TitilliumWeb-Regular" })
+
+        </div>
+    </div>
+
+    @Html.Label("Financial Update", new { title = "2-3 key observations on financial activity over the week - revenue up / down, reasons, etc." })
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.RevenueComment, 5, 400, htmlAttributes: new { placeholder = "Financial Update", style = "width: 100%; max-width: 100%;", title = "2-3 key observations on financial activity over the week - revenue up / down, reasons, etc." })
+            @Html.ValidationMessageFor(model => model.RevenueComment, "", new { @class = "text-danger" })
+            @Html.Label("2-3 key observations on financial activity over the week - revenue up / down, reasons, etc", htmlAttributes: new { style = "color:grey;font: 10pt TitilliumWeb-Regular" })
+        </div>
+    </div>
+
+    @Html.Label("Risk Level", new { title = " High, Medium, Low" })
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.RiskLevel, ViewBag.RiskLevels as SelectList)
+            @Html.ValidationMessageFor(model => model.RiskLevel, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    @Html.Label("At Risk Reason", new { title = "Explanation as to why the customer is deemed either a “High” risk or “medium” risk. E.g. service issues, tender, relationships.  No commentary required for low risk customers" })
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.CustomerComment, 5, 400, htmlAttributes: new { placeholder = "At Risk Reason", style = "width: 100%; max-width: 100%;", title = "Explanation as to why the customer is deemed either a “High” risk or “medium” risk. E.g. service issues, tender, relationships.  No commentary required for low risk customers" })
+            @Html.ValidationMessageFor(model => model.CustomerComment, "", new { @class = "text-danger" })
+            @Html.Label("Explanation as to why the customer is deemed either a “High” risk or “medium” risk Eg service issues, tender, relationships;  No commentary required for low risk customers", htmlAttributes: new { style = "color:grey;font: 10pt TitilliumWeb-Regular" })
+        </div>
+    </div>
+
+    @Html.Label("Action Plan", new { title = "What are the proposed detailed steps taken to mitigate the risks identified." })
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.ActionRequired, 2, 2000, htmlAttributes: new { placeholder = "Action Plan", style = "width: 60%; max-width: 60%;", title = "What are the proposed detailed steps taken to mitigate the risks identified." })
+            @Html.ValidationMessageFor(model => model.ActionRequired, "", new { @class = "text-danger" })
+            @Html.Label("What are the proposed detailed steps taken to mitigate the risks identified", htmlAttributes: new { style = "color:grey;font: 10pt TitilliumWeb-Regular" })
+        </div>
+    </div>
+
+    @Html.Label("Executive Support Required", new { title = "What support is required from EMT members to mitigate risks identified" })
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.Executive, 5, 400, htmlAttributes: new { placeholder = "Executive Support Required", style = "width: 100%; max-width: 100%;", title = "What support is required from EMT members to mitigate risks identified" })
+            @Html.ValidationMessageFor(model => model.Executive, "", new { @class = "text-danger" })
+            @Html.Label("What support is required from EMT members to mitigate risks identified", htmlAttributes: new { style = "color:grey;font: 10pt TitilliumWeb-Regular" })
+        </div>
+    </div>
+
+    @Html.Label("Due Date", new { title = "Due date for solutions / actions to be finalised" })
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "datefield", title = "Due date for solutions / actions to be finalised", type = "date", placeholder = "Due Date" } })
+            @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
+            <br />
+            @Html.Label("Due date for solutions / actions to be finalised", htmlAttributes: new { style = "color:grey;font: 10pt TitilliumWeb-Regular" })
+        </div>
+
+    </div>
+
+    @Html.Label("Contract Status", new { title = "Under Contract, Final negotiations, In progress, None" })
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.ContractStatus, ViewBag.ContractStatuses as SelectList)
+            @Html.ValidationMessageFor(model => model.ContractStatus, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    @Html.Label("Contract Status Update", new { title = "Provide a status update on progress of contract discussions" })
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.ContractStatusUpdate, 5, 400, htmlAttributes: new { placeholder = "Contract Status Update", style = "width: 100%; max-width: 100%;", title = "Provide a status update on progress of contract discussions" })
+            @Html.ValidationMessageFor(model => model.ContractStatusUpdate, "", new { @class = "text-danger" })
+            @Html.Label("Provide a status update on progress of contract discussions", htmlAttributes: new { style = "color:grey;font: 10pt TitilliumWeb-Regular" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+    }
+
+<div style="font-family: TitilliumWeb">
+    @Html.ActionLink("Back to List", "Index")
+</div>

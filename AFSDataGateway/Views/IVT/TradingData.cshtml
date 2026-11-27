@@ -1,0 +1,823 @@
+﻿
+@{
+    ViewBag.Title = "Trading Data";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@model IEnumerable<AFSDataGateway.Models.vAllCurrentDetails>
+
+@{
+
+
+    ViewBag.Title = "Trading Data";
+    if (TempData["Utype"] == null)
+    {
+        TempData["Utype"] = 0;
+    }
+    if (Session["Utype"] == null)
+    {
+        Session["Utype"] = 0;
+    }
+    if ((int)TempData["Utype"] == 1 || (int)Session["Utype"] == 1)
+    {
+
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+
+
+@section css {
+    <style>
+        .table-responsive {
+            max-width: 100%; /* Adjust this value based on your layout's max width */
+            overflow-x: auto; /* Enables horizontal scrolling */
+            -webkit-overflow-scrolling: touch; /* Allows inertial scrolling in iOS */
+            margin-bottom: 20px; /* Optional: Adds some space below the table */
+        }
+
+        .filter-table .quick {
+            margin-left: 0.5em;
+            font-size: 0.8em;
+            text-decoration: none;
+            font-family: "TitilliumWeb";
+        }
+
+        .fitler-table .quick:hover {
+            text-decoration: underline;
+            font-family: "TitilliumWeb";
+        }
+
+        td.alt {
+            background-color: #ffc;
+            background-color: rgba(255, 255, 0, 0.2);
+            font-family: "TitilliumWeb";
+        }
+
+        .table {
+            font-size: 14px;
+        }
+
+        #IVTResutlsTable_wrapper {
+            overflow-x: auto;
+            max-width: 100%; /* Adjust as needed */
+        }
+    </style>
+    @*<style>
+            .filter-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px; /* Adjust the space between filter elements */
+                align-items: center; /* Align items vertically */
+                font-family: 'TitilliumWeb', sans-serif;
+                background-color: #f9f9f9;
+                padding: 15px;
+                border-radius: 5px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                margin-bottom: 20px;
+            }
+
+                .filter-container input[type="text"] {
+                    width: auto; /* Adjust based on your preference */
+                    flex-grow: 0; /* Prevent the text box from growing to fill available space */
+                    padding: 8px;
+                    margin-right: 5px; /* Add some spacing between elements, if desired */
+                    /* Other styles remain unchanged */
+                }
+
+                .filter-container > div {
+                    flex: 1 1 auto; /* Adjust this to manage how each filter section grows or shrinks */
+                    min-width: 100px; /* Minimum width of each filter to prevent too much squishing */
+                }
+
+                .filter-container select,
+                .filter-container input[type="text"] {
+                    width: 100%;
+                    padding: 10px;
+                    border-radius: 4px;
+                    margin: 10px;
+                    border: 1px solid #ccc;
+                }
+
+                .filter-container input[type="submit"] {
+                    background-color: #4CAF50;
+                    color: white;
+                    padding: 5px 5px;
+                    border: none;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 16px;
+                    flex-grow: 1;
+                }
+
+                    .filter-container input[type="submit"]:hover {
+                        background-color: #45a049;
+                    }
+
+            .filter-instructions {
+                flex-basis: 100%; /* Makes the instruction take the full width */
+                font-size: 1rem;
+                color: blue;
+                margin-bottom: 10px;
+            }
+
+            .filter-text {
+                width: 100%;
+                padding: 8px;
+                border-radius: 4px;
+                border: 1px solid #ccc;
+                padding: 10px 10px;
+                margin:10px;
+            }
+        </style>
+        <style>
+            .selected-values {
+                font-size: 1em;
+                color: blue;
+                margin-top: 5px;
+            }
+        </style>*@
+
+    <style>
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px; /* Adjust the space between filter elements */
+            align-items: center; /* Align items vertically */
+            font-family: 'TitilliumWeb', sans-serif;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+        .filter-text {
+            display: flex; /* Use flexbox to lay out children horizontally */
+            flex-wrap: nowrap; /* Prevent wrapping to the next line */
+            align-items: center; /* Center-align the items vertically */
+            gap: 10px; /* Optional: Adds some space between items */
+        }
+
+            .filter-text .input-group {
+                display: flex; /* Also use flexbox within each group */
+                flex-direction: column; /* Stack label and input vertically */
+                align-items: flex-start; /* Align items to the start */
+            }
+
+            /* Additional styles for input and label if needed */
+            .filter-text label {
+                margin-bottom: 5px; /* Add some space between label and input */
+                font-size: 1em; /* Adjust label font size */
+            }
+            .filter-text input[type="text"] {
+                width: auto; /* Adjust input width as needed */
+                flex-grow: 1; /* Allow input to grow to fill available space */
+            }
+
+        .filter-text label,
+        .filter-text input[type="text"] {
+            margin-bottom: 5px; /* Space below each label/input */
+        }
+
+            .filter-container > div,
+            .filter-container .filter-text {
+                flex: 1; /* Each child div will take equal width */
+                min-width: 160px; /* Minimum width of each filter to prevent too much squishing */
+            }
+
+            .filter-container input[type="text"],
+            .filter-container select {
+                width: 100%;
+                padding: 8px;
+                border-radius: 4px;
+                border: 1px solid #ccc;
+                font-size: 1.2em; /* Increased font size */
+            }
+
+            .filter-container input[type="submit"] {
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 16px;
+            }
+
+                .filter-container input[type="submit"]:hover {
+                    background-color: #45a049;
+                }
+
+            .filter-instructions,
+            .filter-container label { /* Style for labels */
+                font-size: 1.2em; /* Adjust label font size as needed */
+                color: #000; /* Adjust label color as needed */
+                margin-bottom: 5px; /* Spacing below labels for clarity */
+            }
+
+        .selected-values {
+            font-size: 1em;
+            color: blue;
+            margin-top: 5px;
+        }
+    </style>
+
+
+}
+
+<div style="border: solid 1px blue;font-size:18px; visibility: @ViewBag.ViewMessage;font-family: TitilliumWeb">
+    @if (TempData["message"] != null && @ViewBag.messageStatus == 1)
+    {
+        @Html.Label("", (string)TempData["message"], new { @class = "mysucesslabel" })
+    }
+</div>
+
+<div style="border: solid 1px blue; font-size:18px; visibility: @ViewBag.ViewMessage;font-family: TitilliumWeb">
+    @if (TempData["message"] != null && @ViewBag.messageStatus == 2)
+    {
+        @Html.Label("", (string)TempData["message"], new { @class = "myfaillabel" })
+    }
+</div>
+<br />
+@{
+    var despatchDate = DateTime.Now;
+
+    var Search = "";
+    var customerFilter = "";
+    var carrierFilter = "";
+    var workcodeFilter = "";
+    var SupplierRef = "";
+    var SellNett = "";
+}
+
+
+<div class="form-horizontal">
+    <div style="font-family: TitilliumWeb;color:blue">
+        <h4>Explore your MOST RECENT IVT Trading Data: Use the <strong>Search</strong> function with Connote, Customer, or Carrier to delve into specific details.</h4>
+        <h5>Displayed here are the first 500 records For UnFiltered Data. For the <strong>Entire Dataset</strong> , utilize the <strong>Download</strong> CSV button.</h5>
+    </div>
+</div>
+<br />
+@using (Html.BeginForm("VettingCompleted", "IVT", FormMethod.Post, new { id = "vettingForm" }))
+{
+    <div class="form-horizontal">
+        <label for="Comment" style="color: green;">Vetting Completion:</label>
+        @Html.TextArea("Comment", htmlAttributes: new { placeholder = "Your message to Billing Team if any...", style = "width: 100%; max-width: 100%;", title = "Comment", id = "Comment" })
+
+        <button type="submit" class="btn btn-success" id="vettingButton">Vetting Completed</button>
+    </div>
+}
+<br />
+@using (Html.BeginForm("TradingData", "IVT", FormMethod.Get))
+{
+    <br />
+
+
+
+
+
+    <div class="filter-instructions">
+        Use CTRL (or CMD on Mac) to select multiple values.
+    </div>
+    <div class="filter-container">
+
+        <div class="filter-text">
+            <div class="input-group">
+                <label for="search">Search</label>
+                @Html.TextBox("search", ViewBag.Search as string, new { @id = "search", @placeholder = "Enter search term (Connote, Customer, Carrier, Or WorkCode)." })
+            </div>
+        </div>
+
+
+
+
+        <div>
+            <label for="customerGroupFilter">Customer Group</label>
+            @Html.DropDownList("customerGroupFilter", ViewBag.UniqueCustomerGroup as SelectList, "Select CustomerGroup", new { @id = "customerGroupFilter" })
+        </div>
+
+
+
+        <div>
+              <label for="customerFilter">Customer</label>
+            <select id="customerFilter" name="customerFilter" multiple data-url="@Url.Action("GetCustomers", "IVT", new { viewname = "TradingData"})">
+                @foreach (var customer in ViewBag.UniqueCustomers as IEnumerable<SelectListItem>)
+                {
+                    <option value="@customer.Value" @(ViewBag.SelectedCustomer != null && ((string[])ViewBag.SelectedCustomer).ToList().Contains(customer.Value) ? "selected" : "")>@customer.Text</option>
+                }
+            </select>
+
+            <div id="selectedCustomers" class="selected-values"></div>
+        </div>
+
+        <div>
+            <label for="carrierFilter">Carrier</label>
+            <select id="carrierFilter" name="carrierFilter" multiple data-url="@Url.Action("GetCarriers", "IVT", new { viewname = "TradingData"})">
+                @foreach (var carrier in ViewBag.UniqueCarriers as IEnumerable<SelectListItem>)
+                {
+                    bool isSelected = ViewBag.SelectedCarrier != null && ((string[])ViewBag.SelectedCarrier).ToList().Contains(carrier.Text);
+                    <option value="@carrier.Value" @(Html.Raw(isSelected ? "selected=\"selected\"" : ""))>@carrier.Text</option>
+                }
+            </select>
+
+            <div id="selectedCarriers" class="selected-values"></div>
+
+        </div>
+
+        <div>
+            <label for="workcodeFilter">Workcode</label>
+            <select id="workcodeFilter" name="workcodeFilter" multiple data-url="@Url.Action("GetWorkcodes", "IVT", new { viewname = "TradingData"})">
+                @foreach (var workcode in ViewBag.UniqueWorkcodes as IEnumerable<SelectListItem>)
+                {
+                    <option value="@workcode.Value" @(ViewBag.SelectedWorkCode != null && ((string[])ViewBag.SelectedWorkCode).ToList().Contains(workcode.Value) ? "selected" : "")>@workcode.Text</option>
+                }
+            </select>
+            <div id="selectedWorkcodes" class="selected-values"></div>
+
+        </div>
+
+        <div class="filter-text">
+           
+            <div class="input-group">
+                <label for="SupplierRef">Supplier Ref</label>
+                @Html.TextBox("SupplierRef", ViewBag.SupplierRef as string, new { @id = "SupplierRef", @placeholder = "Enter Supplier Ref." })
+            </div>
+            <div class="input-group">
+                <label for="SellNett">Sell Nett ( > )</label>
+                @Html.TextBox("SellNett", ViewBag.SellNett as string, new { @id = "SellNett", @placeholder = "Enter Sell Nett greater than." })
+            </div>
+        </div>
+
+
+        <input type="submit" value="Search" />
+    </div>
+
+    @Html.Hidden("selectedCustomerGroup", (string)ViewBag.selectedCustomerGroup, new { id = "selectedCustomerGroup" })
+    @Html.Hidden("selectedCustomer", ViewBag.selectedCustomer != null ? string.Join(",", ViewBag.selectedCustomer as string[]) : "", new { id = "selectedCustomer" })
+    @Html.Hidden("selectedCarrier", ViewBag.selectedCarrier != null ? string.Join(",", ViewBag.selectedCarrier as string[]) : "", new { id = "selectedCarrier" })
+    @Html.Hidden("selectedWorkCode", ViewBag.selectedWorkCode != null ? string.Join(",", ViewBag.selectedWorkCode as string[]) : "", new { id = "selectedWorkCode" })
+
+}
+<br />
+@using (Html.BeginForm("TradingData", "IVT", FormMethod.Post))
+{
+
+<div class="form-horizontal">
+    @Html.Label("Hold Reason", new { title = "Reason" })
+    @Html.TextArea("Reason", htmlAttributes: new { placeholder = "Why are you holding the consignment(s)?", style = "width: 100%; max-width: 100%;", title = "Reasons" })
+
+    @Html.Hidden("selectedCustomerGroupValue", (string)ViewBag.selectedCustomerGroup, new { id = "selectedCustomerGroupValue" })
+    @Html.Hidden("selectedCustomerValue", ViewBag.selectedCustomer != null ? string.Join(",", ViewBag.selectedCustomer as string[]) : "", new { id = "selectedCustomerValue" })
+    @Html.Hidden("selectedCarrierValue", ViewBag.selectedCarrier != null ? string.Join(",", ViewBag.selectedCarrier as string[]) : "", new { id = "selectedCarrierValue" })
+    @Html.Hidden("selectedWorkCodeValue", ViewBag.selectedWorkCode != null ? string.Join(",", ViewBag.selectedWorkCode as string[]) : "", new { id = "selectedWorkCodeValue" })
+
+    <input type="submit" value="Hold" class="btn btn-primary" />
+</div>
+    <br />
+    <hr style="height:2px; width:100%; border-width:0; color:blue; background-color:black" />
+
+
+    <div>
+        <a href="#" id="downloadCsvLink" class="btn btn-primary">Download CSV</a>
+    </div>
+
+    <br />
+    <div>
+        <input type="checkbox" id="CheckAll" /><span style="font-size:16px">Select All</span>
+    </div>
+    <div id="checkboxes">
+
+        <div class="table-responsive">
+            <table id="TradingData" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th style="white-space: nowrap;">@Html.Label("", "CurrentWeek")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "CustomerGroup")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "Customer")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "Carrier")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "ConsignmentNote")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "ConnoteDate")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "Cus Ref")</th>
+                        <th>SellNett</th>
+                        <th>BuyNett</th>
+                        <th>GM$$</th>
+                        <th>GM%</th>
+                        <th>SellFreight</th>
+                        <th>SellOther</th>
+                        <th>SellFuel</th>
+                        <th>BuyFreight</th>
+                        <th>BuyOther</th>
+                        <th>BuyFuel</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "QTY")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "ChgWeight")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "Cubic")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "FSL_Sell%")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "FSL_Buy%")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "FSL_Var%")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "WorkCode")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "OptionCode ")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "Mov_Weight")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "Mov_Vol")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "Mov_RateIncSurch")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "Mov_DespatchDate")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "Mov_FreightStatus")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "Mov_DeliveryDate")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "Mov_LOB")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "Mov_SpecialIns")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "JobNumber")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "SupplierRef")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "From")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "To")</th>
+                        <th style="white-space: nowrap;">@Html.Label("", "ExternalComments")</th>
+                        <th>@Html.Label("", "Action")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        @{
+                            decimal totalNett = Convert.ToDecimal(item.Sell_Total_Nett);
+                            decimal buyNett = Convert.ToDecimal(item.Buy_Total_Nett);
+                            decimal BuyFuel = Convert.ToDecimal(item.Buy_Fuel_Surcharge);
+                            decimal SellFuel = Convert.ToDecimal(item.Sell_Fuel_Surch);
+                            decimal BuyFreight = Convert.ToDecimal(item.Buy_Freight_Charges);
+                            decimal SellFreight = Convert.ToDecimal(item.Sell_Freight_Charges);
+                            decimal BuyOther = Convert.ToDecimal(item.Buy_Other_Charges);
+                            decimal SellOther = Convert.ToDecimal(item.Sell_Other_Charges);
+                        }
+                        <td><input type="checkbox" name="ID" value="@item.PrimaryKeyField" class="custom-checkbox chkCheckBoxId" /></td>
+                        <td>@Convert.ToDateTime(item.CurrentWeek).ToString("dd/MM/yyyy")</td>
+                        <td style="white-space: nowrap;">@Html.DisplayFor(modelItem => item.FinanceGroup)</td>
+                        <td style="white-space: nowrap;">@Html.DisplayFor(modelItem => item.Customer)</td>
+                        <td style="white-space: nowrap;">@Html.DisplayFor(modelItem => item.Carrier)</td>
+
+                        <td style="white-space: nowrap;">@Html.DisplayFor(modelItem => item.ConsignmentNote)</td>
+
+                        <td style="white-space: nowrap;">@Convert.ToDateTime(item.Cons_Date).ToString("dd/MM/yyyy")</td>
+                        <td style="white-space: nowrap;">@Html.DisplayFor(modelItem => item.cus_ref)</td>
+                        <td style="white-space:nowrap">@String.Format("{0:C}", totalNett)</td>
+                        <td style="white-space:nowrap">@String.Format("{0:C}", buyNett)</td>
+                        <td style="white-space:nowrap">@String.Format("{0:C}", totalNett - buyNett)</td>
+                        <td style="white-space:nowrap">@String.Format("{0:0.00}", item.Nett_Margin)</td>
+                        <td style="white-space:nowrap">@String.Format("{0:C}", SellFreight)</td>
+                        <td style="white-space:nowrap">@String.Format("{0:C}", SellOther)</td>
+                        <td style="white-space:nowrap">@String.Format("{0:C}", SellFuel)</td>
+                        <td style="white-space:nowrap">@String.Format("{0:C}", BuyFreight)</td>
+                        <td style="white-space:nowrap">@String.Format("{0:C}", BuyOther)</td>
+                        <td style="white-space:nowrap">@String.Format("{0:C}", BuyFuel)</td>
+                        <td style="white-space:nowrap">@Html.DisplayFor(modelItem => item.quantity)</td>
+                        <td style="white-space:nowrap">@Html.DisplayFor(modelItem => item.chg_kg)</td>
+                        <td style="white-space:nowrap">@Html.DisplayFor(modelItem => item.cubic)</td>
+                        <td>@Html.DisplayFor(modelItem => item.FSL___Sell)</td>
+                        <td>@Html.DisplayFor(modelItem => item.C_FSL_Buy)</td>
+                        <td>@Html.DisplayFor(modelItem => item.FSL___Var)</td>
+                        <td>@Html.DisplayFor(modelItem => item.work_code)</td>
+                        <td>@Html.DisplayFor(modelItem => item.option_code)</td>
+                        <td style="white-space: nowrap;">@Html.DisplayFor(modelItem => item.Moveit_TotWeightKg)</td>
+                        <td style="white-space: nowrap;">@Html.DisplayFor(modelItem => item.Moveit_TotVolM)</td>
+                        <td style="white-space: nowrap;">@Html.DisplayFor(modelItem => item.Moveit_RateIncSurch)</td>
+                        <td style="white-space: nowrap;">@Convert.ToDateTime(item.Moveit_DespatchDate).ToString("dd/MM/yyyy")</td>
+                        <td>@Html.DisplayFor(modelItem => item.Moveit_FreightStatus)</td>
+                        <td style="white-space: nowrap;">@Convert.ToDateTime(item.Moveit_ActualDeliveryDate).ToString("dd/MM/yyyy")</td>
+                        <td style="white-space: nowrap;">@Html.DisplayFor(modelItem => item.Moveit_LineOfBusiness)</td>
+                        <td style="white-space: nowrap;">@Html.DisplayFor(modelItem => item.Moveit_SpecialIns)</td>
+                        <td style="white-space: nowrap;">@Html.DisplayFor(modelItem => item.JobNumber)</td>
+                        <td style="white-space: nowrap;">@Html.DisplayFor(modelItem => item.SupplierRef)</td>
+
+                        <td style="white-space: nowrap;">@Html.DisplayFor(modelItem => item.from)</td>
+                        <td style="white-space: nowrap;">@Html.DisplayFor(modelItem => item.to)</td>
+                        <td style="white-space: nowrap;">@Html.DisplayFor(modelItem => item.ExternalComments)</td>
+                        <td style="white-space: nowrap;">
+                            @Html.ActionLink("View", "ViewTradingConsignment", new { jno = item.JobNumber }) |
+                            @Html.ActionLink("Hold", "HoldTradingConsignment", new { jno = item.JobNumber })
+                            @*@Html.ActionLink("Update", "Edit", new { Id = item.cId, Connote = item.ConsignmentNo, despatchDate = item.DespatchDate })*@
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        @*<td style="white-space:nowrap">@Model.Count(m => !string.IsNullOrEmpty(m.con_note)) Connotes</td>*@
+                        <td colspan="8">Total of @Model.Count(m => !string.IsNullOrEmpty(m.ConsignmentNote)) Connotes</td>
+                        <td style="white-space:nowrap">@Model.Sum(m => Convert.ToDecimal(m.Sell_Total_Nett)).ToString("C")</td>
+                        <td style="white-space:nowrap">@Model.Sum(m => Convert.ToDecimal(m.Buy_Total_Nett)).ToString("C")</td>
+                        <td style="white-space:nowrap">@((Model.Sum(m => Convert.ToDecimal(m.Sell_Total_Nett)) - Model.Sum(m => Convert.ToDecimal(m.Buy_Total_Nett))).ToString("C"))</td>
+                        <td colspan="1"></td>
+                        <td style="white-space:nowrap">@Model.Sum(m => Convert.ToDecimal(m.Sell_Freight_Charges)).ToString("C")</td>
+                        <td style="white-space:nowrap">@Model.Sum(m => Convert.ToDecimal(m.Sell_Other_Charges)).ToString("C")</td>
+                        <td style="white-space:nowrap">@Model.Sum(m => Convert.ToDecimal(m.Sell_Fuel_Surch)).ToString("C")</td>
+
+                        <td style="white-space:nowrap">@Model.Sum(m => Convert.ToDecimal(m.Buy_Freight_Charges)).ToString("C")</td>
+                        <td style="white-space:nowrap">@Model.Sum(m => Convert.ToDecimal(m.Buy_Other_Charges)).ToString("C")</td>
+                        <td style="white-space:nowrap">@Model.Sum(m => Convert.ToDecimal(m.Buy_Fuel_Surcharge)).ToString("C")</td>
+
+
+                        <td style="white-space:nowrap">@Model.Sum(m => Convert.ToDecimal(m.quantity)).ToString("0.00")</td>
+                        <td style="white-space:nowrap">@Model.Sum(m => Convert.ToDecimal(m.chg_kg)).ToString("0.00")</td>
+                        <td style="white-space:nowrap">@Model.Sum(m => Convert.ToDecimal(m.cubic)).ToString("0.00")</td>
+                        @*skip 5 columns*@
+                        <td colspan="5"></td>
+                        <td style="white-space:nowrap">@Model.Sum(m => Convert.ToDecimal(m.Moveit_TotWeightKg)).ToString("0.00")</td>
+                        <td style="white-space:nowrap">@Model.Sum(m => Convert.ToDecimal(m.Moveit_TotVolM)).ToString("0.00")</td>
+                        <td style="white-space:nowrap">@Model.Sum(m => Convert.ToDecimal(m.Moveit_RateIncSurch)).ToString("0.00")</td>
+                        <td colspan="5"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+    </div>
+}
+
+@section scripts {
+    <script src="@Url.Content("~/Scripts/jquery.filtertable.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#consignmentTable').filterTable({ ignoreClass: 'no-filter' });
+
+            $('#ddlFilterColumns').change(function () {
+                var index = $(this).val();
+                if (index == "")
+                    $('#consignmentTable td').removeClass('no-filter');
+                else {
+                    $('#consignmentTable>tbody>tr>td').addClass('no-filter');
+                    $('#consignmentTable>tbody>tr').each(function () {
+                        $('td:eq(' + index + ')', this).removeClass('no-filter');
+                    });
+                }
+            });
+        });
+    </script>
+
+
+
+
+    <script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    @*<script type="text/javascript">
+            $(document).ready(function () {
+                $('#consignmentTable').DataTable();
+                $('#CheckAll').click(function () {
+                    if ($(this).is(":checked")) {
+                        $(".chkCheckBoxId").prop("checked", true)
+                    }
+                    else {
+                        $(".chkCheckBoxId").prop("checked", false)
+                    }
+                });
+
+                $('#CheckAll').click(function () {
+                    $('.chkCheckBoxId').prop('checked', this.checked)
+                });
+            });
+        </script>*@
+
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+
+
+
+
+    @* <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>*@
+
+    <script>
+
+        function toggleChecked(status) {
+            $("#checkboxes input").filter(':visible').each(function () {
+                // Set the checked status of each to match the
+                // checked status of the check all checkbox:
+                //$(this).filter(':visible').find("input:checkbox").attr('checked', true);
+                $(this).prop("checked", status);
+            });
+        }
+
+        $(document).ready(function () {
+
+            // Grab a reference to the check all box:
+            var checkAllBox = $("#CheckAll");
+
+            //Set the default value of the global checkbox to true:
+            checkAllBox.prop('checked', false);
+
+            // Attach the call to toggleChecked to the
+            // click event of the global checkbox:
+            checkAllBox.click(function () {
+                var status = checkAllBox.prop('checked');
+                toggleChecked(status);
+            });
+        });
+
+
+        $(document).ready(function () {
+            // Correct initialization calls
+            updateCustomerDropdown();
+            updateCarrierDropdown();
+            updateWorkcodeDropdown();
+
+
+
+
+            // Consolidating event handlers to avoid potential conflicts or repeated calls
+            $("#customerGroupFilter").change(function () {
+                updateCustomerDropdown();
+                // Depending on your logic, you might want to update carriers and workcodes here too
+            });
+
+            $("#customerFilter").change(function () {
+                updateCarrierDropdown(); // Update carriers when customers change
+                updateWorkcodeDropdown(); // Potentially update workcodes based on new carriers
+            });
+
+            $("#carrierFilter").change(updateWorkcodeDropdown); // Simplified call for updating workcodes
+
+            // Function to update the Carrier dropdown based on Customers selected
+            function updateCarrierDropdown() {
+                var selectedCustomers = $("#customerFilter").val(); // Getting the array of selected customers
+                var carrierUrl = $("#carrierFilter").data('url'); // Ensure this URL is correctly set in HTML
+
+                $.ajax({
+                    url: carrierUrl,
+                    type: 'GET',
+                    traditional: true,
+                    data: { customers: selectedCustomers },
+                   success: function (data) {
+                        var carrierSelect = $("#carrierFilter");
+                        var previouslySelectedCarriers = "@Html.Raw(ViewBag.SelectedCarrier != null ? string.Join(",", ViewBag.SelectedCarrier) : "")".split(',');
+
+                        carrierSelect.empty().append('<option value="">Select Carrier</option>');
+                        $.each(data, function (i, item) {
+                            var isSelected = previouslySelectedCarriers.includes(item.value);
+                            carrierSelect.append($('<option>', {
+                                value: item.value,
+                                text: item.text,
+                                selected: isSelected
+                            }));
+                        });
+                    }
+
+                });
+            }
+
+
+
+            function updateCustomerDropdown() {
+                var selectedCustomerGroup = $("#customerGroupFilter").val(); // Assuming this is the dependency
+                var customerUrl = $("#customerFilter").data("url");
+
+                $.ajax({
+                    url: customerUrl,
+                    type: 'GET',
+                    traditional: true,
+                    data: { customergroup: selectedCustomerGroup },
+                   success: function (data) {
+                        var customerSelect = $("#customerFilter");
+                        // Assuming previouslySelectedCustomers is populated similarly to previouslySelectedCarriers
+                        var previouslySelectedCustomers = "@Html.Raw(ViewBag.SelectedCustomer != null ? string.Join(",", ViewBag.SelectedCustomer) : "")".split(',');
+
+                        customerSelect.empty().append('<option value="">Select Customer</option>');
+                        $.each(data, function (i, item) {
+                            var isSelected = previouslySelectedCustomers.includes(item.value);
+                            customerSelect.append($('<option>', {
+                                value: item.value,
+                                text: item.text,
+                                selected: isSelected
+                            }));
+                        });
+
+                        // Trigger any change events as needed
+                        customerSelect.change();
+                    }
+                });
+            }
+
+
+            function updateWorkcodeDropdown() {
+                var selectedCustomer = $("#customerFilter").val(); // This is now an array
+                var selectedCarrier = $("#carrierFilter").val(); // This is also an array
+                var workcodeUrl = $("#workcodeFilter").data("url");
+                console.log("Data sent:", { customers: selectedCustomer, carriers: selectedCarrier });
+
+                $.ajax({
+                    url: workcodeUrl,
+                    type: 'GET',
+                    traditional: true, // Ensures jQuery serializes the data in a traditional way, suitable for ASP.NET MVC
+                    data: {
+                        customer: selectedCustomer,
+                        carrier: selectedCarrier
+                    },
+                  success: function (data) {
+                        var workcodeSelect = $("#workcodeFilter");
+                        // Assuming previouslySelectedWorkcodes is populated similarly
+                        var previouslySelectedWorkcodes = "@Html.Raw(ViewBag.SelectedWorkCode != null ? string.Join(",", ViewBag.SelectedWorkCode) : "")".split(',');
+
+                        workcodeSelect.empty().append('<option value="">Select Workcode</option>');
+                        $.each(data, function (i, item) {
+                            var isSelected = previouslySelectedWorkcodes.includes(item.value);
+                            workcodeSelect.append($('<option>', {
+                                value: item.value,
+                                text: item.text,
+                                selected: isSelected
+                            }));
+                        });
+
+                        // Trigger any change events as needed
+                        workcodeSelect.change();
+                    }
+                });
+            }
+
+        });
+
+
+        $('form').submit(function () {
+            // Before form submission, update hidden fields with selected values
+            var selectedCustomers = $('#customerFilter').val() || [];
+            var selectedCarriers = $('#carrierFilter').val() || [];
+            var selectedWorkcodes = $('#workcodeFilter').val() || [];
+
+            $('#selectedCustomer').val(selectedCustomers.join(',')); // Convert array to comma-separated string
+            $('#selectedCarrier').val(selectedCarriers.join(','));
+            $('#selectedWorkCode').val(selectedWorkcodes.join(','));
+        });
+
+
+
+        $(document).ready(function () {
+            // Function to update the text for selected options
+            function updateSelectedText(selectElementId, displayElementId) {
+                var selected = $(selectElementId).find('option:selected');
+                var selectedValues = selected.length > 0 ? selected.map(function () { return $(this).text(); }).get().join(', ') : 'None';
+                $(displayElementId).text('Selected: ' + selectedValues);
+            }
+
+            // Event handlers for each select element
+            $('#customerFilter').change(function () {
+                updateSelectedText('#customerFilter', '#selectedCustomers');
+            });
+
+            $('#carrierFilter').change(function () {
+                updateSelectedText('#carrierFilter', '#selectedCarriers');
+            });
+
+            $('#workcodeFilter').change(function () {
+                updateSelectedText('#workcodeFilter', '#selectedWorkcodes');
+            });
+
+            // Initial update in case there's a pre-selected value
+            updateSelectedText('#customerFilter', '#selectedCustomers');
+            updateSelectedText('#carrierFilter', '#selectedCarriers');
+            updateSelectedText('#workcodeFilter', '#selectedWorkcodes');
+        });
+
+
+        function updateDownloadLink() {
+    var search = encodeURIComponent($('#search').val());
+    var customerGroupFilter = encodeURIComponent($('#customerGroupFilter').val());
+    var customerFilter = $('#customerFilter').val() || [];
+    var carrierFilter = $('#carrierFilter').val() || [];
+    var workcodeFilter = $('#workcodeFilter').val() || [];
+    var supplierRef = encodeURIComponent($('#SupplierRef').val());
+    var sellNett = encodeURIComponent($('#SellNett').val());
+
+    var href = '@Url.Action("DownloadCSV_TradingData", "IVT")' +
+               '?Search=' + search +
+               '&customerGroupFilter=' + customerGroupFilter +
+               '&customerFilter=' + customerFilter.join(',') +
+               '&carrierFilter=' + carrierFilter.join(',') +
+               '&workcodeFilter=' + workcodeFilter.join(',') +
+               '&SupplierRef=' + supplierRef +
+               '&SellNett=' + sellNett;
+
+    $('#downloadCsvLink').attr('href', href);
+}
+
+
+    $('#customerFilter').change(updateDownloadLink);
+    $('#carrierFilter').change(updateDownloadLink);
+    $('#workcodeFilter').change(updateDownloadLink);
+    $('#customerGroupFilter').change(updateDownloadLink);
+    // Add change handlers for any other inputs that should update the link
+    $('#search').keyup(updateDownloadLink);
+    $('#SupplierRef').keyup(updateDownloadLink);
+    $('#SellNett').keyup(updateDownloadLink);
+
+    // Call once on page load to initialize
+    updateDownloadLink();
+
+
+
+
+    </script>
+
+}

@@ -1,0 +1,68 @@
+﻿@model AFSDataGateway.Models.vAllCurrentDetails
+
+@{
+    ViewBag.Title = "Hold Connote";
+    if ((string)TempData["LoginName"] == "ADMIN")
+    {
+
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+@section css {
+    <link href="@Url.Content("~/Content/consignment-detail.css")" rel="stylesheet" />
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.JobNumber)
+
+    <div class="cd-page">
+        <a class="cd-back" href="javascript:void(0);" onclick="history.go(-1);"><i class="fas fa-arrow-left"></i> Back to List</a>
+
+        <div class="cd-header">
+            <h2 class="cd-title">
+                Hold Connote @Model.ConsignmentNote
+                <small>Consignment dated @Html.DisplayFor(model => model.Cons_Date)</small>
+            </h2>
+            <span class="cd-badge cd-badge-warn"><i class="fas fa-truck"></i> Trading Data</span>
+        </div>
+
+        @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+        <div class="cd-card">
+            <div class="cd-card-head"><i class="fas fa-box"></i>Consignment Details</div>
+            <div class="cd-card-body">
+                <div class="cd-grid">
+                    <div class="cd-field"><label>Connote Date</label><div>@Html.DisplayFor(model => model.Cons_Date)</div></div>
+                    <div class="cd-field"><label>Job No</label><div>@Html.DisplayFor(model => model.JobNumber)</div></div>
+                    <div class="cd-field"><label>Current Week</label><div>@Html.DisplayFor(model => model.CurrentWeek)</div></div>
+                    <div class="cd-field"><label>Customer</label><div>@Html.DisplayFor(model => model.Customer)</div></div>
+                    <div class="cd-field"><label>Carrier</label><div>@Html.DisplayFor(model => model.Carrier)</div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cd-card">
+            <div class="cd-card-head"><i class="fas fa-hand-paper"></i>Hold Reason</div>
+            <div class="cd-card-body">
+                @Html.TextArea("HoldReason", htmlAttributes: new { @class = "cd-textarea", placeholder = "Explain why this connote should be held...", title = "Why connote should be held?" })
+                <div class="cd-hint">This reason will be recorded in the consignment activity log.</div>
+            </div>
+            <div class="cd-actions">
+                <a class="btn btn-light" href="javascript:void(0);" onclick="history.go(-1);">Cancel</a>
+                <button type="submit" class="btn btn-warning"><i class="fas fa-hand-paper"></i> Hold</button>
+            </div>
+        </div>
+    </div>
+}

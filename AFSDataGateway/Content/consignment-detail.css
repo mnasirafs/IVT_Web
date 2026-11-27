@@ -1,0 +1,44 @@
+/* Shared styles for consignment detail screens (View / Hold / Release) */
+.cd-page { max-width: 1100px; margin: 24px auto; font-family: TitilliumWeb, 'Segoe UI', sans-serif; color: #1f2937; }
+.cd-back { display: inline-flex; align-items: center; gap: 6px; color: #64748b; font-size: 14px; text-decoration: none; margin-bottom: 14px; }
+.cd-back:hover { color: #2563eb; text-decoration: none; }
+.cd-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
+.cd-title { margin: 0; font-size: 24px; font-weight: 700; color: #0f172a; }
+.cd-title small { display: block; margin-top: 4px; font-size: 14px; font-weight: 400; color: #64748b; }
+
+.cd-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 600; }
+.cd-badge-warn { background: #fef3c7; color: #92400e; }
+.cd-badge-held { background: #fee2e2; color: #991b1b; }
+.cd-badge-ok { background: #d1fae5; color: #065f46; }
+.cd-badge-info { background: #e0e7ff; color: #3730a3; }
+.cd-badge-hist { background: #e2e8f0; color: #334155; }
+
+.cd-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; box-shadow: 0 1px 3px rgba(15,23,42,.06); margin-bottom: 20px; overflow: hidden; }
+.cd-card-head { padding: 14px 20px; border-bottom: 1px solid #eef0f3; background: #f8fafc; font-size: 15px; font-weight: 600; color: #334155; }
+.cd-card-head i { color: #94a3b8; margin-right: 8px; }
+.cd-card-body { padding: 20px; }
+
+.cd-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 18px 24px; }
+.cd-field label { display: block; margin: 0 0 4px; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: #94a3b8; }
+.cd-field div { font-size: 15px; color: #0f172a; word-break: break-word; }
+.cd-field-wide { grid-column: 1 / -1; }
+.cd-field-total div { font-weight: 700; color: #047857; }
+
+.cd-reason { padding: 12px 14px; border-left: 4px solid #f59e0b; background: #fffbeb; border-radius: 6px; }
+.cd-reason .cd-sub { margin-top: 6px; font-size: 14px; color: #475569; }
+.cd-note { padding: 12px 14px; border-left: 4px solid #ef4444; background: #fef2f2; border-radius: 6px; }
+
+.cd-table { width: 100%; margin: 0; border-collapse: collapse; font-size: 14px; }
+.cd-table th { padding: 10px 20px; background: #f8fafc; color: #64748b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; text-align: left; border-bottom: 1px solid #eef0f3; }
+.cd-table td { padding: 12px 20px; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
+.cd-table tr:last-child td { border-bottom: none; }
+.cd-table tr:hover td { background: #f8fafc; }
+.cd-chip { display: inline-block; padding: 2px 10px; border-radius: 999px; background: #e0e7ff; color: #3730a3; font-size: 12px; font-weight: 600; }
+.cd-muted { color: #64748b; white-space: nowrap; }
+.cd-empty { padding: 24px; text-align: center; color: #94a3b8; }
+
+.cd-textarea { width: 100%; min-height: 110px; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; resize: vertical; }
+.cd-textarea:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,.15); }
+.cd-hint { margin-top: 6px; font-size: 13px; color: #94a3b8; }
+.cd-actions { display: flex; justify-content: flex-end; gap: 10px; padding: 14px 20px; border-top: 1px solid #eef0f3; background: #f8fafc; }
+.cd-actions .btn { min-width: 120px; border-radius: 8px; font-weight: 600; }

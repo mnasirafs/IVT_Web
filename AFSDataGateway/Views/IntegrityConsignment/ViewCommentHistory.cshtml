@@ -1,0 +1,110 @@
+﻿@model AFSDataGateway.Models.vAccountComments
+
+@{
+    ViewBag.Title = "ViewCommentHistory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div style="font-family: TitilliumWeb">
+        <h2>View Comment</h2>
+        </div>
+        <div>
+
+            <hr />
+            <br />
+            <br />
+            <div style="font-family: TitilliumWeb">
+                <h4>Comment Details for the Customer: @Model.CustomerGroup , Invoice Week: @Model.InvoiceWeek.ToString().Substring(0, 10)</h4>
+            </div>
+            <hr />
+            <div style="font-family: TitilliumWeb">
+                <p>
+                    @Html.ActionLink("Back to List", "SearchCommentHistory")
+                </p>
+            </div>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayName("Account Manager")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.DWHEditor)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Risk Level")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.RiskLevel)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("At Risk Reason")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CustomerComment)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Financial Update")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.RevenueComment)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Contract Status")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ContractStatus)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Last Invoice Date")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.LastInvoiceDate, new { htmlAttributes = new { @class = "datefield", type = "date" } }).ToString().Substring(0, 10)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Invoice Week")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.InvoiceWeek, new { htmlAttributes = new { @class = "datefield", type = "date" } }).ToString().Substring(0, 10)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Executive Support Required")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Executive)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Action Plan")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ActionRequired)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Due Date")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.DueDate, new { htmlAttributes = new { @class = "datefield", type = "date" } })
+                </dd>
+
+
+
+            </dl>
+        </div>
+

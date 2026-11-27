@@ -1,0 +1,103 @@
+﻿@model AFSDataGateway.Models.ConnoteToHide
+
+@{
+    ViewBag.Title = "Hide Connote";
+    if ((string)TempData["LoginName"] == "ADMIN")
+    {
+
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('input[type=datetime]').datepicker({
+                dateFormat: "dd/M/yy",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-60:+0"
+            });
+
+        });
+    </script>
+
+}
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <div style="font-family: TitilliumWeb;color:blue">
+        <h4><strong>Hide </strong> Connote <strong> @Model.Connote </strong> despatched at : @Model.DespatchDate.Value.ToString("dd/MM/yyyy") from Integrity Report</h4>
+    </div>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.id)
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.DWHEditor, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DWHEditor, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DWHEditor, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.CustomerGroup, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.CustomerGroup, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CustomerGroup, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+
+    @Html.Label("Connote to Hide", new { title = "Connote" })
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Connote)
+            @Html.ValidationMessageFor(model => model.Connote, "", new { @class = "text-danger" })
+
+            @Html.Label("Connote to Hide", htmlAttributes: new { style = "color:grey;font: 10pt TitilliumWeb-Regular" })
+
+        </div>
+    </div>
+
+    @Html.Label("Reason", new { title = "Why Connote should be hidden from the report?" })
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.Reason, 5, 400, htmlAttributes: new { placeholder = "Reasons", style = "width: 100%; max-width: 100%;", title = "2-3 key observations on financial activity over the week - revenue up / down, reasons, etc." })
+            @Html.ValidationMessageFor(model => model.Reason, "", new { @class = "text-danger" })
+            @Html.Label("Why Connote should be hidden from the report?", htmlAttributes: new { style = "color:grey;font: 10pt TitilliumWeb-Regular" })
+        </div>
+    </div>
+    <br />
+   
+    <div >
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Hide" class="btn btn-success" />
+        </div>
+    </div>
+</div>
+}
+
+<div style="font-family: TitilliumWeb">
+    @*@Html.ActionLink("Back to List", "Index")*@
+    <a href="javascript:void(0);" onclick="history.go(-1);">Back to List</a>
+</div>

@@ -1,0 +1,181 @@
+﻿@model IEnumerable<AFSDataGateway.Models.vAccountComments>
+
+@{
+
+
+    ViewBag.Title = "All Customer Comments";
+    if (TempData["Utype"] == null)
+    {
+        TempData["Utype"] = 0;
+    }
+    if (Session["Utype"] == null)
+    {
+        Session["Utype"] = 0;
+    }
+    if ( (int)TempData["Utype"] == 1 || (int)Session["Utype"] == 1)
+    {
+
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+
+}
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+@section css {
+    <style>
+        .filter-table .quick {
+            margin-left: 0.5em;
+            font-size: 0.8em;
+            text-decoration: none;
+        }
+
+        .fitler-table .quick:hover {
+            text-decoration: underline;
+        }
+
+        td.alt {
+            background-color: #ffc;
+            background-color: rgba(255, 255, 0, 0.2);
+        }
+    </style>
+}
+
+
+<div style="border: solid 1px blue;visibility: @ViewBag.ViewMessage">
+    @if (TempData["message"] != null && @ViewBag.messageStatus == 1)
+    {
+        @Html.Label("", (string)TempData["message"], new { @class = "mysucesslabel" })
+    }
+</div>
+
+<div style="border: solid 1px blue;visibility: @ViewBag.ViewMessage">
+    @if (TempData["message"] != null && @ViewBag.messageStatus == 2)
+    {
+        @Html.Label("", (string)TempData["message"], new { @class = "myfaillabel" })
+    }
+</div>
+
+<div style="visibility: @ViewBag.LastUpdateViewMessage" >
+    @if (TempData["LastUpdate"] != null)
+    {
+        @Html.Label("", (string)TempData["LastUpdate"], new { @class = "lastUpdateLabel" })
+    }
+</div>
+
+<br />
+<div>
+    @Html.ActionLink("Missing Customer?", "Create")
+</div>
+<br />
+
+<table class="table table-bordered table-striped " id="accountcommentTable">
+    <tr>
+
+        <th style="white-space:nowrap">
+            @Html.Label("", (string)"Account Manager")
+        </th>
+        <th>
+            @Html.Label("", (string)"Risk")
+        </th>
+        <th>
+            @Html.Label("", (string)"Customer Comment")
+        </th>
+        <th>
+            @Html.Label("", (string)"Customer")
+        </th>
+        <th style="white-space:nowrap">
+            @Html.Label("", (string)"Revenue Comment")
+        </th>
+        <th style="white-space:nowrap">
+            @Html.Label("", (string)"Contract Status")
+        </th>
+        <th>
+            @Html.Label("", (string)"Executive")
+        </th>
+        <th style="white-space:nowrap">
+            @Html.Label("", (string)"Action Required")
+        </th>
+        <th>
+            @Html.Label("", (string)"Due Date")
+        </th>
+        <th>
+            @Html.Label("", (string)"Action")
+        </th>
+      
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td style="white-space:nowrap">
+                @Html.DisplayFor(modelItem => item.AccountManager)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RiskLevel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerComment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerGroup)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RevenueComment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContractStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Executive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActionRequired)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DueDate)
+            </td>
+
+            <td style="white-space:nowrap">
+                @Html.ActionLink("Edit", "Edit", new { Id = item.Id }) 
+                @*|
+                @Html.ActionLink("Delete", "Delete", new { Id = item.Id })*@
+
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@section scripts {
+    <script src="@Url.Content("~/Scripts/jquery.filtertable.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#accountcommentTable').filterTable({ ignoreClass: 'no-filter' });
+
+            $('#ddlFilterColumns').change(function () {
+                var index = $(this).val();
+                if (index == "")
+                    $('#accountcommentTable td').removeClass('no-filter');
+                else {
+                    $('#accountcommentTable>tbody>tr>td').addClass('no-filter');
+                    $('#accountcommentTable>tbody>tr').each(function () {
+                        $('td:eq(' + index + ')', this).removeClass('no-filter');
+                    });
+                }
+            });
+        });
+    </script>
+}

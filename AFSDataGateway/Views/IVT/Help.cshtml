@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "Help";
+    if (TempData["Utype"] == null)
+    {
+        TempData["Utype"] = 0;
+    }
+    if (Session["Utype"] == null)
+    {
+        Session["Utype"] = 0;
+    }
+    if ((int)TempData["Utype"] == 1 || (int)Session["Utype"] == 1 || (int)TempData["Utype"] == 2 || (int)Session["Utype"] == 2)
+    {
+
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<div style="font-family: TitilliumWeb">
+    <h2>Support</h2>
+    <br />
+    <br />
+
+    <address>
+        AFS Logistics Australia Pty Limited - Information Technology <br />
+        Data Services - Data Warehouse<br />
+        <abbr title="Phone">P:</abbr>
+        +61 3 9289 3888
+    </address>
+    <address>
+        For all inquiries related to Moveit please contact business support below.
+        <br />
+        If the portal service is down or any other issues related to the portal performance please contact IT support<br />
+
+    </address>
+
+    <address>
+        <strong>Business Support:</strong>   <a href="mailto:">support@moveit.com.au</a><br />
+        <strong>IT Support - 1 :</strong> <a href="mailto:mnasir@altfs.com.au">mnasir@altfs.com.au </a>
+        <strong>IT Support - 2 :</strong> <a href="mailto:asingh@altfs.com.au">asingh@altfs.com.au</a>
+    </address>
+
+</div>

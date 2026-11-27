@@ -1,0 +1,116 @@
+﻿@model AFSDataGateway.Models.AccountComments_pre
+
+@{
+    ViewBag.Title = "Delete";
+    if ((string)TempData["LoginName"] == "ADMIN")
+    {
+
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<div style="font-family: TitilliumWeb">
+    <h2>Delete Customer Comment</h2>
+
+    <h3>Are you sure you want to delete this?</h3>
+    </div>
+<div style="font-family: TitilliumWeb">
+    <h4>Comment for @Model.CustomerGroup</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AccountManager)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccountManager)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerGroup)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerGroup)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RiskLevel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RiskLevel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerComment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerComment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RevenueComment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RevenueComment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContractStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContractStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Executive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Executive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ActionRequired)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActionRequired)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DueDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DueDate)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+<div class="form-actions no-color">
+    <div style="font-family: TitilliumWeb">
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        @Html.ActionLink("Back to List", "Index")
+        </div>
+    </div>
+    }
+</div>

@@ -1,0 +1,49 @@
+﻿@model AFSDataGateway.Models.User
+
+@{
+    ViewBag.Title = "Login Page";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/css")
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Login on Behalf of the Account Manager</h3>
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-group">
+                            @Html.Label("Account Manager", htmlAttributes: new { @class = "control-label" })
+                            <div>
+                                @Html.DropDownListFor(m => m.Username, ViewBag.LoginList as SelectList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div>
+                                <button type="submit" class="btn btn-success">Login</button>
+                            </div>
+                        </div>
+
+                        <div class="text-danger">
+                            @Html.Label("", (string)@ViewBag.Message)
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

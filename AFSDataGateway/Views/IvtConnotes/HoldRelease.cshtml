@@ -1,0 +1,41 @@
+@using AFSDataGateway.Services.IvtAdmin
+@{
+    ViewBag.Title = "Manual hold / release";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@Html.Partial("~/Views/IvtAdmin/_Assets.cshtml")
+<div class="ivt-adm" data-ivt-page="holdrelease" data-candidates-url="@Url.Action("Candidates")" data-hold-url="@Url.Action("Hold")" data-release-url="@Url.Action("Release")">
+    <h2>Manual hold / release</h2>
+    <p class="sub">Hold or release connotes you have queried.
+        For file-based bulk loads use @Html.ActionLink("File loads", "Files", "IvtAdmin").</p>
+    @Html.Partial("~/Views/IvtAdmin/_Env.cshtml", IvtEnvironment.Production, new ViewDataDictionary { { "TestAllowed", false } })
+    <div class="btn-group mode-tabs mb-2" role="group" aria-label="Mode">
+        <button type="button" class="btn btn-outline-secondary" data-mode="hold">Hold (current IVT results)</button>
+        <button type="button" class="btn btn-outline-secondary" data-mode="release">Release (held connotes)</button>
+    </div>
+    <div id="ivt-msg"></div>
+    <div class="card-box">
+        <form id="ivt-search-form" class="toolbar" role="search">
+            <div><label for="ivt-search">Search (job, connote, customer, carrier...)</label><input id="ivt-search" class="form-control" maxlength="500" /></div>
+            <button type="submit" id="ivt-search-go" class="btn btn-primary">Search / refresh</button>
+            <span id="ivt-count" class="muted" style="display:inline"></span>
+        </form>
+        <div class="ivt-field" style="max-width:720px">
+            <label for="ivt-text" id="ivt-text-label"></label>
+            <textarea id="ivt-text" class="form-control" rows="2" maxlength="5000"></textarea>
+        </div>
+        <button type="button" id="ivt-one" class="btn btn-primary"></button>
+        <button type="button" id="ivt-all" class="btn btn-outline-danger" disabled></button>
+        <details class="mt-2">
+            <summary>How values are recorded</summary>
+            <ul class="muted">
+                <li>Each connote is checked against its current database record before changes are saved.</li>
+                <li>ActionedBy = you; ReleasedBy = the row's HeldBy; InvoiceWeek = the row's CurrentWeek (legacy mapping).</li>
+                <li>Hold one: keeps the row's sub-reason. Hold all: sub-reason "@ConnoteActionService.HoldAllSubReason" and your comment.</li>
+                <li>Release one: sub-reason "@ConnoteActionService.ReleaseSingleSubReason"; release all: "@ConnoteActionService.ReleaseAllSubReason"; both use your justification.</li>
+                <li>"All displayed" is refused if the result changed since you searched. Each connote is reported separately; partial failures are shown.</li>
+            </ul>
+        </details>
+        <div id="ivt-grid" class="mt-2"></div>
+    </div>
+</div>

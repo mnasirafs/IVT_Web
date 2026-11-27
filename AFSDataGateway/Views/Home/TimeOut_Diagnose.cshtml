@@ -1,0 +1,39 @@
+@using System.IO
+@using System.Web
+@{
+    ViewBag.Title = "Timeout/Error (Diagnostic)";
+    string errorDetails = null;
+    try
+    {
+        var logPath = Server.MapPath("~/App_Data/errors.log");
+        if (File.Exists(logPath))
+        {
+            var all = File.ReadAllText(logPath);
+            var parts = all.Split(new string[] { "--------------------" }, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length > 0)
+            {
+                errorDetails = parts[parts.Length - 1].Trim();
+                if (string.IsNullOrWhiteSpace(errorDetails))
+                {
+                    errorDetails = all.Length > 2000 ? all.Substring(all.Length - 2000) : all;
+                }
+            }
+        }
+    }
+    catch { }
+}
+
+<div class="container">
+    <h2>Diagnostic: Last server error</h2>
+    @if (!string.IsNullOrWhiteSpace(errorDetails))
+    {
+        <pre style="white-space:pre-wrap; word-wrap:break-word; background:#f8f9fa; padding:12px; border-radius:4px; border:1px solid #e1e1e1;">
+@Html.Raw(HttpUtility.HtmlEncode(errorDetails))
+        </pre>
+        <p style="font-size:12px; color:#666;">This is for debugging only. Remove this file after diagnosing.</p>
+    }
+    else
+    {
+        <p>No logged exceptions found in App_Data/errors.log.</p>
+    }
+</div>

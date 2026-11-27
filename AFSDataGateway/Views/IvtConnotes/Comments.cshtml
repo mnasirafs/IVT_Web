@@ -1,0 +1,25 @@
+@using AFSDataGateway.Services.IvtAdmin
+@{
+    ViewBag.Title = "Comments";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@Html.Partial("~/Views/IvtAdmin/_Assets.cshtml")
+<div class="ivt-adm" data-ivt-page="comments" data-log-url="@Url.Action("Log")" data-add-url="@Url.Action("AddComment")" data-retry-url="@Url.Action("RetryNotification")">
+    <h2>Consignment comments</h2>
+    <p class="sub">Consignment log for a job. New comments are saved with log type "Hold" and notify the admin contacts (CC finance contacts and you).</p>
+    @Html.Partial("~/Views/IvtAdmin/_Env.cshtml", IvtEnvironment.Production, new ViewDataDictionary { { "TestAllowed", false } })
+    <div id="ivt-msg"></div>
+    <div class="card-box">
+        <form id="ivt-job-form" class="toolbar">
+            <div><label for="ivt-job">Job number</label><input id="ivt-job" class="form-control" maxlength="50" value="@ViewBag.Job" required /></div>
+            <button type="submit" class="btn btn-primary">Load log</button>
+        </form>
+        <div id="ivt-pending" class="mb-2"></div>
+        <div id="ivt-grid"></div>
+    </div>
+    <form id="ivt-comment-form" class="card-box" style="max-width:900px">
+        <div class="ivt-field"><label for="ivt-comment">New comment</label><textarea id="ivt-comment" class="form-control" rows="3" maxlength="8000"></textarea></div>
+        <button type="submit" class="btn btn-success">Save comment</button>
+        <small class="muted">If the email fails after saving, the comment stays saved and a "Retry notification" button appears (no duplicate comment).</small>
+    </form>
+</div>

@@ -1,0 +1,141 @@
+@model List<AFSDataGateway.Services.Chat.GlossaryEntry>
+@{
+    ViewBag.Title = "Assistant knowledge";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var feedback = (List<AFSDataGateway.Services.Chat.FeedbackEntry>)ViewBag.Feedback;
+    var status = (string)ViewBag.FeedbackStatus;
+}
+<style>
+    .ak h2 { margin: 0 0 4px; }
+    .ak .ak-sub { color: #4b5563; margin-bottom: 16px; }
+    .ak .ak-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 18px; margin-bottom: 20px; }
+    .ak .ak-card h3 { font-size: 17px; margin: 0 0 10px; }
+    .ak table { width: 100%; font-size: 13px; }
+    .ak td, .ak th { vertical-align: top; padding: 6px 8px; border-bottom: 1px solid #f1f5f9; }
+    .ak .pill { display: inline-block; border-radius: 10px; padding: 1px 8px; font-size: 11px; font-weight: 600; background: #eef2ff; color: #3730a3; }
+    .ak .pill.PENDING { background: #fef3c7; color: #92400e; }
+    .ak .pill.REJECTED { background: #fee2e2; color: #991b1b; }
+    .ak .pill.APPROVED { background: #dcfce7; color: #166534; }
+    .ak .up { color: #16a34a; font-weight: 700; }
+    .ak .down { color: #dc2626; font-weight: 700; }
+    .ak .answer { max-height: 140px; overflow: auto; white-space: pre-wrap; background: #f8fafc; border-radius: 6px; padding: 6px; }
+    .ak form.inline { display: inline; }
+    .ak .add-row { display: grid; grid-template-columns: 1fr 2fr 140px auto; gap: 8px; }
+    .ak details summary { cursor: pointer; color: #2563eb; }
+    @@media (max-width: 800px) { .ak .add-row { grid-template-columns: 1fr; } }
+</style>
+<div class="ak">
+    <h2>Assistant knowledge</h2>
+    <p class="ak-sub">Feedback from account managers on IVT AI Assistant answers, and the glossary the assistant reads on every question.
+        Approved global terms apply to everyone; a user's own suggestions apply only to their chats until you approve them.</p>
+
+    @if (!string.IsNullOrEmpty(ViewBag.Notice as string))
+    {
+        <div class="alert @(ViewBag.NoticeIsError ? "alert-danger" : "alert-success")">@ViewBag.Notice</div>
+    }
+
+    <div class="ak-card">
+        <h3>Answer feedback</h3>
+        <p>
+            Show:
+            @foreach (var s in new[] { "NEW", "REVIEWED", "ACTIONED", "ALL" })
+            {
+                <a href="@Url.Action("AssistantKnowledge", new { feedbackStatus = s })" class="btn btn-sm @(s == status ? "btn-primary" : "btn-outline-secondary")">@s</a>
+            }
+        </p>
+        @if (feedback.Count == 0)
+        {
+            <p class="text-muted">No feedback in this view.</p>
+        }
+        else
+        {
+            <table>
+                <thead><tr><th>When / who</th><th>Rating</th><th>Question and answer</th><th>Comment</th><th>Action</th></tr></thead>
+                <tbody>
+                    @foreach (var f in feedback)
+                    {
+                        <tr>
+                            <td>@f.CreatedAt.ToLocalTime().ToString("dd MMM HH:mm")<br />@f.LoginName<br /><small class="text-muted">@f.ScopeLabel</small></td>
+                            <td>@if (f.Rating > 0) { <span class="up">&#128077; helpful</span> } else { <span class="down">&#128078; not helpful</span> }</td>
+                            <td style="max-width:520px">
+                                <b>@f.Question</b>
+                                <div class="answer">@f.Answer</div>
+                                @if (!string.IsNullOrEmpty(f.ToolsJson))
+                                {
+                                    <details><summary>Tools used</summary><code style="white-space:pre-wrap">@f.ToolsJson</code></details>
+                                }
+                            </td>
+                            <td>@f.Comment @if (!string.IsNullOrEmpty(f.AdminNote)) { <br /><small class="text-muted">Admin: @f.AdminNote (@f.ReviewedBy)</small> }</td>
+                            <td style="min-width:240px">
+                                <span class="pill">@f.Status</span>
+                                @using (Html.BeginForm("ReviewChatFeedback", "AdminControls", FormMethod.Post, new { @class = "mt-1" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@f.FeedbackId" />
+                                    <input type="text" name="note" class="form-control form-control-sm mb-1" placeholder="Admin note (optional)" maxlength="1000" />
+                                    <button name="status" value="REVIEWED" class="btn btn-sm btn-outline-secondary">Mark reviewed</button>
+                                }
+                                <details class="mt-1">
+                                    <summary>Add glossary term from this</summary>
+                                    @using (Html.BeginForm("AddGlossaryTerm", "AdminControls", FormMethod.Post))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="feedbackId" value="@f.FeedbackId" />
+                                        <input name="term" class="form-control form-control-sm mb-1" placeholder="Term, e.g. trading value" maxlength="100" required />
+                                        <textarea name="meaning" class="form-control form-control-sm mb-1" rows="2" placeholder="Meaning / rule" maxlength="500" required></textarea>
+                                        @Html.DropDownList("kind", new SelectList(AFSDataGateway.Services.Chat.ChatKnowledgeService.Kinds), new { @class = "form-control form-control-sm mb-1" })
+                                        <button class="btn btn-sm btn-primary">Add for everyone</button>
+                                    }
+                                </details>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+
+    <div class="ak-card">
+        <h3>Glossary</h3>
+        @using (Html.BeginForm("AddGlossaryTerm", "AdminControls", FormMethod.Post, new { @class = "add-row mb-3" }))
+        {
+            @Html.AntiForgeryToken()
+            <input name="term" class="form-control" placeholder="Term, e.g. BlueStar" maxlength="100" required />
+            <input name="meaning" class="form-control" placeholder="Meaning, e.g. carrier group BLUESTAR (codes BLU, BLUE, BSTARGL)" maxlength="500" required />
+            @Html.DropDownList("kind", new SelectList(AFSDataGateway.Services.Chat.ChatKnowledgeService.Kinds), new { @class = "form-control" })
+            <button class="btn btn-primary">Add</button>
+        }
+        <table>
+            <thead><tr><th>Term</th><th>Meaning</th><th>Kind</th><th>Scope</th><th>Status</th><th>By</th><th></th></tr></thead>
+            <tbody>
+                @foreach (var t in Model)
+                {
+                    <tr>
+                        <td><b>@t.Term</b></td>
+                        <td>@t.Meaning</td>
+                        <td>@t.Kind</td>
+                        <td>@(t.Scope == "USER" ? "User: " + t.OwnerLogin : "Everyone")</td>
+                        <td><span class="pill @t.Status">@t.Status</span></td>
+                        <td>@t.CreatedBy<br /><small class="text-muted">@t.CreatedAt.ToLocalTime().ToString("dd MMM yyyy")</small></td>
+                        <td style="white-space:nowrap">
+                            @using (Html.BeginForm("ReviewGlossaryTerm", "AdminControls", FormMethod.Post, new { @class = "inline" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@t.GlossaryId" />
+                                if (t.Status != "APPROVED" || t.Scope != "GLOBAL")
+                                {
+                                    <button name="decision" value="approve" class="btn btn-sm btn-success">Approve for all</button>
+                                }
+                                if (t.Status != "REJECTED")
+                                {
+                                    <button name="decision" value="reject" class="btn btn-sm btn-outline-warning">Reject</button>
+                                }
+                                <button name="decision" value="delete" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this term?');">Delete</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

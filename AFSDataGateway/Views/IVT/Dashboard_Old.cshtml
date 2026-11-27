@@ -1,0 +1,393 @@
+﻿
+@Model AFSDataGateway.Models.DashboardViewModel
+
+@{
+
+    ViewBag.Title = "Help";
+    if (TempData["Utype"] == null)
+    {
+        TempData["Utype"] = 0;
+    }
+    if (Session["Utype"] == null)
+    {
+        Session["Utype"] = 0;
+    }
+    if ((int)TempData["Utype"] == 1 || (int)Session["Utype"] == 1 || (int)TempData["Utype"] == 2 || (int)Session["Utype"] == 2)
+    {
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    //var firstTotalMeasure = Model.TotalMeasuresData.FirstOrDefault();
+
+
+}
+
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<div class="container">
+    <h2>Insights</h2>
+
+    <h3>For The Invoice Week: @Model.CurrentWeek</h3>
+
+    <br />
+    <!-- Cards for Total Measures Data -->
+    <div class="row">
+        <!-- Total Exceptions -->
+        <div class="col-lg-4 mb-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h4 class="card-title">Total Exceptions</h4>
+                    <h5><p class="card-text"> @(Model.TotalMeasuresData.Count > 0 ? Model.TotalMeasuresData[0].TotalExceptions.ToString() : "N/A")</p> </h5>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Customer -->
+        <div class="col-lg-4 mb-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h4 class="card-title">Total Customer</h4>
+                    <h5> <p class="card-text"> @(Model.TotalMeasuresData.Count > 0 ? Model.TotalMeasuresData[0].TotalCustomer.ToString() : "N/A")</p></h5>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Carrier -->
+        <div class="col-lg-4 mb-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h5 class="card-title">Total Carrier</h5>
+                    <p class="card-text"> @(Model.TotalMeasuresData.Count > 0 ? Model.TotalMeasuresData[0].TotalCarrier.ToString() : "N/A")</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Gross -->
+        <div class="col-lg-4 mb-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h5 class="card-title">Total Gross</h5>
+                    <p class="card-text"> @(Model.TotalMeasuresData.Count > 0 ? Model.TotalMeasuresData[0].TotalGross.ToString("N2") : "N/A")</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Quantity -->
+        <div class="col-lg-4 mb-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h5 class="card-title">Total Quantity</h5>
+                    <p class="card-text"> @(Model.TotalMeasuresData.Count > 0 ? Model.TotalMeasuresData[0].TotalQuantity.ToString("N2") : "N/A")</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Held Count -->
+        <div class="col-lg-4 mb-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h5 class="card-title">Held Count</h5>
+                    <p class="card-text"> @(Model.TotalMeasuresData.Count > 0 ? Model.TotalMeasuresData[0].HeldCount.ToString() : "N/A")</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+<!-- Placeholder for the chart -->
+<div id="chartContainer" style="height: 400px; display: none;"></div>
+<br />
+<div id="lineChartContainer" style="height: 400px;"></div>
+<br />
+<div id="pieChartContainer" style="height: 400px;"></div>
+<br />
+<div id="barChartContainer" style="height: 400px;"></div>
+<br />
+
+<!-- Placeholder for the doughnut chart -->
+<div id="lineChartLastIVTRUN" style="height: 400px;"></div>
+
+@section scripts {
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+
+
+    <!-- Cards for Total Measures Data -->
+
+
+    <script>
+
+
+        // Bar Chart for Common Measure Data
+        Highcharts.chart('chartContainer', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Common Measure Data'
+            },
+            xAxis: {
+                categories: [
+                    @foreach (var item in Model.CommonMeasureData) {
+                        <text>'@item.cType',</text>
+                    }
+                ],
+                title: {
+                    text: 'Categories'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'TotCount'
+                }
+            },
+            series: [{
+                name: 'TotCount',
+                data: [
+                    @foreach (var item in Model.CommonMeasureData) {
+                        <text>@item.TotCount,</text>
+                    }
+                ],
+                color: 'rgba(75, 192, 192, 0.7)'
+            }],
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+        });
+
+        // Line Chart for Top 10 Carrier Data
+        Highcharts.chart('lineChartContainer', {
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: 'Top 10 Carrier Data'
+            },
+            xAxis: {
+                categories: [
+                    @foreach (var item in Model.Top10CarrierData) {
+                        <text>'@item.carrier',</text>
+                    }
+                ],
+                title: {
+                    text: 'Carriers'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'TotCount'
+                }
+            },
+            series: [{
+                name: 'TotCount',
+                data: [
+                    @foreach (var item in Model.Top10CarrierData) {
+                        <text>@item.TotCount,</text>
+                    }
+                ],
+                color: 'rgba(255, 99, 132, 0.7)',
+                marker: {
+                    symbol: 'circle'
+                }
+            }],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+        });
+
+         var top10ExceptionData = @Html.Raw(Json.Encode(Model.Top10ExceptionData.Count > 0 ? Model.Top10ExceptionData : null));
+
+        if (top10ExceptionData) {
+            // Pie Chart for Top 10 Exception Data
+            Highcharts.chart('pieChartContainer', {
+                chart: {
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Top 10 Exception Data'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.y}'
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Exceptions',
+                    colorByPoint: true,
+                    data: top10ExceptionData.map(function (item) {
+                        return { name: item.ErrDesc, y: item.TotCount };
+                    })
+                }],
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+        }
+
+        var top10CustomerData = @Html.Raw(Json.Encode(Model.Top10CustomerData.Count > 0 ? Model.Top10CustomerData : null));
+
+        if (top10CustomerData) {
+            // Bar Chart for Top 10 Customer Data
+            Highcharts.chart('barChartContainer', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Top 10 Customers'
+                },
+                xAxis: {
+                    categories: top10CustomerData.map(function (item) {
+                        return item.customer;
+                    }),
+                    title: {
+                        text: 'Customers'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Total Exceptions'
+                    }
+                },
+                series: [{
+                    name: 'Total Exceptions',
+                    data: top10CustomerData.map(function (item) {
+                        return item.TotCount;
+                    }),
+                    color: 'rgba(75, 192, 192, 0.7)'
+                }],
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+        }
+
+         // Line Chart for Last_IVTRUN Data
+        Highcharts.chart('lineChartLastIVTRUN', {
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: 'IVT Trend'
+            },
+            xAxis: {
+                categories: [
+                    @foreach (var item in Model.LastIVTRunData) {
+                        <text>'@(item.CurrentWeek.ToString("dd/MM/yyyy"))',</text>
+                    }
+                ],
+                title: {
+                    text: 'Invoie Weeks'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Exceptions'
+                }
+            },
+            series: [{
+                name: 'Counts',
+                data: [
+                    @foreach (var item in Model.LastIVTRunData) {
+                        <text>@item.TotCount,</text>
+                    }
+                ],
+                color: 'rgba(255, 99, 132, 0.7)',
+                marker: {
+                    symbol: 'circle'
+                }
+            }],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+        });
+    </script>
+
+
+
+}

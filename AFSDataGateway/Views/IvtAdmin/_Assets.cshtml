@@ -1,0 +1,6 @@
+@{
+    Func<string, string> v = path => System.IO.File.GetLastWriteTimeUtc(Server.MapPath(path)).Ticks.ToString();
+}
+<link rel="stylesheet" href="@Url.Content("~/Content/ivt-admin.css")?v=@v("~/Content/ivt-admin.css")" />
+<form id="ivt-af" hidden>@Html.AntiForgeryToken()</form>
+<script src="@Url.Content("~/Scripts/ivt-admin.js")?v=@v("~/Scripts/ivt-admin.js")" defer></script>

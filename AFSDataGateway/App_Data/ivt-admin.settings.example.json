@@ -1,0 +1,82 @@
+{
+  "connections": {
+    "production": "Data Source=<IVT_SQL_SERVER>;Initial Catalog=<IVT_DATABASE>;Integrated Security=SSPI;Application Name=IVT-Admin",
+    "test": "Data Source=<IVT_SQL_SERVER>;Initial Catalog=<IVT_TEST_DATABASE>;Integrated Security=SSPI;Application Name=IVT-Admin",
+    "msdb": "Data Source=<SQL_AGENT_SERVER\\INSTANCE>;Initial Catalog=msdb;Integrated Security=SSPI;Application Name=IVT-Admin",
+    "audit": "Data Source=<IVT_SQL_SERVER>;Initial Catalog=<IVT_DATABASE>;Integrated Security=SSPI;Application Name=IVT-Admin-Audit",
+    "azureIvt": null
+  },
+  "sqlCommandTimeoutSeconds": 900,
+  "businessTimeZone": "AUS Eastern Standard Time",
+  "jobs": {
+    "productionEngine": "IVT_Engine",
+    "silentEngine": "IVT_Engine_Silent",
+    "testEngine": "IVT_Engine_Test_Run",
+    "referenceDataLoad": "IVT_REF_DATA_LOAD",
+    "adminFileLoad": "IVT_Hold_Release_Check"
+  },
+  "conflictingJobs": [ "IVT_Engine", "IVT_Engine_Silent", "IVT_Engine_Test_Run", "IVT_Engine_Execs_Reports", "IVT_REF_DATA_LOAD", "IVT_Hold_Release_Check" ],
+  "productionRunPreparesTest": true,
+  "productionRunMirrorsToAzure": false,
+  "jobStartObserveSeconds": 20,
+  "recentSubmissionBlockMinutes": 10,
+  "paths": {
+    "landingRoot": "\\\\<SSIS_HOST>\\SSIS_files\\IVT_landing",
+    "buy": "\\\\<SSIS_HOST>\\SSIS_files\\IVT_landing\\Buy",
+    "sell": "\\\\<SSIS_HOST>\\SSIS_files\\IVT_landing\\Sell",
+    "referenceData": "\\\\<SSIS_HOST>\\SSIS_files\\IVT_landing\\REF_DATA_UPDATE",
+    "adminLoadRoot": "\\\\<SSIS_HOST>\\SSIS_files\\IVT_landing\\Admin_File_Load",
+    "holdConnotes": "\\\\<SSIS_HOST>\\SSIS_files\\IVT_landing\\Admin_File_Load\\Hold_Connotes",
+    "releaseConnotes": "\\\\<SSIS_HOST>\\SSIS_files\\IVT_landing\\Admin_File_Load\\Release_Connotes",
+    "bmsCheck": "\\\\<SSIS_HOST>\\SSIS_files\\IVT_landing\\Admin_File_Load\\BMS_Check",
+    "outputRoot": "\\\\<SSIS_HOST>\\SSIS_files\\IVT_files",
+    "testRunOutput": "\\\\<SSIS_HOST>\\SSIS_files\\IVT_files\\IVT_Test_Run",
+    "exports": {
+      "Connote_For_Review": "\\\\<SSIS_HOST>\\SSIS_files\\IVT_files\\Exported_Files\\Connote_For_Review",
+      "Accepted_Connotes": "\\\\<SSIS_HOST>\\SSIS_files\\IVT_files\\Exported_Files\\Accepted_Connotes",
+      "Released_Connotes": "\\\\<SSIS_HOST>\\SSIS_files\\IVT_files\\Exported_Files\\Released_Connotes",
+      "AM_Activity": "\\\\<SSIS_HOST>\\SSIS_files\\IVT_files\\Exported_Files\\AM_Activity",
+      "IVT_BMS_Check": "\\\\<SSIS_HOST>\\SSIS_files\\IVT_files\\Exported_Files\\IVT_BMS_Check"
+    },
+    "referenceDataFilePattern": "*.csv"
+  },
+  "portal": { "production": "http://<IVT_PORTAL_HOST>:<PORT>/", "test": "http://<IVT_PORTAL_HOST>:<TEST_PORT>/" },
+  "legacyReportApi": { "baseUrl": "http://<REPORT_SERVICE_HOST>:<PORT>/", "timeoutSeconds": 300 },
+  "testNotifier": {
+    "enabled": false,
+    "executable": "<PATH_TO_PYTHON>\\python.exe",
+    "arguments": "\"\\\\<SSIS_HOST>\\AFS-Collab\\IVT\\Send_Emails\\Send_Notification_Test.py\"",
+    "workingDirectory": "\\\\<SSIS_HOST>\\AFS-Collab\\IVT\\Send_Emails",
+    "timeoutSeconds": 900
+  },
+  "comments": {
+    "insertProcedure": "dbo.sp_Insert_ConsignmentLogBook",
+    "logType": "Hold",
+    "emailMap": { "<LOGIN>": "<user@example.com>" },
+    "emailDomain": null
+  },
+  "access": { "readerLogins": [], "readerGroups": [ "<DOMAIN\\IVT-Report-Readers>" ] },
+  "azure": {
+    "enabled": false,
+    "storageAccountUrl": "https://<STORAGE_ACCOUNT>.blob.core.windows.net",
+    "container": "ivt",
+    "buyPrefix": "Sapphire/Buy/",
+    "sellPrefix": "Sapphire/Sell/",
+    "tenantId": "<TENANT_ID>",
+    "clientId": "<CLIENT_ID>",
+    "clientSecretEnvironmentVariable": "IVT_AZURE_CLIENT_SECRET",
+    "subscriptionId": "<SUBSCRIPTION_ID>",
+    "resourceGroup": "<RESOURCE_GROUP>",
+    "factory": "<DATA_FACTORY>",
+    "pipeline": "PL_Run_IVT_Engine"
+  },
+  "smtp": {
+    "host": null,
+    "port": 587,
+    "enableSsl": true,
+    "sender": "<sender@example.com>",
+    "userName": "<sender@example.com>",
+    "passwordEnvironmentVariable": "IVT_ADMIN_SMTP_PASSWORD"
+  },
+  "maxUploadBytes": 20971520
+}

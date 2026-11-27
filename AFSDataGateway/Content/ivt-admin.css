@@ -1,0 +1,58 @@
+/* IVT Administration module */
+.ivt-confirm { box-sizing: border-box; width: min(540px, calc(100% - 32px)); max-height: calc(100vh - 48px); overflow: auto; border: 1px solid #dbe3ea; border-radius: 16px; padding: 28px; color: #19384b; box-shadow: 0 24px 80px #0f172a40; }
+.ivt-confirm::backdrop { background: #0f172a80; }
+.ivt-confirm-eyebrow { color: #64748b; font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+.ivt-confirm h2 { font-size: 23px; margin: 0 0 16px; }
+.ivt-confirm p { white-space: pre-wrap; overflow-wrap: anywhere; color: #475569; line-height: 1.6; }
+.ivt-confirm-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; }
+.ivt-confirm button:focus-visible, .ivt-adm [tabindex="-1"]:focus-visible { outline: 3px solid #38bdf8; outline-offset: 3px; }
+.ivt-adm .alert { border-radius: 10px; padding: 14px 18px; overflow-wrap: anywhere; }
+.ivt-adm [tabindex="-1"] { scroll-margin-top: 24px; }
+.ivt-adm h2 { margin: 0 0 4px; }
+.ivt-adm .sub { color: #4b5563; margin-bottom: 14px; }
+.ivt-adm .card-box { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+.ivt-adm .card-box h3 { font-size: 16px; margin: 0 0 10px; }
+.ivt-adm .muted, .ivt-adm small.muted { color: #6b7280; display: block; }
+.ivt-env { display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px; border-radius: 999px; font-weight: 700; font-size: 12px; letter-spacing: .04em; }
+.ivt-env.production { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+.ivt-env.test { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+.ivt-envbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.ivt-envbar .switch a { margin-left: 6px; }
+.ivt-adm .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-end; margin-bottom: 10px; }
+.ivt-adm .toolbar .form-control { width: auto; min-width: 180px; }
+.ivt-adm .toolbar label { display: block; font-size: 12px; color: #4b5563; margin: 0 0 2px; }
+.ivt-table-wrap { overflow: auto; max-height: 65vh; border: 1px solid #e5e7eb; border-radius: 8px; }
+table.ivt-grid { width: 100%; border-collapse: collapse; font-size: 13px; }
+table.ivt-grid th { position: sticky; top: 0; background: #f8fafc; z-index: 1; text-align: left; padding: 6px 8px; border-bottom: 1px solid #e5e7eb; white-space: nowrap; }
+table.ivt-grid td { padding: 5px 8px; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
+table.ivt-grid td.null::after { content: "NULL"; color: #cbd5e1; font-size: 11px; }
+table.ivt-grid tr.is-deleted td { background: #fafafa; color: #9ca3af; }
+table.ivt-edit input.form-control { min-width: 90px; }
+.ivt-actions { white-space: nowrap; }
+.ivt-actions .btn { margin-right: 4px; }
+.ivt-empty { color: #6b7280; font-style: italic; margin: 8px 0; }
+.ivt-steps { margin: 8px 0 0 18px; padding: 0; }
+.ivt-steps .st-failed, .ivt-steps .st-ambiguous { color: #991b1b; }
+.ivt-steps .st-not-attempted, .ivt-steps .st-skipped { color: #6b7280; }
+.ivt-ref { font-size: 11px; color: #6b7280; margin-top: 6px; }
+.ivt-jobs { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+.ivt-job { border: 1px solid #e5e7eb; border-left: 4px solid #9ca3af; border-radius: 8px; padding: 10px; background: #fff; font-size: 13px; }
+.ivt-job.job-running { border-left-color: #2563eb; }
+.ivt-job.job-ok { border-left-color: #16a34a; }
+.ivt-job.job-failed, .ivt-job.job-missing { border-left-color: #dc2626; }
+.ivt-job pre, .ivt-adm pre { white-space: pre-wrap; font-size: 12px; max-height: 260px; overflow: auto; background: #f8fafc; padding: 6px; border-radius: 6px; }
+.ivt-adm .run-buttons .btn { margin: 0 8px 8px 0; }
+.ivt-adm .danger-zone { border-color: #fca5a5; }
+.ivt-adm .sections { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.ivt-adm fieldset { border: 1px solid #e5e7eb; border-radius: 8px; padding: 8px 12px; }
+.ivt-adm fieldset legend { font-size: 13px; font-weight: 600; width: auto; padding: 0 4px; margin: 0; }
+.ivt-field { margin-bottom: 8px; }
+.ivt-field label { display: block; font-size: 12px; margin-bottom: 2px; }
+.ivt-files { margin: 0; padding-left: 18px; font-size: 13px; }
+tr.health-error td { background: #fef2f2; }
+tr.health-warning td { background: #fffbeb; }
+.ivt-adm .mode-tabs .btn.active { background: #123e55; color: #fff; }
+.ivt-output { max-height: 300px; }
+@media (max-width: 640px) { .ivt-adm .toolbar .form-control { min-width: 0; width: 100%; } }
+.ivt-adm .form-check { padding-left: 1.6rem; }
+.ivt-adm .form-check-input { margin-left: -1.4rem; }

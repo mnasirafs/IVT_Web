@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title -Account Manager's Portal</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("css", required: false)
+
+</head>
+<body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+
+            <table class="hdr_menu" border="0">
+                <tr class="topper">
+                    <td width="100%" height="50%">
+                        <a href='@Url.Action("AccountManagerList","Home")'>
+                            <img src="~/Content/afs_moveit_black_AM.png" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+
+
+
+            <div style="visibility: @ViewBag.DisplayForAdmin">
+                @* @Html.ActionLink("Home", "Index", "CustomerAtRisk", new { message = "" }, new { @class = "navbar-brand" })*@
+                @Html.ActionLink("Account Managers", "AccountManagerList", "Home", new { message = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Manage Users", "UserList", "Home", new { message = "" }, new { @class = "navbar-brand" })
+            </div>
+
+            <div style="visibility: @ViewBag.DisplayLinkStatus">
+                @* @Html.ActionLink("Change Password", "ChangePassword", "Home", new { message = "" }, new { @class = "navbar-brand" })*@
+                @Html.ActionLink("Help", "Help", "Home", new { message = "" }, new { @class = "navbar-brand" })
+                @*  @Html.ActionLink("Logout", "Logout", "Home", new { message = "" }, new { @class = "navbar-brand" })*@
+            </div>
+            <div style="visibility: @ViewBag.DisplayForSuperAdmin">
+              
+                  @Html.ActionLink("Login As", "Login", "Home", new { message = "" }, new { @class = "navbar-brand" })
+            </div>
+
+            @*<div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Customer Comments", "Index", "CustomerAtRisk")</li>
+                <li>@Html.ActionLink("Change Password", "Index", "Index")</li>
+                <li>@Html.ActionLink("Logout", "Logout", "Home")</li>
+
+            </ul>
+        </div>*@
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <div style="font-family: TitilliumWeb">
+            <footer>
+                <p>&copy; @DateTime.Now.Year - AFS Logisitcs Data Gateway - Data Services</p>
+                <p>Admin View</p>
+            </footer>
+            </div>
+        </div>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+
+</body>
+</html>

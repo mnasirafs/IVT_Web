@@ -1,0 +1,177 @@
+﻿@model AFSDataGateway.Models.vIVT_Result
+
+@{
+    ViewBag.Title = "Update Hide Details";
+    if ((string)TempData["LoginName"] == "ADMIN")
+    {
+
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+@section css {
+    <style>
+        .dl-horizontal dt,
+        .dl-horizontal dd {
+            font-size: 16px; /* You can adjust the font size to your preference */
+            /* Additional styling, if needed */
+        }
+    </style>
+}
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('input[type=datetime]').datepicker({
+                dateFormat: "dd/M/yy",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-60:+0"
+            });
+
+        });
+    </script>
+
+}
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div style="font-family: TitilliumWeb;color:blue">
+            <h4><strong>Hold </strong> Connote <strong> @Model.Connote </strong> dated : @Model.cons_date </h4>
+        </div>
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.DWHEditor, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DWHEditor, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DWHEditor, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.CustomerGroup, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DisplayFor(model => model.CustomerGroup, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CustomerGroup, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+
+        @Html.Label("Connote to Hold", new { title = "Connote" })
+        <div class="form-group">
+            <div>
+                <dl class="dl-horizontal">
+
+                    <dt>
+                        @Html.DisplayName("Connote Date")
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.cons_date)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayName("jno")
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.jno)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayName("CurrentWeek")
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CurrentWeek)
+                    </dd>
+                    <dt>
+                        @Html.DisplayName("Customer")
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.customer)
+                    </dd>
+                    <dt>
+                        @Html.DisplayName("Carrier")
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.carrier)
+                    </dd>
+                    <dt>
+                        @Html.DisplayName("ErrCode")
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.ErrCode)
+                    </dd>
+                    <dt>
+                        @Html.DisplayName("ErrPriority")
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.ErrPriority)
+                    </dd>
+                    <dt>
+                        @Html.DisplayName("Reason")
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Reason)
+                    </dd>
+                    <dt>
+                        @Html.DisplayName("Sub Reason")
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Sub_Reason)
+                    </dd>
+                </dl>
+            </div>
+
+        </div>
+
+        @Html.Label("Hold Reason", new { title = "Why Connote should be held?" })
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.TextArea("HoldReason", htmlAttributes: new { placeholder = "Reasons", style = "width: 100%; max-width: 100%;", title = " reasons" })
+                @Html.Label("Hold Reasons", htmlAttributes: new { style = "color:black;font: 10pt TitilliumWeb-Regular" })
+            </div>
+        </div>
+
+        <br />
+        <div>
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Hold" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<div style="font-family: TitilliumWeb">
+    @*@Html.ActionLink("Back to List", "Index")*@
+    <a href="javascript:void(0);" onclick="history.go(-1);">Back to List</a>
+</div>

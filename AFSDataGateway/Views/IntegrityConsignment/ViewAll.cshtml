@@ -1,0 +1,86 @@
+﻿@model IEnumerable<AFSDataGateway.Models.AccountComments_pre>
+
+@{
+    ViewBag.Title = "ViewAll";
+    Layout = null;
+}
+
+<h2>ViewAll</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+       
+        <th>
+            @Html.DisplayNameFor(model => model.DWHEditor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RiskLevel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerComment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerGroup)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RevenueComment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContractStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Executive)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActionRequired)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DueDate)
+        </th>
+       
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.DWHEditor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RiskLevel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustomerComment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustomerGroup)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RevenueComment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContractStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Executive)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActionRequired)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DueDate)
+        </td>
+       
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

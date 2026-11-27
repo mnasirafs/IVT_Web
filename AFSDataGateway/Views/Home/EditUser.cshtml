@@ -1,0 +1,73 @@
+﻿@model AFSDataGateway.Models.vIVTUser
+
+@{
+    ViewBag.Title = "EditUser";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<div style="font-family: TitilliumWeb">
+    <h2>Edit User</h2>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.LoginName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.LoginName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.LoginName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("User Type", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.UserType, ViewBag.UserStatus as SelectList)
+            @Html.ValidationMessageFor(model => model.UserType, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Status", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.UserStatus, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.LoginName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-success" />
+            <input type="button" value="Disable/Enable" class="btn btn-success" onclick="location.href='@Url.Action("DisableUser", "Home", new {id = Model.Id }) '" />
+            @*<input type="button" value="Reset Password" class="btn btn-success" onclick="location.href='@Url.Action("ResetPassword", "Home", new {id = Model.Id }) '" />*@
+        </div>
+
+    </div>
+</div>
+    }
+
+<div style="font-family: TitilliumWeb">
+    @Html.ActionLink("Back to List", "UserList")
+</div>

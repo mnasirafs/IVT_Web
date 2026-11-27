@@ -1,0 +1,22 @@
+Patch: Add temporary login/role logging to capture Windows identity and role checks
+
+Add this snippet at the start of your protected HomeController action (e.g., Index or Dashboard) or in the login handling code to log the authenticated user and role checks.
+
+// Example C# snippet (paste into HomeController method before sensitive logic)
+try
+{
+	var user = HttpContext.User?.Identity?.Name ?? "anonymous";
+	var authType = HttpContext.User?.Identity?.AuthenticationType ?? "unknown";
+	var isInAMGroup = HttpContext.User.IsInRole("DOMAIN\\AccountManagers"); // update with actual AD group name
+	var log = $"{DateTime.UtcNow:O} | User:{user} | Auth:{authType} | IsInAMGroup:{isInAMGroup}{Environment.NewLine}";
+	var logPath = Server.MapPath("~/App_Data/login.log");
+	System.IO.File.AppendAllText(logPath, log);
+}
+catch { }
+
+Notes:
+- Replace "DOMAIN\\AccountManagers" with the actual AD group name used in your app.
+- Deploy temporarily to capture the login behavior of the failing user. Remove when done.
+- Ensure App_Data is writable by the app pool.
+
+If you want, I can add a controller-level logger file instead so you don't have to edit controller code directly.

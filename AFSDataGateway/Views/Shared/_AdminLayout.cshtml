@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - DWH Access Tool</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("css", required: false)
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/DataTables/css/jquery.dataTables.min.css")">
+
+    <!-- jQuery -->
+    @Scripts.Render("~/bundles/jquery")
+
+    <!-- DataTables JS -->
+    <script src="@Url.Content("~/Scripts/DataTables/jquery.dataTables.min.js")"></script>
+
+    <script>
+        $(document).ready(function () {
+            if (!$.fn.DataTable) return;
+            $('#AMCounts').DataTable({
+                "pageLength": 25 // Set the default number of entries to 50
+            });
+            $('#CustomerCounts').DataTable({
+                "pageLength": 25 // Set the default number of entries to 50
+            });
+            $('#TradingData').DataTable({
+                "pageLength": 25 // Set the default number of entries to 50
+            });
+            $('#AncilarrySummary').DataTable({
+                "pageLength": 25 // Set the default number of entries to 50
+            });
+            $('#HeldConsignment').DataTable({
+                "pageLength": 25 // Set the default number of entries to 50
+            });
+            $('#IVTResutlsTable').DataTable({
+                "pageLength": 25 // Set the default number of entries to 50
+                , "order": [[8, "desc"]]
+            });
+
+            $('#AncillaryDetail').DataTable({
+                "pageLength": 25 // Set the default number of entries to 50
+            });
+
+            $('#ExceptionHistory').DataTable({
+                "pageLength": 25 // Set the default number of entries to 50
+            });
+
+            
+        });
+
+    </script>
+
+    <!-- Use Bootstrap from CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Add your custom styles here -->
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="@Url.Content("~/Content/ivt-theme.css")?v=@System.IO.File.GetLastWriteTimeUtc(Server.MapPath("~/Content/ivt-theme.css")).Ticks" />
+</head>
+@functions {
+    // Highlights the sidebar item for the current page.
+    string Active(string controller, params string[] actions)
+    {
+        var c = ViewContext.RouteData.Values["controller"] as string;
+        var a = ViewContext.RouteData.Values["action"] as string;
+        if (!string.Equals(c, controller, StringComparison.OrdinalIgnoreCase)) return "";
+        return actions.Length == 0 || actions.Any(x => string.Equals(x, a, StringComparison.OrdinalIgnoreCase)) ? "active" : "";
+    }
+}
+@{
+    var adminOpen = Active("AdminControls") == "active";
+}
+<body class="ivt-app">
+
+    <aside class="app-sidebar" aria-label="Admin navigation">
+        <a class="app-brand" href="@Url.Action("Dashboard", "Home")">
+            <img src="~/Content/ivt-logo.png" alt="AFS Logistics - Invoice Vetting Tool" />
+            <div class="app-brand-text"><small>Admin console</small></div>
+        </a>
+        <nav class="app-nav">
+            @if (ViewBag.DisplayForSuperAdmin == "visible")
+            {
+                <a class="app-link @Active("Home", "Login")" href="@Url.Action("Login", "Home")"><i class="fas fa-user-secret"></i>Login As</a>
+            }
+            <div class="app-nav-section">Overview</div>
+            <a class="app-link @Active("Home", "Dashboard")" href="@Url.Action("Dashboard", "Home")"><i class="fas fa-chart-pie"></i>Dashboard</a>
+            <a class="app-link @Active("Home", "CurrentConsignment")" href="@Url.Action("CurrentConsignment", "Home")"><i class="fas fa-exclamation-triangle"></i>IVT Results</a>
+
+            <div class="app-nav-section">Consignments</div>
+            <a class="app-link @Active("Home", "HeldConsignment")" href="@Url.Action("HeldConsignment", "Home")"><i class="fas fa-hand-paper"></i>Held Consignments</a>
+            <a class="app-link @Active("Home", "TradingData")" href="@Url.Action("TradingData", "Home")"><i class="fas fa-truck"></i>Trading Data</a>
+            <a class="app-link @Active("Home", "AncillarySummary")" href="@Url.Action("AncillarySummary", "Home")"><i class="fas fa-receipt"></i>Ancillary Summary</a>
+            <a class="app-link @Active("Home", "ExceptionHistory")" href="@Url.Action("ExceptionHistory", "Home")"><i class="fas fa-history"></i>History</a>
+
+            <div class="app-nav-section">ML &amp; AI</div>
+            <a class="app-link @Active("MLReview")" href="@Url.Action("Index", "MLReview")"><i class="fas fa-brain"></i>ML Findings</a>
+
+            <div class="app-nav-section">Administration</div>
+            <a class="app-link @Active("Home", "UserList")" href="@Url.Action("UserList", "Home")"><i class="fas fa-users-cog"></i>Manage Users</a>
+            <div class="app-group @(adminOpen ? "open" : "")">
+                <button type="button" class="app-link @(adminOpen ? "active" : "")" aria-expanded="@(adminOpen ? "true" : "false")"><i class="fas fa-sliders-h"></i>Admin Controls<i class="fas fa-chevron-right chev"></i></button>
+                <div class="app-sub">
+                    <a class="app-link @Active("AdminControls", "Index")" href="@Url.Action("Index", "AdminControls")">Overview</a>
+                    <a class="app-link @Active("AdminControls", "MLScoring", "RunMLScoring")" href="@Url.Action("MLScoring", "AdminControls")">Weekly ML scoring</a>
+                    <a class="app-link @Active("AdminControls", "AssistantKnowledge")" href="@Url.Action("AssistantKnowledge", "AdminControls")">Assistant knowledge</a>
+                </div>
+            </div>
+            @{
+                var ivtc = ViewContext.RouteData.Values["controller"] as string;
+                var ivtEnv = string.Equals(Request.QueryString["env"], "test", StringComparison.OrdinalIgnoreCase) ? "test" : "production";
+                var ivtKey = Request.QueryString["key"];
+                Func<string, string, string, string> ivtActive = (controller, action, key) =>
+                    string.Equals(ivtc, controller, StringComparison.OrdinalIgnoreCase) && string.Equals(ViewContext.RouteData.Values["action"] as string, action, StringComparison.OrdinalIgnoreCase)
+                    && (key == null || string.Equals(ivtKey, key, StringComparison.OrdinalIgnoreCase)) ? "active" : "";
+                var ivtRunOpen = ivtc == "IvtAdmin";
+                var ivtSetOpen = ivtc == "IvtSettings";
+                var ivtConOpen = ivtc == "IvtConnotes";
+            }
+            <div class="app-nav-section">IVT administration</div>
+            <div class="app-group @(ivtRunOpen ? "open" : "")">
+                <button type="button" class="app-link @(ivtRunOpen ? "active" : "")" aria-expanded="@(ivtRunOpen ? "true" : "false")"><i class="fas fa-play-circle"></i>Engine &amp; loads<i class="fas fa-chevron-right chev"></i></button>
+                <div class="app-sub">
+                    <a class="app-link @ivtActive("IvtAdmin", "Index", null)" href="@Url.Action("Index", "IvtAdmin")">Overview &amp; health</a>
+                    <a class="app-link @(ivtActive("IvtAdmin", "RunControl", null) != "" && ivtEnv == "production" ? "active" : "")" href="@Url.Action("RunControl", "IvtAdmin", new { env = "production" })">Run control</a>
+                    <a class="app-link @(ivtActive("IvtAdmin", "RunControl", null) != "" && ivtEnv == "test" ? "active" : "")" href="@Url.Action("RunControl", "IvtAdmin", new { env = "test" })">Test / UAT run</a>
+                    <a class="app-link @ivtActive("IvtAdmin", "Files", null)" href="@Url.Action("Files", "IvtAdmin")">File loads (bulk, BMS, ref data)</a>
+                    <a class="app-link @ivtActive("IvtAdmin", "Notifications", null)" href="@Url.Action("Notifications", "IvtAdmin")">Notifications &amp; reports</a>
+                    <a class="app-link @ivtActive("IvtAdmin", "Audit", null)" href="@Url.Action("Audit", "IvtAdmin")">Audit log</a>
+                </div>
+            </div>
+            <div class="app-group @(ivtSetOpen ? "open" : "")">
+                <button type="button" class="app-link @(ivtSetOpen ? "active" : "")" aria-expanded="@(ivtSetOpen ? "true" : "false")"><i class="fas fa-cogs"></i>Reference settings<i class="fas fa-chevron-right chev"></i></button>
+                <div class="app-sub">
+                    @foreach (var e in AFSDataGateway.Services.IvtAdmin.ReferenceCatalog.All.Where(e => e.Key != "customer-carrier" && e.Key != "fuel" && e.Key != "consolidation"))
+                    {
+                        <a class="app-link @ivtActive("IvtSettings", "Entity", e.Key)" href="@Url.Action("Entity", "IvtSettings", new { key = e.Key, env = ivtSetOpen ? ivtEnv : "production" })">@e.Title</a>
+                    }
+                    <a class="app-link @ivtActive("IvtSettings", "Contacts", null)" href="@Url.Action("Contacts", "IvtSettings", new { env = ivtSetOpen ? ivtEnv : "production" })">Shared email contacts</a>
+                </div>
+            </div>
+            <div class="app-group @(ivtConOpen ? "open" : "")">
+                <button type="button" class="app-link @(ivtConOpen ? "active" : "")" aria-expanded="@(ivtConOpen ? "true" : "false")"><i class="fas fa-search-dollar"></i>Connotes &amp; reports<i class="fas fa-chevron-right chev"></i></button>
+                <div class="app-sub">
+                    <a class="app-link @ivtActive("IvtConnotes", "Comments", null)" href="@Url.Action("Comments", "IvtConnotes")">Comments</a>
+                    @foreach (var r in AFSDataGateway.Services.IvtAdmin.QueryReportService.Reports.Where(r => r.Key != "review" && r.Key != "accepted" && r.Key != "released"))
+                    {
+                        <a class="app-link @ivtActive("IvtConnotes", "Report", r.Key)" href="@Url.Action("Report", "IvtConnotes", new { key = r.Key })">@r.Title</a>
+                    }
+                </div>
+            </div>
+            <a class="app-link @Active("Home", "Help")" href="@Url.Action("Help", "Home")"><i class="fas fa-question-circle"></i>Help</a>
+            @if (AFSDataGateway.Services.Entra.EntraAuth.IsEntraUser(Context))
+            {
+                <div class="app-nav-section">Account</div>
+                <a class="app-link" href="@Url.Action("SignIn", "Entra", new { switchAccount = true })"><i class="fas fa-exchange-alt"></i>Switch account</a>
+                <a class="app-link" href="@Url.Action("SignOut", "Entra")"><i class="fas fa-sign-out-alt"></i>Sign out</a>
+            }
+        </nav>
+        <div class="app-user">
+            <span class="avatar"><i class="fas fa-shield-alt"></i></span>
+            <div>Administrator<small>Admin view</small></div>
+        </div>
+    </aside>
+    <div class="app-backdrop"></div>
+
+    <div class="app-main">
+        <header class="app-topbar">
+            <button type="button" data-sidebar-toggle aria-label="Open menu" aria-expanded="false"><i class="fas fa-bars"></i></button>
+            <strong>Vetting Tool Admin</strong>
+        </header>
+        <main class="app-content">
+            @RenderBody()
+        </main>
+        <footer class="app-footer">&copy; @DateTime.Now.Year IVT 2.0 &middot; AFS Logistics &middot; Data Services &middot; Admin view</footer>
+    </div>
+
+
+
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/chart.min.js"></script>
+    <!-- Add Highcharts reference -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+
+
+    <script src="@Url.Content("~/Scripts/ivt-shell.js")?v=@System.IO.File.GetLastWriteTimeUtc(Server.MapPath("~/Scripts/ivt-shell.js")).Ticks" defer></script>
+    @RenderSection("scripts", required: false)
+    @* IVT Assistant hidden from Admin pages for now; uncomment to re-enable. *@
+    @*@Html.Partial("_ChatWidget")*@
+</body>
+</html>

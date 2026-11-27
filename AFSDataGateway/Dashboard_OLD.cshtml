@@ -1,0 +1,616 @@
+﻿
+
+
+@{
+    var model = new AFSDataGateway.Models.DashboardViewModel();
+
+
+    ViewBag.Title = "Dashboard";
+    if (TempData["Utype"] == null)
+    {
+        TempData["Utype"] = 0;
+    }
+    if (Session["Utype"] == null)
+    {
+        Session["Utype"] = 0;
+    }
+    if ((int)TempData["Utype"] == 1 || (int)Session["Utype"] == 1 || (int)TempData["Utype"] == 2 || (int)Session["Utype"] == 2)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    //var firstTotalMeasure = Model.TotalMeasuresData.FirstOrDefault();
+
+
+}
+
+
+
+
+
+<div class="container">
+    @*<div style=" font-size:15px; font-family: TitilliumWeb">
+            @if ((string)ViewBag.LoggedUser != null)
+            {
+                @Html.Label("", "Logged as:" + (string)ViewBag.LoggedUser + ".", new { @class = "lastUpdateLabel" })
+            }
+        </div>*@
+    <h2>Your Insights</h2><h3>For The Invoice Week: @Model.CurrentWeek</h3>
+    <br />
+    <!-- Cards for Total Measures Data -->
+    <div class="row">
+        <!-- Important Cards  -->
+        <!-- Total Exceptions -->
+        <div class="col-lg-2 mb-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h4 class="card-title">Exceptions</h4>
+                    <h5><p class="card-text"> @(Model.TotalMeasuresData.Count > 0 ? Model.TotalMeasuresData[0].TotalExceptions.ToString() : "N/A")</p> </h5>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Connotes -->
+        <div class="col-lg-2 mb-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h4 class="card-title">Records #</h4>
+                    <h5>
+                        <p class="card-text">
+                            @(Model.TotalMeasuresData.Count > 0 ? string.Format("{0:N0}", Model.TotalMeasuresData[0].TotalAllConnotes) : "N/A")
+                        </p>
+                    </h5>
+                </div>
+            </div>
+        </div>
+        <!-- Total Ancillaries -->
+        <div class="col-lg-2 mb-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h4 class="card-title">Ancillaries</h4>
+                    <h5>
+                        <p class="card-text">
+                            @(Model.TotalMeasuresData.Count > 0 ? string.Format("{0:N0}", Model.TotalMeasuresData[0].TotalAncillaries) : "N/A")
+                        </p>
+                    </h5>
+                </div>
+            </div>
+        </div>
+        <!-- Exception Rate -->
+        <div class="col-lg-2 mb-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h4 class="card-title">Exception Rate</h4>
+                    <h5><p class="card-text"> @(Model.TotalMeasuresData.Count > 0 ? Model.TotalMeasuresData[0].ExceptionRate.ToString("N2") + "%" : "N/A")</p> </h5>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Ancillaries Rate  -->
+        <div class="col-lg-2 mb-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h4 class="card-title">Ancillary Rate</h4>
+                    <h5><p class="card-text"> @(Model.TotalMeasuresData.Count > 0 ? Model.TotalMeasuresData[0].AncillariesRate.ToString("N2") +"%" : "N/A")</p> </h5>
+                </div>
+            </div>
+        </div>
+    </div>   <!-- Important Cards  -->   @*end of row*@
+
+    <div class="row">
+        <!-- Manual Entry -->
+        <div class="col-lg-4 mb-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h4 class="card-title">Rate of Manual Jobs</h4>
+                            <h5>
+                                <p class="card-text">
+                                    @(Model.TotalMeasuresData.Count > 0 ? Model.TotalMeasuresData[0].CurrentWeek_ManualEntryRate.ToString("N2") + "%" : "N/A")
+                                </p>
+                            </h5>
+                        </div>
+                        <div class="col">
+                            <h4 class="card-title">No. of Manual Jobs</h4>
+                            <h5>
+                                <p class="card-text">
+                                    @(Model.TotalMeasuresData.Count > 0 ? string.Format("{0:N0}", Model.TotalMeasuresData[0].TotalManualEntry) : "N/A")
+                                </p>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MoveIT -->
+        <div class="col-lg-4 mb-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h4 class="card-title">Rate of Not In MoveIT</h4>
+                            <h5>
+                                <p class="card-text">
+                                    @(Model.TotalMeasuresData.Count > 0 ? Model.TotalMeasuresData[0].CurrentWeek_NotInMoveitRate.ToString("N2") + "%" : "N/A")
+                                </p>
+                            </h5>
+                        </div>
+                        <div class="col">
+                            <h4 class="card-title">No. Not In MoveIT</h4>
+                            <h5>
+                                <p class="card-text">
+                                    @(Model.TotalMeasuresData.Count > 0 ? string.Format("{0:N0}", Model.TotalMeasuresData[0].TotalNotInMoveit) : "N/A")
+                                </p>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <!-- Total Customer -->
+        <div class="col-lg-2 mb-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h4 class="card-title">Customers</h4>
+                    <h5> <p class="card-text"> @(Model.TotalMeasuresData.Count > 0 ? Model.TotalMeasuresData[0].TotalCustomer.ToString() : "N/A")</p></h5>
+                </div>
+            </div>
+        </div>
+        <!-- Total Carrier -->
+        <div class="col-lg-2 mb-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h4 class="card-title">Carriers</h4>
+                    <h5> <p class="card-text"> @(Model.TotalMeasuresData.Count > 0 ? Model.TotalMeasuresData[0].TotalCarrier.ToString() : "N/A")</p> </h5>
+                </div>
+            </div>
+        </div>
+        <!-- Sell Total Nett -->
+        <div class="col-lg-2 mb-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h4 class="card-title">Sell Nett ($)</h4>
+                    <h5><p class="card-text"> @(Model.TotalMeasuresData.Count > 0 ? Model.TotalMeasuresData[0].SellTotalNett.ToString("N2") : "N/A")</p> </h5>
+                </div>
+            </div>
+        </div>
+        <!-- Buy Total Nett -->
+        <div class="col-lg-2 mb-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h4 class="card-title">Buy Nett ($)</h4>
+                    <h5><p class="card-text"> @(Model.TotalMeasuresData.Count > 0 ? Model.TotalMeasuresData[0].BuyTotalNett.ToString("N2") : "N/A")</p> </h5>
+                </div>
+            </div>
+        </div>
+        <!-- Held Count -->
+        <div class="col-lg-2 mb-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h4 class="card-title">Held Count</h4>
+                    <h5><p class="card-text"> @(Model.TotalMeasuresData.Count > 0 ? Model.TotalMeasuresData[0].HeldCount.ToString() : "N/A")</p> </h5>
+                </div>
+            </div>
+        </div>
+
+
+    </div>    @*end of row*@
+
+
+    <div class="row">
+        <!-- Weight -->
+        <div class="col-lg-2 mb-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h4 class="card-title">Weight</h4>
+                    <h5><p class="card-text"> @(Model.TotalMeasuresData.Count > 0 ? Model.TotalMeasuresData[0].TotalWeight.ToString("N2") : "N/A")</p> </h5>
+                </div>
+            </div>
+        </div>
+        <!-- Cubic -->
+        <div class="col-lg-2 mb-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h4 class="card-title">Cubic</h4>
+                    <h5><p class="card-text"> @(Model.TotalMeasuresData.Count > 0 ? Model.TotalMeasuresData[0].TotalCubic.ToString("N2") : "N/A")</p> </h5>
+                </div>
+            </div>
+        </div>
+        <!-- Total Quantity -->
+        <!--<div class="col-lg-2 mb-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h4 class="card-title">Total Quantity</h4>
+                    <h5><p class="card-text"> @(Model.TotalMeasuresData.Count > 0 ? Model.TotalMeasuresData[0].TotalQuantity.ToString("N2") : "N/A")</p> </h5>
+                </div>
+            </div>
+        </div>-->
+
+
+    </div>   @*end of row*@
+</div>
+<br />
+<div id="CustomerCounts">
+    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+        <thead style="background-color: #f2f2f2;">
+            <tr>
+                <th style=" font-size:16px;border: 1px solid #ddd; padding: 8px;">Finance Group</th>
+                <th style="font-size: 16px;border: 1px solid #ddd; padding: 8px;">Current Exceptions</th>
+                <th style="font-size: 16px;border: 1px solid #ddd; padding: 8px;">LastWeek Exceptions</th>
+                <th style="font-size: 16px;border: 1px solid #ddd; padding: 8px;">Last13W_AVG_Exceptions</th>
+                <th style="font-size: 16px;border: 1px solid #ddd; padding: 8px;">Current Trading</th>
+                <th style="font-size: 16px;border: 1px solid #ddd; padding: 8px;">LastWeek Trading</th>
+                <th style="font-size: 16px;border: 1px solid #ddd; padding: 8px;">Last13W_AVG_Trading</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Customer_Count_list)
+            {
+            <tr>
+                <td style="font-size: 16px; border: 1px solid #ddd; padding: 8px; white-space: nowrap;">@(item.FinanceGroup ?? "")</td>
+                <td style="font-size: 16px; border: 1px solid #ddd; padding: 8px; white-space: nowrap;">@(item.TotalCurrentWeekCount != null ? String.Format("{0:N0}", item.TotalCurrentWeekCount) : "")</td>
+                <td style="font-size: 16px; border: 1px solid #ddd; padding: 8px; white-space: nowrap;">@(item.TotalLastWeekCount != null ? String.Format("{0:N0}", item.TotalLastWeekCount) : "")</td>
+                <td style="font-size: 16px; border: 1px solid #ddd; padding: 8px; white-space: nowrap;">@(item.AverageLast13WeeksCount != null ? String.Format("{0:N0}", item.AverageLast13WeeksCount) : "")</td>
+                <td style="font-size: 16px; border: 1px solid #ddd; padding: 8px; white-space: nowrap;">@(item.TotalCurrentWeekTradingCount != null ? String.Format("{0:N0}", item.TotalCurrentWeekTradingCount) : "")</td>
+                <td style="font-size: 16px; border: 1px solid #ddd; padding: 8px; white-space: nowrap;">@(item.TotalLastWeekTradingCount != null ? String.Format("{0:N0}", item.TotalLastWeekTradingCount) : "")</td>
+                <td style="font-size: 16px; border: 1px solid #ddd; padding: 8px; white-space: nowrap;">@(item.AverageLast13WeeksTrading != null ? String.Format("{0:N0}", item.AverageLast13WeeksTrading) : "")</td>
+            </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+<br />
+
+
+
+
+
+<!-- Placeholder for the chart -->
+<div id="chartContainer" style="height: 400px; display: none;"></div>
+<br />
+<div id="lineChartContainer" style="height: 400px;"></div>
+<br />
+<div id="pieChartContainer" style="height: 400px;"></div>
+<br />
+<div id="checkboxes">
+    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+        <thead style="background-color: #f2f2f2;">
+            <tr>
+                <th style=" font-size:16px;border: 1px solid #ddd; padding: 8px;">Rule Code</th>
+                <th style=" font-size:16px;border: 1px solid #ddd; padding: 8px;">Sub Code</th>
+                <th style=" font-size:16px;border: 1px solid #ddd; padding: 8px;">Error Description</th>
+                <th style="font-size: 16px;border: 1px solid #ddd; padding: 8px;">Current Week Count</th>
+                <th style="font-size: 16px;border: 1px solid #ddd; padding: 8px;">Last Week Count</th>
+                <th style="font-size: 16px;border: 1px solid #ddd; padding: 8px;">Last 13 Weeks Avg Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Exception_summary_list)
+            {
+            <tr>
+                <td style="font-size:16px; border: 1px solid #ddd; padding: 8px; white-space: nowrap;">@item.RuleCategory</td>
+                <td style="font-size:16px; border: 1px solid #ddd; padding: 8px; white-space: nowrap;">@item.RuleCode</td>
+                <td style="font-size:16px; border: 1px solid #ddd; padding: 8px; white-space: nowrap;">@item.ErrDesc</td>
+                <td style="font-size: 16px;border: 1px solid #ddd; padding: 8px; white-space: nowrap;">@item.CurrentWeekCount</td>
+                <td style="font-size: 16px;border: 1px solid #ddd; padding: 8px; white-space: nowrap;">@item.LastWeekCount</td>
+                <td style="font-size: 16px;border: 1px solid #ddd; padding: 8px; white-space: nowrap;">@item.Last13WeeksAvgCount</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<br />
+
+<div id="barChartContainer" style="height: 400px;"></div>
+<br />
+
+<!-- Placeholder for the doughnut chart -->
+<div id="lineChartLastIVTRUN" style="height: 400px;"></div>
+
+@section scripts {
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+
+
+    <!-- Cards for Total Measures Data -->
+
+
+    <script>
+
+
+
+        // Line Chart for Top 10 Carrier Data
+       // Line Chart for Top Carriers
+Highcharts.chart('lineChartContainer', {
+    chart: {
+        type: 'line'
+    },
+    title: {
+        text: 'Top Carriers',
+        style: {
+            fontSize: '18px' // Set the desired font size for the title
+        }
+    },
+    xAxis: {
+        categories: [
+            @foreach (var item in Model.Top10CarrierData) {
+                <text>'@item.carrier',</text>
+            }
+        ],
+        title: {
+            text: 'Carriers',
+            style: {
+                fontSize: '14px' // Set the desired font size for xAxis title
+            }
+        },
+        labels: {
+            style: {
+                fontSize: '14px' // Set the desired font size for xAxis labels
+            }
+        }
+    },
+    yAxis: {
+        title: {
+            text: 'TotCount',
+            style: {
+                fontSize: '14px' // Set the desired font size for yAxis title
+            }
+        },
+        labels: {
+            style: {
+                fontSize: '14px' // Set the desired font size for yAxis labels
+            }
+        }
+    },
+    series: [{
+        name: 'TotCount',
+        data: [
+            @foreach (var item in Model.Top10CarrierData) {
+                <text>@item.TotCount,</text>
+            }
+        ],
+        color: 'rgba(255, 99, 132, 0.7)',
+        marker: {
+            symbol: 'circle'
+        }
+    }],
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+});
+
+
+
+
+
+
+         var top10ExceptionData = @Html.Raw(Json.Encode(Model.Top10ExceptionData.Count > 0 ? Model.Top10ExceptionData : null));
+
+        if (top10ExceptionData) {
+            // Pie Chart for Top 10 Exception Data
+            // Pie Chart for Top Exceptions
+            Highcharts.chart('pieChartContainer', {
+                chart: {
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Top Exceptions',
+                    style: {
+                        fontSize: '18px' // Set the desired font size for the title
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.y}',
+                            style: {
+                                fontSize: '12px' // Set the desired font size for data labels
+                            }
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Exceptions',
+                    colorByPoint: true,
+                    data: top10ExceptionData.map(function (item) {
+                        return { name: item.ErrDesc, y: item.TotCount };
+                    })
+                }],
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+        }
+
+        var top10CustomerData = @Html.Raw(Json.Encode(Model.Top10CustomerData.Count > 0 ? Model.Top10CustomerData : null));
+
+        if (top10CustomerData) {
+            // Bar Chart for Top 10 Customer Data
+            // Bar Chart for Top Customers
+            Highcharts.chart('barChartContainer', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Top Customers',
+                    style: {
+                        fontSize: '18px' // Set the desired font size for the title
+                    }
+                },
+                xAxis: {
+                    categories: top10CustomerData.map(function (item) {
+                        return item.FinanceGroup;
+                    }),
+                    title: {
+                        text: 'Customers',
+                        style: {
+                            fontSize: '14px' // Set the desired font size for xAxis title
+                        }
+                    },
+                    labels: {
+                        style: {
+                            fontSize: '12px' // Set the desired font size for xAxis labels
+                        }
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Total Exceptions',
+                        style: {
+                            fontSize: '14px' // Set the desired font size for yAxis title
+                        }
+                    },
+                    labels: {
+                        style: {
+                            fontSize: '12px' // Set the desired font size for yAxis labels
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Total Exceptions',
+                    data: top10CustomerData.map(function (item) {
+                        return item.TotCount;
+                    }),
+                    color: 'rgba(75, 192, 192, 0.7)'
+                }],
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+
+        }
+
+         // Line Chart for Last_IVTRUN Data
+
+Highcharts.chart('lineChartLastIVTRUN', {
+    chart: {
+        type: 'line'
+    },
+    title: {
+        text: 'IVT Trend',
+        style: {
+            fontSize: '18px' // Set the desired font size for the title
+        }
+    },
+    xAxis: {
+        categories: [
+            @foreach (var item in Model.LastIVTRunData) {
+                <text>'@(item.CurrentWeek.ToString("dd/MM/yyyy"))',</text>
+            }
+        ],
+        title: {
+            text: 'Invoice Weeks',
+            style: {
+                fontSize: '14px' // Set the desired font size for xAxis title
+            }
+        },
+        labels: {
+            style: {
+                fontSize: '14px' // Set the desired font size for xAxis labels
+            }
+        }
+    },
+    yAxis: {
+        title: {
+            text: 'Exceptions',
+            style: {
+                fontSize: '14px' // Set the desired font size for yAxis title
+            }
+        },
+        labels: {
+            style: {
+                fontSize: '14px' // Set the desired font size for yAxis labels
+            }
+        }
+    },
+    series: [{
+        name: 'Counts',
+        data: [
+            @foreach (var item in Model.LastIVTRunData) {
+                <text>@item.TotCount,</text>
+            }
+        ],
+        color: 'rgba(255, 99, 132, 0.7)',
+        marker: {
+            symbol: 'circle'
+        }
+    }],
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+});
+
+    </script>
+
+
+
+}

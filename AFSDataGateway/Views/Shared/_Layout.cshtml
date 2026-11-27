@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - DWH Access Tool</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("css", required: false)
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- DataTables JS -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+
+    <!-- Your Custom Script -->
+    <script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#IVTResutlsTable').DataTable({
+                "pageLength": 10 // Set the default number of entries to 50
+                , "order": [[6, "desc"]]
+            });
+            $('#TradingData').DataTable({
+                "pageLength": 10 // Set the default number of entries to 50
+                , "order": [[8, "desc"]]
+            });
+            $('#AncilarrySummary').DataTable({
+                "pageLength": 10 // Set the default number of entries to 50
+                , "order": [[6, "desc"]]
+            });
+            $('#HeldConsignment').DataTable({
+                "pageLength": 10 // Set the default number of entries to 50
+            });
+            $('#ExceptionHistory').DataTable({
+                "pageLength": 10 // Set the default number of entries to 50
+                , "order": [[5, "desc"]]
+            });
+            $('#TradingDataHistory').DataTable({
+                "pageLength": 10 // Set the default number of entries to 50
+                , "order": [[12, "desc"]]
+            });
+
+            $('#AncillaryDetail').DataTable({
+                "pageLength": 10 // Set the default number of entries to 50
+                , "order": [[8, "desc"]]
+            });
+
+
+            
+        });
+    </script>
+
+
+
+
+
+
+    @*$('#TradingData').DataTable();*@
+    <!-- Uncomment the following line if you want to use Bootstrap -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="@Url.Content("~/Content/ivt-theme.css")?v=@System.IO.File.GetLastWriteTimeUtc(Server.MapPath("~/Content/ivt-theme.css")).Ticks" />
+</head>
+@functions {
+    // Highlights the sidebar item for the current page.
+    string Active(string controller, params string[] actions)
+    {
+        var c = ViewContext.RouteData.Values["controller"] as string;
+        var a = ViewContext.RouteData.Values["action"] as string;
+        if (!string.Equals(c, controller, StringComparison.OrdinalIgnoreCase)) return "";
+        return actions.Length == 0 || actions.Any(x => string.Equals(x, a, StringComparison.OrdinalIgnoreCase)) ? "active" : "";
+    }
+}
+@{
+    var historyOpen = Active("IVT", "ExceptionHistory", "TradingDataHistory") == "active";
+    var user = (ViewBag.LoggedUser as string) ?? "";
+}
+<body class="ivt-app">
+
+    <aside class="app-sidebar" aria-label="Main navigation">
+        <a class="app-brand" href="@Url.Action("Dashboard", "IVT")">
+            <img src="~/Content/ivt-logo.png" alt="AFS Logistics - Invoice Vetting Tool" />
+            <div class="app-brand-text"><small>IVT 2.0</small></div>
+        </a>
+        <nav class="app-nav">
+            @if (ViewBag.DisplayForSuperAdmin == "visible")
+            {
+                <a class="app-link" href="@Url.Action("Logout", "Home")"><i class="fas fa-arrow-left"></i>Back to Admin</a>
+            }
+            <div class="app-nav-section">Overview</div>
+            <a class="app-link @Active("IVT", "Dashboard")" href="@Url.Action("Dashboard", "IVT")"><i class="fas fa-chart-pie"></i>Dashboard</a>
+            <a class="app-link @Active("IVT", "CurrentConsignment")" href="@Url.Action("CurrentConsignment", "IVT")"><i class="fas fa-exclamation-triangle"></i>IVT Results</a>
+
+            <div class="app-nav-section">Consignments</div>
+            <a class="app-link @Active("IVT", "HeldConsignment")" href="@Url.Action("HeldConsignment", "IVT")"><i class="fas fa-hand-paper"></i>Held Consignments</a>
+            <a class="app-link @Active("IVT", "TradingData")" href="@Url.Action("TradingData", "IVT")"><i class="fas fa-truck"></i>Trading Data</a>
+            <a class="app-link @Active("IVT", "AncillarySummary")" href="@Url.Action("AncillarySummary", "IVT")"><i class="fas fa-receipt"></i>Ancillary Summary</a>
+            <div class="app-group @(historyOpen ? "open" : "")">
+                <button type="button" class="app-link" aria-expanded="@(historyOpen ? "true" : "false")"><i class="fas fa-history"></i>History<i class="fas fa-chevron-right chev"></i></button>
+                <div class="app-sub">
+                    <a class="app-link @Active("IVT", "ExceptionHistory")" href="@Url.Action("ExceptionHistory", "IVT")">Exception History</a>
+                    <a class="app-link @Active("IVT", "TradingDataHistory")" href="@Url.Action("TradingDataHistory", "IVT")">Trading Data History</a>
+                </div>
+            </div>
+
+            <div class="app-nav-section">ML &amp; AI</div>
+            <a class="app-link @Active("MLReview")" href="@Url.Action("Index", "MLReview")"><i class="fas fa-brain"></i>ML Findings</a>
+
+            <div class="app-nav-section">Support</div>
+            <a class="app-link @Active("IntegrityConsignment", "Help")" href="@Url.Action("Help", "IntegrityConsignment")"><i class="fas fa-question-circle"></i>Help</a>
+            @if (AFSDataGateway.Services.Entra.EntraAuth.IsEntraUser(Context))
+            {
+                <div class="app-nav-section">Account</div>
+                <a class="app-link" href="@Url.Action("SignIn", "Entra", new { switchAccount = true })"><i class="fas fa-exchange-alt"></i>Switch account</a>
+                <a class="app-link" href="@Url.Action("SignOut", "Entra")"><i class="fas fa-sign-out-alt"></i>Sign out</a>
+            }
+        </nav>
+        @if (!string.IsNullOrEmpty(user) && ViewBag.LoggedUserStatus != "hidden")
+        {
+            <div class="app-user">
+                <span class="avatar">@user.Substring(0, 1)</span>
+                <div>@user<small>Account Manager</small></div>
+            </div>
+        }
+    </aside>
+    <div class="app-backdrop"></div>
+
+    <div class="app-main">
+        <header class="app-topbar">
+            <button type="button" data-sidebar-toggle aria-label="Open menu" aria-expanded="false"><i class="fas fa-bars"></i></button>
+            <strong>IVT 2.0</strong>
+        </header>
+        <main class="app-content">
+            @RenderBody()
+        </main>
+        <footer class="app-footer">&copy; @DateTime.Now.Year IVT 2.0 &middot; AFS Logistics &middot; Data Services</footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/chart.min.js"></script>
+    <!-- Add Highcharts reference -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+
+
+
+    <script src="@Url.Content("~/Scripts/ivt-shell.js")?v=@System.IO.File.GetLastWriteTimeUtc(Server.MapPath("~/Scripts/ivt-shell.js")).Ticks" defer></script>
+    @RenderSection("scripts", required: false)
+    @Html.Partial("_ChatWidget")
+</body>
+</html>

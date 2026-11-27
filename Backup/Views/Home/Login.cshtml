@@ -1,0 +1,79 @@
+﻿@model AFSDataGateway.Models.User
+
+@{
+    ViewBag.Title = "Login Page";
+
+}
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/css")
+
+
+}
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <div style="font-family: TitilliumWeb">
+        <h2>Login Page</h2>
+        </div>
+        <hr />
+        <br />
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="row form-horizontal">
+                <div class="col-md-12">
+
+                    <div class="form-group">
+                        @Html.Label("Account Manager", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(m => m.Username, ViewBag.LoginList as SelectList)
+                           @* @Html.TextBoxFor(model => model.Username, new { htmlAttributes = new { @Value = @ViewBag.UserName, @class = "form-control", placeholder = "User name" } })*@
+                            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+
+                    @*<div class="form-group">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.PasswordFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = "Password" } })
+                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+        <div class="form-group">
+
+            @Html.Label("", (string)"Remember Me", htmlAttributes: new { @class = "control-label col-md-2" })
+
+            <div class="col-md-10">
+                @Html.CheckBoxFor(m => m.RememberMe)
+            </div>
+
+        </div>*@
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Login" class="btn btn-default" />
+                        </div>
+                    </div>
+                    <div style="font-family: TitilliumWeb">
+                        @Html.Label("", (string)@ViewBag.Message, new { @class = "myfaillabel" })
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+
+        }
+
