@@ -18,3 +18,7 @@ ASP.NET MVC 5 (.NET Framework) web app, with an optional Python ML module in `iv
 - Never commit credentials, connection strings, `.env` / `local.settings.json`, publish profiles (`*.pubxml.user`),
   logs or build output. `.gitignore` covers these; GitHub push protection will block detected secrets.
 - Do not commit data extracts or ML outputs (`ivt-ml/output/`).
+
+
+##
+IVT2.0 2026
